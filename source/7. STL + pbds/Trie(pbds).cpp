@@ -2,7 +2,6 @@
 #include <ext/pb_ds/trie_policy.hpp>
 using namespace __gnu_pbds;
 typedef trie<string, null_type, trie_string_access_traits<>, pat_trie_tag, trie_prefix_search_node_update> trie_set;
-
 int main() {
     trie_set t; t.insert("apple");
     t.insert("app"); t.insert("banana");

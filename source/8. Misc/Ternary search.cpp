@@ -1,4 +1,3 @@
-typedef long long ll;
 ll ternary_search(ll lo, ll hi, auto f) {
     while (hi - lo >= 3) {
         ll p = lo + (hi - lo) / 3, q = hi - (hi - lo) / 3;

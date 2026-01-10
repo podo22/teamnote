@@ -1,8 +1,5 @@
-// #define fastio cin.tie(0)->sync_with_stdio(0) // for normal
-
 #include <unistd.h>
-constexpr int rbuf_sz = 1 << 20;
-constexpr int wbuf_sz = 1 << 20;
+constexpr int rbuf_sz = 1 << 20, wbuf_sz = 1 << 20;
 int main() {
 	char r[rbuf_sz], *pr = r; read(0, r, rbuf_sz);
 	auto read_char = [&] {

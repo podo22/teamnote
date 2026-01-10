@@ -1,5 +1,4 @@
 // O(1) CHT: Both slopes (k) and queries (x) must be monotonic (sorted).
-typedef long long ll;
 struct PLL {
     ll x, y;
     PLL(const ll x = 0, const ll y = 0) : x(x), y(y) {}

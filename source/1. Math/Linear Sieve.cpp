@@ -8,6 +8,5 @@ vector<int> Linear_sieve(int N) {
             if (i%prime[j] == 0) break;
         }
     }
-    prime.resize(pcnt);
-    return prime;
+    prime.resize(pcnt); return prime;
 }

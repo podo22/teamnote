@@ -1,6 +1,4 @@
-// f(j, i) : j에서 i로 전이할 때의 값 (dp[j] + cost(j, i))
-ll f(int j, int i); 
-
+ll f(int j, int i); // j에서 i로 전이할 때의 값 (dp[j] + cost(j, i))
 void solve() {
     auto cross = [&](ll p, ll q) {
         ll lo = max(p, q), hi = n + 1;

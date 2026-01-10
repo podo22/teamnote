@@ -14,9 +14,6 @@ int LCA(int u, int v){
     for(int i=21; i>=0; i--) if(P[i][u] != P[i][v]) u = P[i][u], v = P[i][v];
     return P[0][u];
 }
-////
-// 1. Connect로 간선 추가
-// 2. DFS(1) 호출
-// 3. 아래 코드 실행
+// 1. Connect로 간선 추가 2. DFS(1) 호출 3. 아래 코드 실행
 for(int i=1; i<22; i++) for(int j=1; j<=N; j++) P[i][j] = P[i-1][P[i-1][j]];
 // 4. LCA(u, v)로 최소 공통 조상 구할 수 있음

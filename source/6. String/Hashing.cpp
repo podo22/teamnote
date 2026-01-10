@@ -4,7 +4,6 @@
 // assert(H.get(1, 4) == H.get(5, 8));
 // 주의: get 함수의 인자는 1-based 닫힌 구간
 // 주의: M은 10억 근처의 소수, P는 M과 서로소
-
 // 1e5+3, 1e5+13, 131'071, 524'287, 1'299'709, 1'301'021
 // 1e9-63, 1e9+7, 1e9+9, 1e9+103
 template<long long P, long long M> struct Hashing {

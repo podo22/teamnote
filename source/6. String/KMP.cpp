@@ -1,26 +1,29 @@
-// s에서 p가 등장하는 위치 반환
-// KMP("ABABCAB", "AB") = {0, 2, 5}
-// KMP("AAAA", "AA") = {0, 1, 2}
-
-vector<int> GetFail(const string &p){
-    int n = p.size();
-    vector<int> fail(n);
-    for(int i=1, j=0; i<n; i++){
-        while(j && p[i] != p[j]) j = fail[j-1];
-        if(p[i] == p[j]) fail[i] = ++j;
-    }
-    return fail;
-}
-
-vector<int> KMP(const string &s, const string &p){
-    int n = s.size(), m = p.size();
-    vector<int> fail = GetFail(p), ret;
-    for(int i=0, j=0; i<s.size(); i++){
-        while(j && s[i] != p[j]) j = fail[j-1];
-        if(s[i] == p[j]){
-            if(j + 1 == m) ret.push_back(i-m+1), j = fail[j];
-            else j++;
+template <typename T>
+struct KMP {
+    T P; vector<int> pi;
+    KMP(const T& P) : P(P), pi(sz(P)) {
+        for (int i = 1, j = 0; i < sz(P); i++) {
+            while (j > 0 && P[i] != P[j]) j = pi[j-1];
+            if (P[i] == P[j]) pi[i] = ++j;
         }
     }
-    return ret;
-}
+    vector<int> find(const T& S) {
+        vector<int> res;
+        int n = sz(S), m = sz(P), j = 0;
+        for (int i = 0; i < n; i++) {
+            while (j > 0 && S[i] != P[j]) j = pi[j-1];
+            if (S[i] == P[j]) {
+                if (j == m-1) {
+                    res.push_back(i-m+1); j = pi[j];
+                }
+                else j++;
+            }
+        }
+        return res;
+    }
+    int minPeriod() {
+        int m = sz(P); if (m == 0) return 0;
+        int len = m - pi[m-1]; if (m % len == 0) return len;
+        return m;
+    }
+};

@@ -1,4 +1,3 @@
-typedef long long ll;
 template<int M> struct MINT {
     int v;
     MINT(ll _v = 0) { v = _v % M; if (v < 0) v += M; }
@@ -42,8 +41,7 @@ namespace fft {
         for(int i=0; i<b.size(); i++) fb[i] = cpx(b[i], 0);
         FFT(fa, 0); FFT(fb, 0);
         for(int i=0; i<n; i++) fa[i] *= fb[i];
-        FFT(fa, 1);
-        vector<ll> res(n);
+        FFT(fa, 1); vector<ll> res(n);
         for(int i=0; i<n; i++) res[i] = llround(fa[i].real());
         return res;
     }
@@ -128,8 +126,7 @@ using poly = Poly<3, 998244353>;
 mint Kitamasa(poly c, poly a, ll n) {
     if (n <= a.deg()) return a[n];
     poly f; for (int i = 0; i <= c.deg(); i++) f.a.push_back(mint(0) - c[c.deg() - i]);
-    f.a.push_back(1);
-    poly res({1}), x({0, 1});
+    f.a.push_back(1); poly res({1}), x({0, 1});
     for (; n; n >>= 1, x = (x * x) % f) if (n & 1) res = (res * x) % f;
     mint ans = 0; for (int i = 0; i <= a.deg(); i++) ans = ans + a[i] * res[i];
     return ans;
@@ -141,7 +138,7 @@ int main() {
     vector<ll> D = fft::multiply_mod(A, B, 1000000007);
     poly p1({1, 2, 1}), p2({1, 1}); // NTT base
     p1 * p2; p1 / p2; p1 % p2; // polynomial operation
-    // A_n = 1*A_{n-1} + 1*A_{n-2}
+    // ex. A_n = 1*A_{n-1} + 1*A_{n-2}
     poly coeffs({1, 1}); // {c0, c1} 순서 (A_{n-2}, A_{n-1} 계수)
     poly initial({0, 1}); // {A0, A1} 초기값
     cout << Kitamasa(coeffs, initial, 1000000000).v;

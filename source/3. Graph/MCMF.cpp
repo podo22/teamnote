@@ -1,29 +1,18 @@
-typedef long long ll;
 const ll INF = 1e18;
 struct MCMF {
-    struct Edge {
-        int to; ll cap, cost; int rev;
-    };
+    struct Edge { int to; ll cap, cost; int rev; };
     vector<vector<Edge>> graph;
     vector<ll> dist;
     vector<int> parent, edge;
     vector<bool> vis;
     int n;
-    MCMF(int n) : n(n) {
-        graph.resize(n+1);
-        dist.resize(n+1);
-        parent.resize(n+1);
-        edge.resize(n+1);
-        vis.resize(n+1);
-    }
+    MCMF(int n) : n(n), graph(n+1), dist(n+1), parent(n+1), edge(n+1), vis(n+1) {}
     void add(int u, int v, ll cap, ll cost) {
         graph[u].push_back({ v, cap, cost, sz(graph[v]) });
         graph[v].push_back({ u, 0, -cost, sz(graph[u])-1 });
     }
     bool spfa(int s, int t) {
-        fill(all(dist), INF);
-        fill(all(parent), -1);
-        fill(all(vis), false);
+        fill(all(dist), INF); fill(all(parent), -1); fill(all(vis), false);
         queue<int> q; q.push(s);
         dist[s] = 0; vis[s] = true;
         while (!q.empty()) {
@@ -33,11 +22,9 @@ struct MCMF {
                 auto& [nxt, cap, cost, rev] = graph[cur][i];
                 if (cap > 0 && dist[nxt] > dist[cur] + cost) {
                     dist[nxt] = dist[cur] + cost;
-                    parent[nxt] = cur;
-                    edge[nxt] = i;
+                    parent[nxt] = cur; edge[nxt] = i;
                     if (!vis[nxt]) {
-                        vis[nxt] = true;
-                        q.push(nxt);
+                        vis[nxt] = true; q.push(nxt);
                     }
                 }
             }

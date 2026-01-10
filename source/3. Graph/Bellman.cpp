@@ -1,10 +1,9 @@
-int N, M; ll D[555]; // 주의: 웬만하면 long long으로 잡는 게 좋음
+int N, M; ll D[555]; // 주의: 웬만하면 ll로 잡는 게 좋음
 vector<tuple<int,int,ll>> E; // {from, to, weight}
 void AddEdge(int s, int e, int w){
     E.emplace_back(s, e, w);
 }
-// s에서 도달 가능한 음수 사이클 있으면 false 반환
-bool Run(int s){
+bool Run(int s){ // 도달 가능한 음수 사이클 있으면 false 반환
     memset(D, 0x3f, sizeof D);
     ll INF = D[0];
     D[s] = 0;

@@ -9,10 +9,9 @@ bool Cross(Point s1, Point e1, Point s2, Point e2){
     }
     return ab <= 0 && cd <= 0;
 }
-// 교차하지 않으면 0
-// 교점이 무한히 많으면 -1
+// 교차하지 않으면 0, 교점이 무한히 많으면 -1
 // 교점이 1개면 1 반환하고 res에 교점 저장
-int Cross(Point s1, Point e1, Point s2, Point e2, pair<double, double> &res){
+int Cross(Point s1, Point e1, Point s2, Point e2, pair<double,double> &res){
     if(!Cross(s1, e1, s2, e2)) return 0;
     ll det = (e1 - s1) / (e2 - s2);
     if(!det){

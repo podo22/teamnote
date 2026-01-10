@@ -1,46 +1,29 @@
 struct HLD{
     vector<int> dep, par, sz, in, out, top;
-    int idx;
+    int n, idx;
     vector<vector<int>> adj, graph;
-    int n;
-    HLD (int n_){
-        n = n_;
-        idx = 0;
-        dep.resize(n+1);
-        par.resize(n+1);
-        sz.resize(n+1);
-        in.resize(n+1);
-        out.resize(n+1);
-        top.resize(n+1);
-        adj.resize(n+1);
-        graph.resize(n+1);
-    }
-    void addEdge(int u, int v){
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-    void dfs(int v=1, int pre=-1){
-        for (int u : adj[v]){
+    HLD (int n_) : n(n_), dep(n+1), par(n+1), sz(n+1), in(n+1), out(n+1), top(n+1), adj(n+1), graph(n+1) {}
+    void addEdge(int u, int v) { adj[u].push_back(v); adj[v].push_back(u); }
+    void dfs(int v = 1, int pre = -1) {
+        for (int u : adj[v]) {
             if (u == pre) continue;
-
             graph[v].push_back(u);
             dfs(u, v);
         }
     }
-    void dfs1(int v=1){
+    void dfs1(int v = 1) {
         sz[v] = 1;
-        for (int &u : graph[v]){
+        for (int &u : graph[v]) {
             dep[u] = dep[v] + 1;
             par[u] = v;
             dfs1(u);
             sz[v] += sz[u];
-
             if (sz[u] > sz[graph[v][0]]) swap(u, graph[v][0]);
         }
     }
-    void dfs2(int v=1){
+    void dfs2(int v = 1) {
         in[v] = ++idx;
-        for (int u : graph[v]){
+        for (int u : graph[v]) {
             top[u] = (u == graph[v][0]) ? top[v] : u;
             dfs2(u);
         }
@@ -49,22 +32,22 @@ struct HLD{
     void calculate(){
         dfs(); dfs1(); dfs2();
     }
-    array<vector<array<int, 2>>, 2> getPath(int u, int v){
-        vector<array<int, 2>> v1, v2;
-        while (top[u] != top[v]){
-            if (dep[top[u]] > dep[top[v]]){
+    array<vector<array<int,2>>,2> getPath(int u, int v) {
+        vector<array<int,2>> v1, v2;
+        while (top[u] != top[v]) {
+            if (dep[top[u]] > dep[top[v]]) {
                 ll xx = top[u];
                 v1.push_back({in[xx], in[u]});
                 u = par[xx];
-            }else{
+            }else {
                 ll xx = top[v];
                 v2.push_back({in[xx], in[v]});
                 v = par[xx];
             }
         }
-        if (dep[u] < dep[v]){
+        if (dep[u] < dep[v]) {
             v2.push_back({in[u], in[v]});
-        }else{
+        }else {
             v1.push_back({in[v], in[u]});
         }
         return {v1, v2};

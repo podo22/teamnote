@@ -1,10 +1,6 @@
-#include <bits/stdc++.h>
 #define x first
 #define y second
-using namespace std;
-using ll = long long;
 using Point = pair<ll, ll>;
-
 Point operator + (Point p1, Point p2){ return {p1.x + p2.x, p1.y + p2.y}; }
 Point operator - (Point p1, Point p2){ return {p1.x - p2.x, p1.y - p2.y}; }
 ll operator * (Point p1, Point p2){ return p1.x * p2.x + p1.y * p2.y; } // 내적

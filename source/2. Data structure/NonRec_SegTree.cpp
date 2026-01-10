@@ -30,9 +30,7 @@ struct SegTree {
             tree[i] = func(tree[i<<1], tree[i<<1 | 1]);
         }
     }
-    Node query(int i) {
-        return tree[--i | size];
-    }
+    Node query(int i) { return tree[--i | size]; }
     Node query(int l, int r) {
         Node L = e, R = e;
         for (--l |= size, --r |= size; l <= r; l >>= 1, r >>= 1) {
@@ -44,13 +42,9 @@ struct SegTree {
     int find_kth(Node k) {
         int node = 1, st = 1, en = size;
         while (st != en) {
-            int mid = (st + en) / 2;
-            node <<= 1;
+            int mid = (st + en) / 2; node <<= 1;
             if (tree[node] >= k) en = mid;
-            else {
-                k -= tree[node];
-                node |= 1; st = mid+1;
-            }
+            else k -= tree[node], node |= 1, st = mid+1;
         }
         return st;
     }

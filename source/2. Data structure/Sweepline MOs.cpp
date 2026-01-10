@@ -1,7 +1,4 @@
-typedef long long ll;
-const int MAXN = 200005;
-const int BSIZ = 450;
-
+const int MAXN = 200005, BSIZ = 450;
 struct SqrtDecomp {
     ll lz_v[BSIZ+5], lz_c[BSIZ+5], v_arr[MAXN], c_arr[MAXN];
     ll total_v = 0, total_c = 0;
@@ -23,7 +20,6 @@ struct SqrtDecomp {
         return (cur_c * v - cur_v) + ((total_v - cur_v) - (total_c - cur_c) * v);
     }
 } sd;
-
 struct MoSweep {
     struct Query {
         int l, r, id; ll ans;
@@ -78,7 +74,6 @@ struct MoSweep {
         }
     }
 } engine;
-
 int main() {
     int n, q; cin >> n >> q;
     engine.init(n);
