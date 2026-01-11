@@ -8,6 +8,7 @@
 #define sz(x) (int)(x).size()
 using namespace std;
 typedef long long ll;
+typedef unsigned long long ull;
 const ll INF = 1e18;
 const int MOD = 998244353;
 const int SIZE = 524288;

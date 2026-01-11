@@ -1,23 +1,31 @@
-int N, M, C[10101]; // C[i] = i번 정점이 속한 SCC 번호
-vector<int> G[10101], R[10101], V;
-vector<vector<int>> S; // 각 SCC에 속한 정점 목록
-void AddEdge(int s, int e){
-    G[s].push_back(e);
-    R[e].push_back(s);
-}
-void DFS1(int v){
-    C[v] = -1;
-    for(auto i : G[v]) if(!C[i]) DFS1(i);
-    V.push_back(v);
-}
-void DFS2(int v, int c){
-    C[v] = c; S.back().push_back(v);
-    for(auto i : R[v]) if(C[i] == -1) DFS2(i, c);
-}
-int GetSCC(){ // SCC 개수 반환
-    for(int i=1; i<=N; i++) if(!C[i]) DFS1(i);
-    reverse(V.begin(), V.end());
-    int cnt = 0;
-    for(auto i : V) if(C[i] == -1) S.emplace_back(), DFS2(i, cnt++);
-    return cnt;
-} // 각 SCC는 위상 정렬 순서대로 번호 매겨져 있음
+struct SCC {
+  int n, cnt, timer;
+  vector<vector<int>> adj;
+  vector<int> dfn, low, id;
+  vector<bool> ins; stack<int> st;
+  SCC(int n) : n(n), adj(n), dfn(n, -1), low(n, -1), id(n, -1), ins(n), cnt(0), timer(0) {}
+  void add_edge(int u, int v) { adj[u].push_back(v); }
+  void dfs(int u) {
+    dfn[u] = low[u] = ++timer;
+    st.push(u); ins[u] = true;
+    for (int v : adj[u]) {
+      if (dfn[v] == -1) {
+        dfs(v); low[u] = min(low[u], low[v]);
+      } else if (ins[v]) {
+        low[u] = min(low[u], dfn[v]);
+      }
+    }
+    if (low[u] == dfn[u]) {
+      while (true) {
+        int v = st.top(); st.pop();
+        ins[v] = false; id[v] = cnt;
+        if (u == v) break;
+      }
+      cnt++;
+    }
+  }
+  void build() {
+    for (int i = 0; i < n; i++)
+      if (dfn[i] == -1) dfs(i);
+  }
+};

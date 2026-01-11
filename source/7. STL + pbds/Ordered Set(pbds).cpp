@@ -10,7 +10,7 @@ using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statisti
 template <typename T>
 using ordered_multiset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;
 auto m_find(ordered_multiset<int> &os, int val) { // multiset 전용 find 함수
-    int idx = os.order_of_key(val); auto it = os.find_by_order(idx);
-    if (it != os.end() && *it == val) return it;
-    return os.end();
+  int idx = os.order_of_key(val); auto it = os.find_by_order(idx);
+  if (it != os.end() && *it == val) return it;
+  return os.end();
 } // os.erase(m_find(os, val))

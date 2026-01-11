@@ -1,4 +1,4 @@
-\documentclass[landscape, 8pt, a4paper, oneside, twocolumn]{extarticle}
+\documentclass[landscape, 9pt, a4paper, oneside]{extarticle}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amssymb}
@@ -20,7 +20,7 @@
 \HideAuthor
 \usepackage{etoolbox}
 
-\begin{document}
+\begin{document} \begin{multicols*}{3}
 
 \maketitlepage
 
@@ -37,10 +37,12 @@
 
 \section{Data Structure}
 \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
-\Algorithm{Non-Recursive Segment Tree}{}{$O(\log N)$ per query}{cpp}{source/2. Data structure/NonRec_SegTree.cpp}{}
+\Algorithm{Non-Recursive Segment Tree}{}{}{cpp}{source/2. Data structure/NonRec_SegTree.cpp}{}
+\Algorithm{1D \& 2D Fenwick Tree}{Point updates and subgrid sums on a 2D plane.}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
 \Algorithm{Merge Sort Tree}{Count/rank of elements in range $[L, R]$.}{$O(\log^2 N)$ per query}{cpp}{source/2. Data structure/MergeSortTree.cpp}{}
 \Algorithm{Persistent Segment Tree}{Accessing previous versions and range k-th element.}{$O(\log N)$ per query}{cpp}{source/2. Data structure/PersistentSegmentTree.cpp}{}
 \Algorithm{Sweepline Mo's}{Optimized Mo's for $O(1)$ update and $O(1)$ query via offline sweepline.}{$O(N\sqrt{Q})$}{cpp}{source/2. Data structure/Sweepline MOs.cpp}{}
+\Algorithm{Link-Cut Tree}{Dynamic tree structure supporting link, cut, and path operations using auxiliary Splay trees.}{Amortized $O(\log N)$}{cpp}{source/2. Data structure/LinkCutTree.cpp}{}
 
 \section{Graph}
 \Algorithm{Bellman Ford}{SSSP with negative weights/cycles.}{$O(VE)$}{cpp}{source/3. Graph/Bellman.cpp}{}
@@ -53,13 +55,18 @@
 \Algorithm{MCMF}{Minimum Cost Maximum Flow using SPFA.}{$O(F \cdot E \log V)$}{cpp}{source/3. Graph/MCMF.cpp}{}
 \Algorithm{Circulation}{Flow with lower and upper bounds.}{}{cpp}{source/3. Graph/Circulation.cpp}{}
 \Algorithm{SCC}{Strongly Connected Components.}{$O(V+E)$}{cpp}{source/3. Graph/SCC.cpp}{}
+\Algorithm{2-sat}{Solves 2-SAT in $O(V+E)$; $x_i$ is true if $SCC(x_i) < SCC(\neg x_i)$.}{$O(V+E)$}{cpp}{source/3. Graph/two-sat.cpp}{}
 \Algorithm{BCC}{Biconnected Components, Cut-vertices, and Bridges.}{$O(V+E)$}{cpp}{source/3. Graph/BCC.cpp}{}
+\Algorithm{Find 3 or 4 cycle}{Finds all $C_3$ and $C_4$ cycles using degree ordering.}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
+\Algorithm{Push Relabel}{Max flow via preflow-push and labeling}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
+\Algorithm{General Matching}{Maximum Unweighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
+\Algorithm{Weighed General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
 
 \section{DP Optimization}
 \Algorithm{Convex Hull Trick}{\texttt{dp[i] = min(dp[j] + b[j] * a[i]), b[j] >= b[j+1]}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
 \Algorithm{Linear CHT}{CHT when slopes/queries are monotonic.}{$O(N)$}{cpp}{source/4. DP/Linear CHT.cpp}{}
 \Algorithm{D\&C optimization}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j][i]), c is Monge}}{$O(KN \log N)$}{cpp}{source/4. DP/DNC opt.cpp}{}
-\Algorithm{Monotone Queue optimization}{\texttt{dp[i] = min(dp[j] + c[j][i]), c is Monge, find cross}}{$O(N\log{N})$}{cpp}{source/4. DP/MonotoneQueue opt.cpp}{}
+\Algorithm{Monotone Queue optimization}{\texttt{dp[i] = min(dp[j] + c[j][i]), c is Monge,\ find cross}}{$O(N \log N)$}{cpp}{source/4. DP/MonotoneQueue opt.cpp}{}
 \Algorithm{Aliens Trick}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j+1][i]), c is Monge, find lambda w/ half bs}}{$O(T \log X)$}{cpp}{source/4. DP/Aliens.cpp}{}
 \Algorithm{Sum Over Subsets}{\texttt{dp[mask] = sum(A[i]), i is in mask}}{$O(N2^N)$}{cpp}{source/4. DP/SumOverSubsets.cpp}{}
 \Algorithm{Berlekamp Massey}{Linear recurrence $N$-th term. Sparse matrix determinant.}{$N$-th term: $O(K^2 \log N)$ / Det: $O(N(N+E))$}{cpp}{source/4. DP/Berlekamp_massey.cpp}{}
@@ -82,8 +89,10 @@
 \Algorithm{Hashing}{Rolling hash for string matching.}{$O(N)$}{cpp}{source/6. String/Hashing.cpp}{}
 \Algorithm{KMP}{Single pattern matching using prefix function.}{$O(N+M)$}{cpp}{source/6. String/KMP.cpp}{}
 \Algorithm{Manacher}{Find all palindromic substrings in linear time.}{$O(N)$}{cpp}{source/6. String/Manacher.cpp}{}
-\Algorithm{Suffix Array}{Suffix array and LCP array construction.}{$O(N \log N)$}{cpp}{source/6. String/SuffixArray.cpp}{}
+\Algorithm{Suffix Array}{Suffix array and LCP array.}{$O(N \log N)$}{cpp}{source/6. String/SuffixArray.cpp}{}
 \Algorithm{Z-algorithm}{Longest common prefix between S and its suffixes.}{$O(N)$}{cpp}{source/6. String/Z.cpp}{}
+\Algorithm{Eertree}{Manages all distinct palindromic substrings using length and suffix links.}{$O(N \log \Sigma)$}{cpp}{source/6. String/Z.cpp}{}
+\Algorithm{Suffix Automaton}{Builds a DFA representing all substrings. Supports substring counting and pattern matching.}{$O(N \cdot \Sigma)$}{cpp}{source/6. String/SuffixAutomaton.cpp}{}
 
 \section{STL \& pbds}
 \Algorithm{Hash map (pb\_ds)}{Faster hash table using pb\_ds.}{$O(1)$}{cpp}{source/7. STL + pbds/Hash map(pbds).cpp}{}
@@ -169,9 +178,27 @@
     \item Monge에 집착하지 말고 단조성이나 볼록성만 보여도 됨
 \end{itemize}
 
+\Algorithm{Graph Matching(Graph with $\vert V \vert \leq 500$)}{}{}{}{}{}
+\begin{itemize}
+    \item \textbf{Game on a Graph} : $s$에 토큰이 있음. 플레이어는 각자의 턴마다 토큰을 인접한 정점으로 옮기고 못 옮기면 짐.\\
+    $s$를 포함하지 않는 최대 매칭이 존재함 $\leftrightarrow$ 후공이 이김
+    \item \textbf{Chinese Postman Problem} : 모든 간선을 방문하는 최소 가중치 Walk를 구하는 문제.\\
+    Floyd를 돌린 다음, 홀수 정점들을 모아서 최소 가중치 매칭 (홀수 정점은 짝수 개 존재)
+    \item \textbf{Unweighted Edge Cover} : 모든 정점을 덮는 가장 작은(minimum cardinality/weight) 간선 집합을 구하는 문제\\
+    $\vert V\vert - \vert M\vert$, 길이 3짜리 경로 없음, star graph 여러 개로 구성
+    \item \textbf{Weighted Edge Cover} : $sum_{v \in V}(w(v)) - sum_{(u,v) \in M}(w(u) + w(v) - d(u,v))$, $w(x)$는 $x$와 인접한 간선의 최소 가중치
+    \item \textbf{NEERC'18 B} : 각 기계마다 2명의 노동자가 다뤄야 하는 문제.\\
+    기계마다 두 개의 정점을 만들고 간선으로 연결하면 정답은 $\vert M\vert - \vert\text{기계}\vert$임. 정답에 1/2씩 기여한다는 점을 생각해보면 좋음.
+    \item \textbf{Min Disjoint Cycle Cover} : 정점이 중복되지 않으면서 모든 정점을 덮는 길이 3 이상의 사이클 집합을 찾는 문제.\\
+    모든 정점은 2개의 서로 다른 간선, 일부 간선은 양쪽 끝점과 매칭되어야 하므로 플로우를 생각할 수 있지만 용량 2짜리 간선에 유량을 1만큼 흘릴 수 있으므로 플로우는 불가능.\\
+    각 정점과 간선을 2개씩($(v, v')$, $(e_{i,u},e_{i,v})$)로 복사하자. 모든 간선 $e=(u,v)$에 대해 $e_u$와 $e_v$를 잇는 가중치 w짜리 간선을 만들고(like NEERC18), $(u,e_{i,u}), (u',e_{i,u}), (v,e_{i,v}), (v',e_{i,v})$를 연결하는 가중치 0짜리 간선을 만들자. Perfect 매칭이 존재함 $\Leftrightarrow$ Disjoint Cycle Cover 존재. 최대 가중치 매칭 찾은 뒤 모든 간선 가중치 합에서 매칭 빼면 됨.
+    \item \textbf{Two Matching} : 각 정점이 최대 2개의 간선과 인접할 수 있는 최대 가중치 매칭 문제.\\
+    각 컴포넌트는 정점 하나/경로/사이클이 되어야 함. 모든 서로 다른 정점 쌍에 대해 가중치 0짜리 간선 만들고, 가중치 0짜리 $(v,v')$ 간선 만들면 Disjoing Cycle Cover 문제가 됨. 정점 하나만 있는 컴포넌트는 self-loop, 경로 형태의 컴포넌트는 양쪽 끝점을 연결한다고 생각하면 편함.
+\end{itemize}
+
 \Algorithm{Mincut 모델링}{}{}{}{}{}
 \begin{itemize}
-    \item $N$개의 boolean 변수 $v_1, \cdots, v_n$을 정해서 비용을 최소화하는 문제\\=true인 점은 $T$, false인 점은 $F$와 연결되게 분할하는 민컷 문제
+    \item $N$개의 boolean 변수 $v_1, \cdots, v_n$을 정해서 비용을 최소화하는 문제=true인 점은 $T$, false인 점은 $F$와 연결되게 분할하는 민컷 문제
     \begin{enumerate}
         \item $v_i$가 T일 때 비용 발생: $i$에서 F로 가는 비용 간선
         \item $v_i$가 F일 때 비용 발생: $i$에서 T로 가는 비용 간선
@@ -192,4 +219,4 @@
     \end{enumerate}
 \end{itemize}
 
-\end{document}
+\end{multicols*} \end{document}

@@ -8,11 +8,13 @@
 \usepackage{color}
 \usepackage{indentfirst}
 \usepackage{enumitem}
-\setlist[itemize]{itemsep=1pt, topsep=3pt, parsep=0pt, partopsep=0pt}
+\setlist[itemize]{itemsep=2pt, topsep=3pt, parsep=0pt, partopsep=0pt}
 
-\setlength{\columnseprule}{0.2pt}
+\usepackage{multicol}
+\setlength{\columnsep}{15pt}
+\setlength{\columnseprule}{0.1pt}
 \pagenumbering{arabic}
-\setminted{breaklines=true, fontfamily=tt, tabsize = 4, breaksymbolleft=}
+\setminted{breaklines=true, fontfamily=tt, tabsize = 2, breaksymbolleft=, }
 \usemintedstyle{perldoc}
 
 \AtBeginDocument{
@@ -57,7 +59,6 @@
 
 
 
-
 \newboolean{BangShowUsage}
 \setboolean{BangShowUsage}{false}
 \newcommand{\ShowUsage}{\setboolean{BangShowUsage}{false}}
@@ -78,7 +79,7 @@
 \newcommand{\Algorithm}[6]{
     \subsection{#1}
 
-    \ifthenelse{\equal{#2}{} \OR \boolean{BangShowUsage}}{}{\textbf{Usage:} #2}
+    \ifthenelse{\equal{#2}{} \OR \boolean{BangShowUsage}}{}{{\raggedright \textbf{Usage:} #2\par}}
 
     \ifthenelse{\equal{#3}{} \OR \boolean{BangShowComplexity}}{}{\textbf{Time Complexity:} #3}
 

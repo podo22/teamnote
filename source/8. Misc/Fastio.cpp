@@ -14,7 +14,7 @@ int main() {
 		if (flag) ret = -ret;
 		return ret;
 	};
-    char w[wbuf_sz], *pw = w;
+  char w[wbuf_sz], *pw = w;
 	auto write_char = [&](char c) {
 		if (pw - w == wbuf_sz) write(1, w, pw - w), pw = w;
 		*pw++ = c;
