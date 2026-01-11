@@ -1,19 +1,13 @@
-int N, M; ll D[555]; // 주의: 웬만하면 ll로 잡는 게 좋음
-vector<tuple<int,int,ll>> E; // {from, to, weight}
-void AddEdge(int s, int e, int w){
-    E.emplace_back(s, e, w);
-}
-bool Run(int s){ // 도달 가능한 음수 사이클 있으면 false 반환
-    memset(D, 0x3f, sizeof D);
-    ll INF = D[0];
-    D[s] = 0;
-    for(int iter=1; iter<=N; iter++){
-        bool changed = false;
-        for(auto [u, v, w] : E){
-            if(D[u] == INF) continue;
-            if(D[v] > D[u] + w) D[v] = D[u] + w, changed = true;
+auto bellman = [&](int s) -> bool {
+    fill(all(d), INF); d[s] = 0; bool chk = 0;
+    for (int i = 0; i < n; i++) { chk = 0;
+        for (int u = 1; u <= n; u++) {
+            if (d[u] == INF) continue;
+            for (auto [w, v] : adj[u]) if (d[v] > d[u] + w) {
+                d[v] = d[u] + w; chk = 1; if (i == n - 1) return 0;
+            }
         }
-        if(iter == N && changed) return false;
+        if (!chk) break;
     }
-    return true;
-}
+    return 1;
+};

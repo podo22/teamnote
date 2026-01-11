@@ -7,8 +7,7 @@ int main() {
 		return *pr++;
 	};
 	auto read_int = [&] {
-		int ret = 0, flag = 0;
-		char c = read_char();
+		int ret = 0, flag = 0; char c = read_char();
 		while (c == ' ' || c == '\n') c = read_char();
 		if (c == '-') flag = 1, c = read_char();
 		while (c != ' ' && c != '\n') ret = 10 * ret + c - '0', c = read_char();

@@ -21,11 +21,3 @@ struct ConvexHull {
         return F(S[0], x);
     }
 } CHT;
-int main() { // sorted a, b
-    dp[0] = 0; CHT.add(a[0], dp[0]);
-    for (int i = 1; i < n; i++) { // dp[i] = Max j<i(a[j]*b[i] + dp[j])
-        dp[i] = CHT.query(b[i]);
-        CHT.add(a[i], dp[i]);
-    }
-    cout << dp[n-1] << "\n";
-}

@@ -5,15 +5,12 @@ struct custom_hash {
     }
     template <class T1, class T2>
     size_t operator()(const pair<T1, T2>& p) const {
-        size_t seed = 0;
-        combine(seed, p.first);
-        combine(seed, p.second);
+        size_t seed = 0; combine(seed, p.first); combine(seed, p.second);
         return seed;
     }
     template <class T>
     size_t operator()(const vector<T>& v) const {
-        size_t seed = 0;
-        for (const auto& i : v) combine(seed, i);
+        size_t seed = 0; for (const auto& i : v) combine(seed, i);
         return seed;
     }
 };

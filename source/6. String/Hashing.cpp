@@ -1,6 +1,5 @@
 // 전처리 O(N), 부분 문자열의 해시값을 O(1)에 구함
-// Hashing<917, 998244353> H;
-// H.build("ABCDABCD");
+// Hashing<917, 998244353> H; H.build("ABCDABCD");
 // assert(H.get(1, 4) == H.get(5, 8));
 // 주의: get 함수의 인자는 1-based 닫힌 구간
 // 주의: M은 10억 근처의 소수, P는 M과 서로소

@@ -1,33 +1,30 @@
 
 \ProvidesPackage{teamnote}
 
-\usepackage[left=1.2cm, right=1.2cm, top=1.7cm, bottom=1.2cm, headsep=0.3cm, a4paper]{geometry}
+\usepackage[left=0.5cm, right=0.5cm, top=1cm, bottom=0.5cm, headsep=0.3cm, a4paper]{geometry}
 \usepackage{fancyhdr}
 \usepackage{lastpage}
 \usepackage{minted}
 \usepackage{color}
 \usepackage{indentfirst}
+\usepackage{enumitem}
+\setlist[itemize]{itemsep=1pt, topsep=3pt, parsep=0pt, partopsep=0pt}
 
-\setlength{\columnseprule}{0.4pt}
+\setlength{\columnseprule}{0.2pt}
 \pagenumbering{arabic}
-\setminted{breaklines=true, fontfamily=tt, tabsize = 2, breaksymbolleft=}
+\setminted{breaklines=true, fontfamily=tt, tabsize = 4, breaksymbolleft=}
 \usemintedstyle{perldoc}
-% minted의 시각적 스타일만 강제로 변경 (가장 안전한 방법)
+
 \AtBeginDocument{
     \makeatletter
-    % 1. 빨간색 에러 상자(밑줄) 무력화
     \renewcommand{\fcolorbox}[4][]{#4}
-    
-    % 2. std 아래에 생기는 초록색 밑줄 제거
     \let\underline\relax
-
-    % 3. 에러 발생 시(std, fft 등) 폰트가 튀는 현상 방지
-    % perldoc 스타일에서 에러 토큰을 일반 텍스트로 처리하도록 강제
     \@ifundefined{PYGperldoc@tok@err}{}{
         \expandafter\def\csname PYGperldoc@tok@err\endcsname#1{#1}
     }
     \makeatother
 }
+
 \newcommand{\revised}{Should be \textcolor{red}{\textbf{revised}}.}
 \newcommand{\tested}{Should be \textcolor{red}{\textbf{tested}}.}
 \newcommand{\added}{Should be \textcolor{red}{\textbf{added}}.}
@@ -40,7 +37,7 @@
 \newcommand{\maketitlepage}{
     \maketitle
     \tableofcontents
-    \newpage
+    %\newpage
     \thispagestyle{fancy}
 }
 \DeclareRobustCommand{\teamnote}[3]{

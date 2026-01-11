@@ -53,8 +53,8 @@ namespace fft {
         FFT(v1, 0); FFT(v2, 0);
         for (int i = 0; i < n; i++) {
             int j = i ? n - i : i;
-            cpx a1 = (v1[i] + conj(v1[j])) * cpx(0.5, 0), a2 = (v1[i] - conj(v1[j])) * cpx(0, -0.5);
-            cpx b1 = (v2[i] + conj(v2[j])) * cpx(0.5, 0), b2 = (v2[i] - conj(v2[j])) * cpx(0, -0.5);
+            cpx a1 = (v1[i]+conj(v1[j]))*cpx(0.5, 0), a2 = (v1[i]-conj(v1[j]))*cpx(0, -0.5);
+            cpx b1 = (v2[i]+conj(v2[j]))*cpx(0.5, 0), b2 = (v2[i]-conj(v2[j]))*cpx(0, -0.5);
             r1[i] = a1 * b1 + a1 * b2 * cpx(0, 1); r2[i] = a2 * b1 + a2 * b2 * cpx(0, 1);
         }
         FFT(r1, 1); FFT(r2, 1);

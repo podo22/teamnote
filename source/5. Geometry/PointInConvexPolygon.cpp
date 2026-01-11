@@ -1,11 +1,13 @@
-// 다각형 내부 또는 경계 위에 p가 있으면 true, O(log N)
-// 주의: v는 반시계 방향으로 정렬된 볼록 다각형이어야 함
-bool PointInConvexPolygon(const vector<Point> &v, const Point &pt){
-    if(CCW(v[0], v[1], pt) < 0) return false; int l = 1, r = v.size() - 1;
-    while(l < r){
-        int m = l + r + 1 >> 1;
-        if(CCW(v[0], v[m], pt) >= 0) l = m; else r = m - 1;
+// CCW 정렬된 다각형 내부/경계 판별, O(log N)
+bool PointInConvexPolygon(const vector<P>& v, P p) {
+    int n = v.size(); if (n < 3) return false;
+    // ccw <= 0 || ccw >= 0: exclude boundary
+    if (ccw(v[0], v[1], p) < 0 || ccw(v[0], v.back(), p) > 0) return false;
+    int l = 1, r = n - 1;
+    while (l + 1 < r) {
+        int mid = (l + r) / 2;
+        if (ccw(v[0], v[mid], p) >= 0) l = mid;
+        else r = mid;
     }
-    if(l == v.size() - 1) return CCW(v[0], v.back(), pt) == 0 && v[0] <= pt && pt <= v.back();
-    return CCW(v[0], v[l], pt) >= 0 && CCW(v[l], v[l+1], pt) >= 0 && CCW(v[l+1], v[0], pt) >= 0;
+    return ccw(v[l], v[l + 1], p) >= 0; // > 0: exclude boundary
 }

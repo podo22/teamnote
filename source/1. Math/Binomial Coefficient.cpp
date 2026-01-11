@@ -5,13 +5,9 @@ const int M = 1e9+7, MAXN = 4000000;
 ll fac[MAXN+5], finv[MAXN+5];
 void init() {
     fac[0] = 1;
-    for (int i = 1; i <= MAXN; i++) {
-        fac[i] = modmul(fac[i-1], i, M);
-    }
+    for (int i = 1; i <= MAXN; i++) fac[i] = modmul(fac[i-1], i, M);
     finv[MAXN] = modpow(fac[MAXN], M-2, M);
-    for (int i = MAXN-1; i >= 0; i--) {
-        finv[i] = modmul(finv[i+1], i+1, M);
-    }
+    for (int i = MAXN-1; i >= 0; i--) finv[i] = modmul(finv[i+1], i+1, M);
 }
 ll nCk(int n, int k) {
     ll r = modmul(fac[n], finv[n-k], M);
@@ -23,8 +19,7 @@ ll modpow(ll b, ll e, ll m)
 ll xgcd(ll a, ll b, ll &x, ll &y)
 ll modinv(ll a, ll m)
 ll count(ll n, ll p) {
-    ll cnt = 0;
-    while (n > 0) { cnt += n/p; n /= p; }
+    ll cnt = 0; while (n > 0) { cnt += n/p; n /= p; }
     return cnt;
 }
 ll calc(ll n, ll p, ll pe, const auto& ft) {
@@ -33,7 +28,7 @@ ll calc(ll n, ll p, ll pe, const auto& ft) {
     res = modmul(res, ft[n%pe], pe);
     return modmul(res, calc(n/p, p, pe, ft), pe);
 }
-ll nCk_pe(ll n, ll k, ll p, ll pe, int e) {
+ll nCk_pe(ll n, ll k, ll p, ll pe, ll e) {
     if (k < 0 || k > n) return 0;
     ll pc = count(n, p) - count(k, p) - count(n-k, p);
     if (pc >= e) return 0;
@@ -60,9 +55,7 @@ ll nCk(ll n, ll k, int m) {
     for (ll i = 2; i*i <= t; i++) {
         if (t%i == 0) {
             ll p = i, pe = 1, e = 0;
-            while (t%i == 0) {
-                pe *= i; t /= i; e++;
-            }
+            while (t%i == 0) { pe *= i; t /= i; e++; }
             add(p, pe, e);
         }
     }
