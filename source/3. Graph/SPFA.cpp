@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved?
+ * [Tested on]
+ * 
+ */
 auto spfa = [&](int s) -> bool {
   vector<int> c(n+1), inq(n+1); fill(all(d), INF);
   deque<int> q; q.push_back(s); d[s] = 0; inq[s] = 1;

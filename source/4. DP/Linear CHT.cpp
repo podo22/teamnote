@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : jinhan814
+ * Source : https://blog.naver.com/jinhan814/222689836982
+ * [Tested on]
+ * 
+ */
 // O(1) CHT: Both slopes (k) and queries (x) must be monotonic (sorted).
 struct PLL {
   ll x, y;

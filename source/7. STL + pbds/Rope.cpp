@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 #include<ext/rope>
 using namespace __gnu_cxx;
 int main() {

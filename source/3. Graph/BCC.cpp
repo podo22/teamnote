@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Graph/BCC.cpp
+ * [Tested on]
+ * 
+ */
 // 1-based, 다른 거 호출하기 전에 tarjan 먼저 호출
 vector<int> G[MAX_V]; int In[MAX_V], Low[MAX_V], P[MAX_V];
 void addEdge(int s, int e){ G[s].push_back(e); G[e].push_back(s); }

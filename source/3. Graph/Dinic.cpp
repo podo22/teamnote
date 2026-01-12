@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/2316 (Dinic)
+ * https://www.acmicpc.net/problem/13161 (Max-Flow Min-Cut Theorem)
+ */
 const ll INF = 1e18;
 struct Dinic {
   struct Edge { int to; ll cap; int rev; };

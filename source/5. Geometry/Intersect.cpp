@@ -1,5 +1,12 @@
-const double EPS = 1e-9;
-using T = __int128_t; // T <= O(COORD^4)
+/**
+ * [Metadata]
+ * Original Author : JusticeHui, kactl
+ * Reference : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Geometry/Intersect.cpp
+ * Modified by : alreadysolved
+ * [Tested on]
+ * 
+ */
+using T = __int128_t; // T <= O(COORD^3)
 // [1] 선분 교차 (정밀 좌표) / Param: 선분 ab, 선분 cd
 // Return: {flag, xn, xd, yn, yd} -> 교점 (xn/xd, yn/yd)
 // Flag: 0(안만남), 1(교점=끝점), 4(교차), -1(무수히 겹침)

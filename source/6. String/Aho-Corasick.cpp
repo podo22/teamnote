@@ -1,62 +1,58 @@
+/**
+ * [Metadata]
+ * Original Author : edenooo
+ * Reference : https://github.com/justiceHui/icpc-teamnote/blob/master/code/String/AhoCorasick.cpp
+ * Implemented by : alreadysolved
+ * [Tested on]
+ * 
+ */
 struct AhoCorasick {
   struct Node {
-    Node *nxt[26], *fail;
-    vector<int> out; // 패턴의 인덱스 저장
-    int terminal;
-    Node() : fail(nullptr), terminal(-1) { fill(nxt, nxt + 26, nullptr); }
-    ~Node() {
-      for (int i = 0; i < 26; i++) if (nxt[i]) delete nxt[i];
-    }
-    void insert(const char* s, int id) {
-      if (*s == 0) { terminal = id; out.push_back(id); return; }
-      int curr = *s - 'a';
-      if (!nxt[curr]) nxt[curr] = new Node();
-      nxt[curr]->insert(s + 1, id);
-    }
+      int nxt[26], fail, link = -1, id = -1;
+      Node() { memset(nxt, 0, sizeof nxt); }
   };
-  Node* root;
-  AhoCorasick() { root = new Node(); }
-  ~AhoCorasick() { delete root; }
-  void insert(const string& s, int id) { root->insert(s.c_str(), id); }
-  void build() {
-    queue<Node*> q;
-    root->fail = root;
-    for (int i = 0; i < 26; i++) {
-      if (root->nxt[i]) {
-        root->nxt[i]->fail = root;
-        q.push(root->nxt[i]);
-      } else {
-        root->nxt[i] = root; // DFA optimization
+  vector<Node> trie;
+  AhoCorasick() { trie.emplace_back(); }
+  void insert(const string& s, int id) {
+      int u = 0;
+      for (char c : s) {
+          int &v = trie[u].nxt[c - 'a'];
+          if (!v) v = trie.size(), trie.emplace_back();
+          u = v;
       }
-    }
-    while (!q.empty()) {
-      Node* curr = q.front(); q.pop();
-      for (int i = 0; i < 26; i++) {
-        if (curr->nxt[i]) {
-          Node* next = curr->nxt[i];
-          next->fail = curr->fail->nxt[i];
-          next->out.insert(next->out.end(), next->fail->out.begin(), next->fail->out.end());
-          q.push(next);
-        } else {
-          curr->nxt[i] = curr->fail->nxt[i]; // DFA optimization
-        }
-      }
-    }
+      trie[u].id = id;
   }
-  vector<pair<int, int>> query(const string& s) {
-    vector<pair<int, int>> res;
-    Node* curr = root;
-    for (int i = 0; i < s.size(); i++) {
-      curr = curr->nxt[s[i] - 'a'];
-      for (int id : curr->out) res.emplace_back(i, id);
-    }
-    return res;
+  void build() {
+      queue<int> q;
+      for (int i = 0; i < 26; i++) if (trie[0].nxt[i]) q.push(trie[0].nxt[i]);
+      while (!q.empty()) {
+          int u = q.front(); q.pop();
+          for (int i = 0; i < 26; i++) {
+              int &v = trie[u].nxt[i], f = trie[trie[u].fail].nxt[i];
+              if (v) {
+                  trie[v].fail = f;
+                  trie[v].link = (trie[f].id != -1) ? f : trie[f].link;
+                  q.push(v);
+              } else v = f;
+          }
+      }
+  }
+  vector<pair<int,int>> query(const string& s) {
+      vector<pair<int,int>> res;
+      int u = 0;
+      for (int i = 0; i < (int)s.size(); i++) {
+          u = trie[u].nxt[s[i] - 'a'];
+          for (int t = u; t != -1; t = trie[t].link) {
+              if (trie[t].id != -1) res.emplace_back(i, trie[t].id);
+          }
+      }
+      return res;
   }
 };
 int main() {
   AhoCorasick ac;
   vector<string> patterns = {"he", "she", "hers", "his"};
-  for(int i = 0; i < patterns.size(); i++) 
+  for(int i = 0; i < sz(patterns); i++)
     ac.insert(patterns[i], i); // 패턴과 ID(0~N-1) 삽입
   ac.build(); // 실패 함수/DFA 빌드 (필수)
   string text = "ushers";

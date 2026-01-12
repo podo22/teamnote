@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote-for-newbie/blob/master/code/String/Manacher.cpp
+ * [Tested on]
+ * 
+ */
 // 각 문자를 중심으로 하는 최장 팰린드롬의 반경을 반환
 // Manacher("abaaba") = {0,1,0,3,0,1,6,1,0,3,0,1,0}
 // # a # b # a # a # b # a #

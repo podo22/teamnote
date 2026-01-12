@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote-for-newbie/blob/master/code/String/Hashing.cpp
+ * [Tested on]
+ * 
+ */
 // 전처리 O(N), 부분 문자열의 해시값을 O(1)에 구함
 // Hashing<917, 998244353> H; H.build("ABCDABCD");
 // assert(H.get(1, 4) == H.get(5, 8));

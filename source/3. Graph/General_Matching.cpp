@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://blog.kyouko.moe/20?category=767011
+ * Implemented by : alreadysolved
+ * [Verification]
+ * Solved : https://www.acmicpc.net/problem/15737
+ */
 struct GeneralMatch {
   vector<vector<int>> graph;
   vector<int> vis, parent, orig, matched, aux;

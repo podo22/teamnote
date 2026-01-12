@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/11408
+ */
 const ll INF = 1e18;
 struct MCMF {
   struct Edge { int to; ll cap, cost; int rev; };

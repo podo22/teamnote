@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/1786
+ */
 template <typename T>
 struct KMP {
   T P; vector<int> pi;

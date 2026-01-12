@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : ???
+ * [Tested on]
+ * 
+ */
 struct CentroidTree {
   vector<vector<int>> adj, c_adj; // adj: 원본트리 / c_adj: 센트로이드트리
   vector<int> sz, par, vis; int N;
@@ -15,10 +21,10 @@ struct CentroidTree {
         return get_cent(next, curr, to_sz);
     return curr;
   }
-  void static_solve(int u) { /* 현재 센트로이드를 포함하는 모든 경로를 계산하는 로직 */ }
+  void solve(int u) { /* 현재 센트로이드를 포함하는 모든 경로를 계산하는 로직 */ }
   int build(int curr, int p = -1) {
     int cent = get_cent(curr, -1, get_sz(curr, -1));
-    static_solve(cent); // 정적 분할 정복 문제일 때 사용
+    solve(cent);
     vis[cent] = 1; par[cent] = p;
     for (int next : adj[cent]) {
       if (!vis[next]) {

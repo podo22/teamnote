@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://github.com/overnap/cp-teamnote/blob/master/source/MonotoneQueue.cpp
+ * Implemented by : alreadysolved
+ * [Tested on]
+ * 
+ */
 ll f(int j, int i); // j에서 i로 전이할 때의 값 (dp[j] + cost(j, i))
 void solve() {
   auto cross = [&](ll p, ll q) {

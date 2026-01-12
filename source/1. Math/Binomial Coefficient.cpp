@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/11402
+ * https://www.acmicpc.net/problem/14854
+ */
 // when M is big prime; Init: O(MAXN), Query: O(1)
 ll modmul(ll a, ll b, ll m)
 ll modpow(ll b, ll e, ll m)

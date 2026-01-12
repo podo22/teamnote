@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://koosaga.com/258
+ * Implemented by : alreadysolved
+ * [Verification]
+ * Solved : https://www.acmicpc.net/problem/15741
+ */
 const ll INF = 1e18;
 struct WeightedGeneralMatch {
   struct Edge { int u = 0, v = 0; ll w = 0; };

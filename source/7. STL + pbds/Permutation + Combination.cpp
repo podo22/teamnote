@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 #include <algorithm>
 /* 1. Permutation */
 sort(all(v))

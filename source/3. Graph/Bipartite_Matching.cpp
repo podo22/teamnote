@@ -1,3 +1,11 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/11375 (Bipartite matching)
+ * https://www.acmicpc.net/problem/2051 (Minimum vertex cover)
+ * https://www.acmicpc.net/problem/3419 (Game theory)
+ */
 struct BiMatch { // Hopcroft-Karp
   vector<vector<int>> graph, grev;
   vector<int> mA, mB, dist, work;

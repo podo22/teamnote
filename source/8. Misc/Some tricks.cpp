@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Misc/Cpp-Grammer.cpp
+ * Implemented by : alreadysolved
+ * [Tested on]
+ * 
+ */
 __builtin_popcount(x); // 켜진 비트(1)의 총 개수
 __builtin_clz(x); // 왼쪽(MSB)부터 연속된 0의 개수
 __builtin_ctz(x); // 오른쪽(LSB)부터 연속된 0의 개수

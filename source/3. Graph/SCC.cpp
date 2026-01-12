@@ -1,12 +1,18 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved?
+ * [Tested on]
+ * 
+ */
 struct SCC {
-  int n, cnt, timer;
+  int n, cnt, t;
   vector<vector<int>> adj;
   vector<int> dfn, low, id;
   vector<bool> ins; stack<int> st;
-  SCC(int n) : n(n), adj(n), dfn(n, -1), low(n, -1), id(n, -1), ins(n), cnt(0), timer(0) {}
-  void add_edge(int u, int v) { adj[u].push_back(v); }
+  SCC(int n) : n(n), adj(n), dfn(n, -1), low(n, -1), id(n, -1), ins(n), cnt(0), t(0) {}
+  void add(int u, int v) { adj[u].push_back(v); }
   void dfs(int u) {
-    dfn[u] = low[u] = ++timer;
+    dfn[u] = low[u] = ++t;
     st.push(u); ins[u] = true;
     for (int v : adj[u]) {
       if (dfn[v] == -1) {

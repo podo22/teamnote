@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Source : https://github.com/kidw0124/ACShoooooooooot-Teamnote/blob/main/src/string/suffix-array-lcp.cpp
+ * [Tested on]
+ * 
+ */
 // calculates suffix array with O(n*logn)
 auto get_sa(const string& s) {
   const int n = s.size(), m = max(256, n) + 1;

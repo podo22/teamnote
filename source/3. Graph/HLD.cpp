@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : ychangseok
+ * [Tested on]
+ * 
+ */
 struct HLD{
   vector<int> dep, par, sz, in, out, top;
   int n, idx;

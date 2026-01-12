@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : ???
+ * [Tested on]
+ * 
+ */
 template <typename T>
 struct MergeSortTree {
   int sz;

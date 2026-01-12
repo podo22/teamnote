@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : mythofys
+ * [Tested on]
+ * https://www.acmicpc.net/problem/27937
+ */
 const int MAXN = 200005, BSIZ = 450;
 struct SqrtDecomp {
   ll lz_v[BSIZ+5], lz_c[BSIZ+5], v_arr[MAXN], c_arr[MAXN];

@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Math/FFT-Friends.cpp
+ * [Tested on]
+ * 
+ */
 template<int M> struct MINT {
   int v;
   MINT(ll _v = 0) { v = _v % M; if (v < 0) v += M; }

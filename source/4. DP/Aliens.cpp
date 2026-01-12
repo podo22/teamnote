@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Reference : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Misc/Aliens2.cpp
+ * [Tested on]
+ * 
+ */
 /* n: 원소 개수 (경로 복원 끝점), k: 정확히 골라야 하는 개수
  * lo, hi: 패널티 이분탐색 범위 (0 ~ 최대 가치)
  * f(c): 패널티가 c일 때 {2*(가치합), prv} 반환 (가치는 c를 뺀 값) */

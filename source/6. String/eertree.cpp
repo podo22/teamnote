@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Source : https://github.com/kidw0124/ACShoooooooooot-Teamnote/blob/main/src/string/eertree.cpp
+ * [Tested on]
+ * 
+ */
 template<class S = string , class T = typename S::value_type>
 struct eertree {
   struct node { int len, link;map<T, int> child; };

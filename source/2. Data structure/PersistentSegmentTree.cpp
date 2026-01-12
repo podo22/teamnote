@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/DataStructure/PersistentSegmentTree.cpp
+ * [Tested on]
+ * 
+ */
 struct PSTNode{
   PSTNode *l, *r; int v;
   PSTNode(){ l = r = nullptr; v = 0; }

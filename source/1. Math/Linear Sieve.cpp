@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : ahgus89
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Math/LinearSieve.cpp
+ * [Tested on]
+ * 
+ */
 struct Sieve {
   // sp: 최소 소인수, e: i의 최소 소인수 지수, phi: 오일러 피 함수(1~i 중 i와 서로소인 개수), mu: 뫼비우스 함수, tau: 약수 개수, sigma: 약수의 합
   vector<int> sp, e, phi, mu, tau, sigma, tmp, primes;
@@ -16,10 +23,9 @@ struct Sieve {
           tau[m] = tau[i]/(e[i]+1)*(e[m]+1);
           tmp[m] = tmp[i]*p+1; sigma[m] = sigma[i]/tmp[i]*tmp[m];
           break;
-        } else {
-          e[m] = 1; phi[m] = phi[i]*(p-1); mu[m] = -mu[i];
-          tau[m] = tau[i]*2; tmp[m] = p+1; sigma[m] = sigma[i]*(p+1);
         }
+        e[m] = 1; phi[m] = phi[i]*(p-1); mu[m] = -mu[i];
+        tau[m] = tau[i]*2; tmp[m] = p+1; sigma[m] = sigma[i]*(p+1);
       }
     }
   }

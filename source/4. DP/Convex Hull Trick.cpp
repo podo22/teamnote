@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : Simon Lindholm
+ * Source : https://github.com/kth-competitive-programming/kactl/blob/main/content/data-structures/LineContainer.h
+ * [Tested on]
+ * 
+ */
 // O(logN) Dynamic CHT: Slopes(k) and queries(x) can be in any order (no sorting required)
 struct Line {
   mutable ll k, m, p;

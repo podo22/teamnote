@@ -1,3 +1,11 @@
+/**
+ * [Metadata]
+ * Original Author : ???
+ * Source : https://github.com/kidw0124/ACShoooooooooot-Teamnote/blob/main/src/data-structure/fenwick-tree.cpp
+ *          https://github.com/kidw0124/ACShoooooooooot-Teamnote/blob/main/src/data-structure/2d-fenwick-tree.cpp
+ * [Tested on]
+ * 
+ */
 struct Fenwick {
   const ll MAXN = 100000;
   vector<ll> tree; int TSIZE;

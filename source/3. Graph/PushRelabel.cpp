@@ -1,3 +1,11 @@
+/**
+ * [Metadata]
+ * Reference : https://koosaga.com/289
+ * Optimization : cgiosy(https://www.acmicpc.net/source/73261883)
+ * Implemented by : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/21731
+ */
 const ll INF = 1e18;
 struct HLPP {
   struct Edge {

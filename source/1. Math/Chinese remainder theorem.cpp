@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote-for-newbie/blob/master/code/Math/ChineseRemainderTheorem.cpp
+ * [Tested on]
+ * 
+ */
 ll xgcd(ll a, ll b, ll &x, ll &y)
 pair<ll,ll> CRT(ll a1, ll m1, ll a2, ll m2) {
   ll x, y, g = xgcd(m1, m2, x, y);

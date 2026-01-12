@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://justicehui.github.io/hard-algorithm/2021/01/01/link-cut-tree/
+ * [Tested on]
+ * 
+ */
 struct Node {
   Node *l, *r, *p;
   bool flip; int sz;

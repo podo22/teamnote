@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://github.com/overnap/cp-teamnote/blob/master/source/DivideAndConquerOptimization.cpp
+ * Implemented by : alreadysolved
+ * [Tested on]
+ * 
+ */
 ll dp[MAX_K][MAX_N];
 // l부터 r까지 구간의 비용을 계산하는 함수 (문제에 맞게 구현)
 ll get_cost(int l, int r) {/* return sum[l][r] + C; */}

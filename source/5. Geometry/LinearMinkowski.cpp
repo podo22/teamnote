@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://cp-algorithms.com/geometry/minkowski.html
+ * Modified by : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/2244
+ */
 // Minkowski Sum of Convex Polygons (CCW only), O(N + M)
 vector<P> Minkowski(vector<P> p, vector<P> q) {
   if (p.empty() || q.empty()) return {};

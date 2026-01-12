@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 // k번째 원소 확인 및 x보다 작은 원소개수 확인을 O(logN)에 수행
 #include <ext/pb_ds/assoc_container.hpp>
 #include <ext/pb_ds/tree_policy.hpp>

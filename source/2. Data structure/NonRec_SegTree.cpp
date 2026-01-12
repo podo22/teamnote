@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Reference : https://www.acmicpc.net/blog/view/117
+ * Implemented by : alreadysolved
+ * [Tested on]
+ * 
+ */
 template<typename Node>
 struct SegTree {
   int n, lg, size;

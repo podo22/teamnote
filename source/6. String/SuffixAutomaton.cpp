@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : aeren
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/String/SuffixAutomaton.cpp
+ * [Tested on]
+ * 
+ */
 template<typename T, size_t S, T init_val>
 struct initialized_array : public array<T, S> {
   initialized_array(){ this->fill(init_val); }

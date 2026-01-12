@@ -1,6 +1,13 @@
+/**
+ * [Metadata]
+ * Original Author : DeobureoMinkyuParty & JusticeHui
+ * Reference : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Geometry/HPI.cpp
+ * Modified by : alreadysolved
+ * [Tested on]
+ * 
+ */
 // 각 선분의 '왼쪽' 영역들의 교집합(볼록 다각형)을 반환
 // 영역이 없거나 닫히지 않는 경우(Unbounded) 빈 벡터 반환 가능성 있음
-const double EPS = 1e-9;
 struct Line {
   double a, b, c; // ax + by <= c
   Line(Pd p1, Pd p2) {

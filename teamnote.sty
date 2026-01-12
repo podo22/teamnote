@@ -17,6 +17,8 @@
 \setminted{breaklines=true, fontfamily=tt, tabsize = 2, breaksymbolleft=, }
 \usemintedstyle{perldoc}
 
+\usepackage{xstring}
+
 \AtBeginDocument{
     \makeatletter
     \renewcommand{\fcolorbox}[4][]{#4}
@@ -81,10 +83,38 @@
 
     \ifthenelse{\equal{#2}{} \OR \boolean{BangShowUsage}}{}{{\raggedright \textbf{Usage:} #2\par}}
 
-    \ifthenelse{\equal{#3}{} \OR \boolean{BangShowComplexity}}{}{\textbf{Time Complexity:} #3}
+    \ifthenelse{\equal{#3}{} \OR \boolean{BangShowComplexity}}{}{{\raggedright\textbf{Time Complexity:} #3\par}}
 
     \ifthenelse{\equal{#6}{} \OR \boolean{BangShowAuthor}}{}{\textbf{Author:} #6}
 
     \ifthenelse{\equal{#5}{}}{}{\ifthenelse{\equal{#4}{}}{\inputminted[]{cpp}{#5}}{\inputminted[]{#4}{#5}}}
 }
+\let\oldAlgorithm\Algorithm
 
+\newread\filecheck
+\renewcommand{\Algorithm}[6]{
+    \def\shouldProcess{false}
+    \ifthenelse{\equal{#4}{cpp} \AND \NOT \equal{#5}{}}{
+        \IfFileExists{#5}{
+            \begingroup
+                \openin\filecheck="#5"
+                \ifeof\filecheck
+                    % 파일을 열 수 없는 경우
+                \else
+                    \read\filecheck to \firstline
+                    \expandafter\IfSubStr\expandafter{\detokenize\expandafter{\firstline}}{/**}{
+                        \gdef\shouldProcess{true}
+                    }{}
+                \fi
+                \closein\filecheck
+            \endgroup
+        }{}
+    }{}
+
+    \ifthenelse{\equal{\shouldProcess}{true}}{
+        \immediate\write18{python preprocessor.py "#5" "build/tempfile.tmp"}
+        \oldAlgorithm{#1}{#2}{#3}{#4}{build/tempfile.tmp}{#6}
+    }{
+        \oldAlgorithm{#1}{#2}{#3}{#4}{#5}{#6}
+    }
+}

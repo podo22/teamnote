@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote-for-newbie/blob/master/code/Graph2/LCA.cpp
+ * [Tested on]
+ * 
+ */
 int N, Q, D[101010], P[22][101010];
 vector<int> G[101010];
 void Connect(int u, int v){

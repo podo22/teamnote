@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : aeren
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Graph/34Cycle.cpp
+ * [Tested on]
+ * 
+ */
 vector<tuple<int,int,int>> Find3Cycle(int n, const vector<pair<int,int>> &edges){ // N+MsqrtN
   int m = edges.size();
   vector<int> deg(n), pos(n), ord; ord.reserve(n);

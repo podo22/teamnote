@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved?
+ * [Tested on]
+ * 
+ */
 auto bellman = [&](int s) -> bool {
   fill(all(d), INF); d[s] = 0; bool chk = 0;
   for (int i = 0; i < n; i++) { chk = 0;

@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : Aeren
+ * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Math/XudyhSieve.cpp
+ * [Tested on]
+ * 
+ */
 /* e(x) = [x==1], 1(x) = 1, id_k(x) = x^k
 mu: mobius function, id(x) = x
 phi: euler totient function

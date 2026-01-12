@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : jinhan814
+ * Source : https://infossm.github.io/blog/2025/04/25/fastio-1/
+ * [Tested on]
+ * 
+ */
 #include <unistd.h>
 constexpr int rbuf_sz = 1 << 20, wbuf_sz = 1 << 20;
 int main() {

@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : cgiosy
+ * Reference : https://github.com/justiceHui/icpc-teamnote/blob/master/code/DataStructure/ErasablePQ.cpp
+ * [Tested on]
+ * 
+ */
 template <typename T = int, typename Compare = std::less<T>>
 struct EraseablePQ {
   priority_queue<T,vector<T>,Compare> q, del;

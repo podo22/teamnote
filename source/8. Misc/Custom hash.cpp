@@ -1,3 +1,9 @@
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 struct custom_hash {
   template <class T>
   void combine(size_t& seed, const T& v) const {

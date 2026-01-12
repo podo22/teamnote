@@ -1,17 +1,18 @@
-// 가장 먼 두 점을 구하는 함수, O(N)
-// hull: 반시계 방향(CCW)으로 정렬된 볼록 다각형
-pair<P, P> Calipers(const vector<P>& hull) {
-  int n = sz(hull); if (n < 2) return {hull[0], hull[0]};
-  ll mx = 0; P a = hull[0], b = hull[1];
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
+// ccw 정렬된 convex에서 가장 먼 두 점
+pair<P,P> Calipers(const vector<P>& v) {
+  int n = sz(v); if (n < 2) return {v[0], v[0]};
+  ll mx = 0; P a = v[0], b = v[1];
   for (int i = 0, j = 1; i < n; i++) {
-    P vec_i = hull[(i + 1) % n] - hull[i];
-    while ((vec_i / (hull[(j + 1) % n] - hull[j])) > 0) {
-      ll now = (hull[i] - hull[j]).dist2();
-      if (now > mx) mx = now, a = hull[i], b = hull[j];
-      j = (j + 1) % n;
-    }
-    ll now = (hull[i] - hull[j]).dist2();
-    if (now > mx) mx = now, a = hull[i], b = hull[j];
+    P t = v[(i+1)%n] - v[i];
+    while ((t / (v[(j+1)%n] - v[j])) > 0) j = (j+1)%n;
+    ll now = (v[i] - v[j]).dist2();
+    if (now > mx) mx = now, a = v[i], b = v[j];
   }
   return { a, b };
 }

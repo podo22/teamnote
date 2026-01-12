@@ -1,6 +1,13 @@
-// 다각형 넓이의 2배를 반환 (Shoelace Formula), O(N)
-ll PolygonArea2(const vector<P>& poly) {
-  ll area = 0; int n = poly.size();
-  for (int i = 0; i < n; i++) area += poly[i] / poly[(i + 1) % n];
-  return abs(area);
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
+// 다각형 넓이*2 (신발끈 공식)
+ll area2(const vector<P>& v) {
+  ll res = 0; int n = sz(v);
+  for (int i = 0; i < n; i++)
+    res += v[i] / v[(i+1)%n];
+  return abs(res);
 }

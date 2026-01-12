@@ -1,6 +1,12 @@
-// CCW 정렬된 다각형 내부/경계 판별, O(log N)
-bool PointInConvexPolygon(const vector<P>& v, P p) {
-  int n = v.size(); if (n < 3) return false;
+/**
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
+// CCW 정렬된 다각형 내부 판별, O(log N)
+bool InConvPoly(const vector<P>& v, P p) {
+  int n = sz(v); if (n<3) return false;
   // ccw <= 0 || ccw >= 0: exclude boundary
   if (ccw(v[0], v[1], p) < 0 || ccw(v[0], v.back(), p) > 0) return false;
   int l = 1, r = n - 1;

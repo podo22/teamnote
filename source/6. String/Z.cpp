@@ -1,3 +1,10 @@
+/**
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Source : https://github.com/justiceHui/icpc-teamnote-for-newbie/blob/master/code/String/Z.cpp
+ * [Tested on]
+ * 
+ */
 // Z[i] = LongestCommonPrefix(S[0:N], S[i:N])
 //    = S[0:N]과 S[i:N]이 앞에서부터 몇 글자 겹치는지
 vector<int> Z(const string &s){

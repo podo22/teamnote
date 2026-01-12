@@ -1,3 +1,11 @@
+/**
+ * [Metadata]
+ * Original Author : chilli, c1729, Simon Lindholm, SJTU, pajenegod
+ * Source : https://github.com/kth-competitive-programming/kactl/blob/main/content/number-theory/MillerRabin.h
+ *          https://github.com/kth-competitive-programming/kactl/blob/main/content/number-theory/Factor.h
+ * [Tested on]
+ * 
+ */
 ll modmul(ll a, ll b, ll m)
 ll modpow(ll b, ll e, ll m)
 bool isPrime(ll n) {
