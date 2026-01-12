@@ -1,6 +1,6 @@
 /**
  * [Metadata]
- * Author : alreadysolved?
+ * Author : alreadysolved
  * [Tested on]
  * 
  */
