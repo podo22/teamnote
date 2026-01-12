@@ -18,5 +18,5 @@ struct EraseablePQ {
   void pop() { flush(); if (!q.empty()) q.pop(); flush(); }
   const T& top() { flush(); return q.top(); }
   int size() const { return int(q.size() - del.size()); }
-  bool empty() { flush(); return q.empty(); }
+  bool empty() { return q.size() == del.size(); }
 };
