@@ -40,6 +40,14 @@ struct BiMatch { // Hopcroft-Karp
   }
   int match() {
     int ans = 0;
+    for (int i = 1; i <= ns; i++) {
+      for (int j : graph[i]) {
+        if (!mB[j]) {
+          mA[i] = j; mB[j] = i;
+          ans++; break;
+        }
+      }
+    }
     while (1) {
       fill(all(work), 0); bfs();
       int cnt = 0;
@@ -84,7 +92,7 @@ struct BiMatch { // Hopcroft-Karp
     return { va, vb };
   }
 };
-/* struct BiMatch {
+/* struct BiMatch { // Kuhn's Algorithm
   vector<vector<int>> graph;
   vector<int> mA, mB, vis;
   int ns, ms;
@@ -92,6 +100,11 @@ struct BiMatch { // Hopcroft-Karp
   void add(int a, int b) { graph[a].push_back(b); }
   bool dfs(int cur) {
     vis[cur] = 1;
+    for (int i : graph[cur]) {
+      if (mB[i] == 0) {
+        mA[cur] = i; mB[i] = cur; return true;
+      }
+    }
     for (auto i : graph[cur]) {
       int ori = mB[i];
       if (ori == 0 || (!vis[ori] && dfs(ori))) {
