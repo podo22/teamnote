@@ -23,11 +23,11 @@ int main() {
 	};
   char w[wbuf_sz], *pw = w;
 	auto write_char = [&](char c) {
-		if (pw - w == wbuf_sz) write(1, w, pw - w), pw = w;
+		if (pw-w == wbuf_sz) write(1, w, pw-w), pw = w;
 		*pw++ = c;
 	};
 	auto write_int = [&](int x) {
-		if (pw - w + 40 > wbuf_sz) write(1, w, pw - w), pw = w;
+		if (pw-w+40 > wbuf_sz) write(1, w, pw-w), pw = w;
 		if (x < 0) *pw++ = '-', x = -x;
 		char t[10], *pt = t;
 		do *pt++ = x % 10 + '0'; while (x /= 10);
