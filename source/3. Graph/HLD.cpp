@@ -1,72 +1,93 @@
 /**
  * [Metadata]
- * Author : ychangseok
+ * Author : alreadysolved
  * [Tested on]
- * 
+ * https://www.acmicpc.net/problem/13510
  */
-struct HLD{
-  vector<int> dep, par, sz, in, out, top;
-  int n, idx;
-  vector<vector<int>> adj, graph;
-  HLD (int n_) : n(n_), dep(n+1), par(n+1), sz(n+1), in(n+1), out(n+1), top(n+1), adj(n+1), graph(n+1) {}
-  void addEdge(int u, int v) { adj[u].push_back(v); adj[v].push_back(u); }
-  void dfs(int v = 1, int pre = -1) {
-    for (int u : adj[v]) {
-      if (u == pre) continue;
-      graph[v].push_back(u);
-      dfs(u, v);
+struct SegTree {
+  using T = ll;
+  const T I = -1e18; // MAX: -1e18, SUM: 0, MIN: 1e18
+  T merge(T a, T b) { return max(a, b); };
+  int n;
+  vector<T> tree, lazy;
+  SegTree(int n) : n(n) { tree.resize(4*n+1, I); lazy.resize(4*n+1, 0); }
+  void push(int nd, int st, int en) {
+    if (lazy[nd] == 0) return;
+    tree[nd] += lazy[nd];
+    if (st != en) lazy[nd*2] += lazy[nd], lazy[nd*2+1] += lazy[nd];
+    lazy[nd] = 0;
+  }
+  void _update(int nd, int st, int en, int idx, T val) {
+    push(nd, st, en);
+    if (idx < st || en < idx) return;
+    if (st == en) { tree[nd] = val; return; } // or tree[nd] += val
+    int mid = (st+en)/2;
+    _update(nd*2, st, mid, idx, val); _update(nd*2+1, mid+1, en, idx, val);
+    tree[nd] = merge(tree[nd*2], tree[nd*2+1]);
+  }
+  void _update(int nd, int st, int en, int l, int r, T val) {
+    push(nd, st, en);
+    if (r < st || en < l) return;
+    if (l <= st && en <= r) { lazy[nd] += val; push(nd, st, en); return; }
+    int mid = (st+en)/2;
+    _update(nd*2, st, mid, l, r, val); _update(nd*2+1, mid+1, en, l, r, val);
+    tree[nd] = merge(tree[nd*2], tree[nd*2+1]);
+  }
+  T _query(int nd, int st, int en, int l, int r) {
+    push(nd, st, en);
+    if (r < st || en < l) return I;
+    if (l <= st && en <= r) return tree[nd];
+    int mid = (st+en)/2;
+    return merge(_query(nd*2, st, mid, l, r), _query(nd*2+1, mid+1, en, l, r));
+  }
+  void update(int idx, T val) { _update(1, 1, n, idx, val); }
+  void update(int l, int r, T val) { _update(1, 1, n, l, r, val); }
+  T query(int l, int r) {
+    if (l > r) return I;
+    return _query(1, 1, n, l, r);
+  }
+};
+struct HLD {
+  int n, pv;
+  vector<vector<int>> adj;
+  vector<int> siz, dep, par, top, in;
+  SegTree seg;
+  HLD(int n) : n(n), adj(n+1), siz(n+1), dep(n+1), par(n+1), top(n+1), in(n+1), seg(n) {}
+  void add(int u, int v) { adj[u].push_back(v); adj[v].push_back(u); }
+  void dfs1(int u, int p) {
+    siz[u] = 1; dep[u] = dep[p]+1; par[u] = p;
+    for (auto& v : adj[u]) {
+      if (v == p) continue;
+      dfs1(v, u); siz[u] += siz[v];
+      if (siz[v] > siz[adj[u][0]] || adj[u][0] == p) swap(v, adj[u][0]);
     }
   }
-  void dfs1(int v = 1) {
-    sz[v] = 1;
-    for (int &u : graph[v]) {
-      dep[u] = dep[v] + 1;
-      par[u] = v;
-      dfs1(u);
-      sz[v] += sz[u];
-      if (sz[u] > sz[graph[v][0]]) swap(u, graph[v][0]);
+  void dfs2(int u, int p) {
+    in[u] = ++pv;
+    for (auto v : adj[u]) {
+      if (v == p) continue;
+      top[v] = (v == adj[u][0] ? top[u] : v);
+      dfs2(v, u);
     }
   }
-  void dfs2(int v = 1) {
-    in[v] = ++idx;
-    for (int u : graph[v]) {
-      top[u] = (u == graph[v][0]) ? top[v] : u;
-      dfs2(u);
-    }
-    out[v] = idx;
-  }
-  void calculate(){
-    dfs(); dfs1(); dfs2();
-  }
-  array<vector<array<int,2>>,2> getPath(int u, int v) {
-    vector<array<int,2>> v1, v2;
-    while (top[u] != top[v]) {
-      if (dep[top[u]] > dep[top[v]]) {
-        ll xx = top[u];
-        v1.push_back({in[xx], in[u]});
-        u = par[xx];
-      }else {
-        ll xx = top[v];
-        v2.push_back({in[xx], in[v]});
-        v = par[xx];
+  void build() {
+    pv = 0;
+    for (int i = 1; i <= n; i++) {
+      if (!siz[i]) {
+        top[i] = i;
+        dfs1(i, 0); dfs2(i, 0);
       }
     }
-    if (dep[u] < dep[v]) {
-      v2.push_back({in[u], in[v]});
-    }else {
-      v1.push_back({in[v], in[u]});
+  }
+  void update(int u, int val) { seg.update(in[u], val); }
+  ll query(int u, int v, bool edge = false) {
+    ll res = seg.I;
+    while (top[u] != top[v]) {
+      if (dep[top[u]] < dep[top[v]]) swap(u, v);
+      res = seg.merge(res, seg.query(in[top[u]], in[u]));
+      u = par[top[u]];
     }
-    return {v1, v2};
-    // auto pp = hld.getPath(u, v);
-    // Node res1 = id;
-    // Node res2 = id;
-    // for (auto p2 : pp[0]){
-    //   res1 = seg.merge(seg.query(p2[0], p2[1]+1), res1);
-    // }
-    // for (auto p2 : pp[1]){
-    //   res2 = seg.merge(seg.query(p2[0], p2[1]+1), res2);
-    // }
-    // swap(res1.lsum, res1.rsum);
-    // auto res = seg.merge(res1, res2);
+    if (dep[u] > dep[v]) swap(u, v);
+    return seg.merge(res, seg.query(in[u]+edge, in[v]));
   }
 };

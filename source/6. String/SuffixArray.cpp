@@ -1,38 +1,33 @@
 /**
  * [Metadata]
- * Source : https://github.com/kidw0124/ACShoooooooooot-Teamnote/blob/main/src/string/suffix-array-lcp.cpp
+ * Author : alreadysolved
  * [Tested on]
- * 
+ * https://www.acmicpc.net/problem/9248
  */
-// calculates suffix array with O(n*logn)
-auto get_sa(const string& s) {
-  const int n = s.size(), m = max(256, n) + 1;
-  vector<int> sa(n), r(n << 1), nr(n << 1), cnt(m), idx(n);
-  for (int i = 0; i < n; i++) sa[i] = i, r[i] = s[i];
-  for (int d = 1; d < n; d <<= 1) {
-    auto cmp = [&](int a, int b) { return r[a] < r[b] || r[a] == r[b] && r[a + d] < r[b + d];};
-    for (int i = 0; i < m; ++i) cnt[i] = 0;
-    for (int i = 0; i < n; ++i) cnt[r[i + d]]++;
-    for (int i = 1; i < m; ++i) cnt[i] += cnt[i - 1];
-    for (int i = n - 1; ~i; --i) idx[--cnt[r[i + d]]] = i;
-    for (int i = 0; i < m; ++i) cnt[i] = 0;
-    for (int i = 0; i < n; ++i) cnt[r[i]]++;
-    for (int i = 1; i < m; ++i) cnt[i] += cnt[i - 1];
-    for (int i = n - 1; ~i; --i) sa[--cnt[r[idx[i]]]] = idx[i];
-    nr[sa[0]] = 1;
-    for (int i = 1; i < n; ++i) nr[sa[i]] = nr[sa[i - 1]] + cmp(sa[i - 1], sa[i]);
-    for (int i = 0; i < n; ++i) r[i] = nr[i];
-    if (r[sa[n - 1]] == n) break; 
+// suffix array O(nlogn), lcp array O(n)
+struct SA {
+  int n;
+  vector<int> sa, lcp, x, y, c;
+  SA(const string& s) : n(sz(s)), sa(n), lcp(n), x(2*n, -1), y(2*n, -1), c(max(n, 256)) {
+    for (int i = 0; i < n; i++) c[x[i] = s[i]]++;
+    for (int i = 1; i < sz(c); i++) c[i] += c[i-1];
+    for (int i = n - 1; i >= 0; i--) sa[--c[x[i]]] = i;
+    for (int d = 1, p = 0; ; d <<= 1, c.resize(p+1), p = 0) {
+      for (int i = n - d; i < n; i++) y[p++] = i;
+      for (int i = 0; i < n; i++) if (sa[i] >= d) y[p++] = sa[i] - d;
+      fill(all(c), 0);
+      for (int i = 0; i < n; i++) c[x[y[i]]]++;
+      for (int i = 1; i < sz(c); i++) c[i] += c[i-1];
+      for (int i = n - 1; i >= 0; i--) sa[--c[x[y[i]]]] = y[i];
+      swap(x, y); p = x[sa[0]] = 0;
+      for (int i = 1; i < n; i++)
+      x[sa[i]] = (y[sa[i-1]] == y[sa[i]] && y[sa[i-1]+d] == y[sa[i]+d]) ? p : ++p;
+      if (p == n-1) break;
+    }
+    for (int i = 0, k = 0; i < n; i++, k = max(0, k-1)) {
+      if (x[i] == 0) continue;
+      for (int j = sa[x[i]-1]; s[i+k] == s[j+k]; k++);
+      lcp[x[i]] = k;
+    }
   }
-  return sa;
-}
-// calculates lcp array. it needs suffix array & original sequence with O(n)
-auto get_lcp(const string& s, const auto& sa) {
-  const int n = s.size(); vector lcp(n - 1, 0), isa(n, 0);
-  for (int i = 0; i < n; i++) isa[sa[i]] = i;
-  for (int i = 0, k = 0; i < n; i++) if (isa[i]) {
-    for (int j = sa[isa[i] - 1]; s[i + k] == s[j + k]; k++);
-    lcp[isa[i] - 1] = k ? k-- : 0;
-  }
-  return lcp;
-}
+};

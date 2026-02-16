@@ -8,9 +8,9 @@
 #include <unistd.h>
 constexpr int rbuf_sz = 1 << 20, wbuf_sz = 1 << 20;
 int main() {
-	char r[rbuf_sz], *pr = r; read(0, r, rbuf_sz);
+	char r[rbuf_sz], *pr = r; int rsz = read(0, r, rbuf_sz);
 	auto read_char = [&] {
-		if (pr - r == rbuf_sz) read(0, pr = r, rbuf_sz);
+		if (pr - r == rsz) rsz = read(0, pr = r, rbuf_sz);
 		return *pr++;
 	};
 	auto read_int = [&] {
@@ -33,4 +33,7 @@ int main() {
 		do *pt++ = x % 10 + '0'; while (x /= 10);
 		do *pw++ = *--pt; while (pt != t);
 	};
+  int n = read_int(); char c = read_char();
+  write_int(n); write_char(c);
+  write(1, w, pw - w);
 }

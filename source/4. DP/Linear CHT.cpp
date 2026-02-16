@@ -19,7 +19,7 @@ struct ConvexHull {
     while (S.size() > 1 && C(S.back(), PLL(a, b)) <= C(S[S.size() - 2], S.back())) S.pop_back();
     S.push_back(PLL(a, b));
     /* when x is monotonic decreasing
-    while (S.size() > 1 && C(S[0], S[1]) <= C(PLL(a, b), S[0])) S.pop_front()
+    while (S.size() > 1 && C(S[0], S[1]) <= C(PLL(a, b), S[0])) S.pop_front();
     S.push_front(PLL(a, b)); */
   }
   ll query(const ll x) {
