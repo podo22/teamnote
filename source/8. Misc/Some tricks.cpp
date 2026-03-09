@@ -8,11 +8,19 @@
 __builtin_popcount(x); // 켜진 비트(1)의 총 개수
 __builtin_clz(x); // 왼쪽(MSB)부터 연속된 0의 개수
 __builtin_ctz(x); // 오른쪽(LSB)부터 연속된 0의 개수
-// popcount를 유지하면서 다음으로 큰 수
+// popcount를 유지하면서 다음으로 큰 수 / 작은 수
 bool next_comb(ll& bit, int N) {
   ll x = bit & -bit, y = bit + x;
   bit = (((bit & ~y) / x) >> 1) | y; 
   return (bit < (1LL << N));
+}
+ll init_comb(int n, int k) { 
+  return ((1LL << k) - 1) << (n - k); 
+}
+bool prev_comb(ll& bit) {
+  ll y = ~bit & -~bit, x = bit & -y;
+  bit = x - ((x & -x) / (y << 1));
+  return x != 0;
 }
 // v(>0)보다 크고 popcount가 같은 가장 작은 정수
 ll next_perm(ll v) {
@@ -24,32 +32,22 @@ for (int sub = mask; sub > 0; sub = (sub-1)&mask);
 // mask를 포함하는 모든 상위집합을 오름차순으로 순회
 for (int sup = mask; sup < (1<<n); sup = (sup+1)|mask);
 // 런타임 변수 n에 맞는 크기의 bitset을 사용
-const int MAXLEN = 200005; // 최대 범위
-template <int len = 1> 
-void solve(int n) {
-  if (len < n) { solve<min(len*2, MAXLEN)>(n); return; }
+template <int len = 1> void solve(int n) {
+  if (len < n) { solve<min(len*2, 200005)>(n); return; }
   bitset<len> bs;
   // do stuff
 }
 // bitset 고속순회 (켜져있는 비트만 순회)
-void bitset_iterate(bitset<1000>& bs) {
-  int idx = bs._Find_first(); 
-  while (idx < bs.size()) {
-    // do stuff
-    idx = bs._Find_next(idx); 
-  }
+for (int i = bs._Find_first(); i < bs.size(); i = bs._Find_next(i)) {
+  // do stuff
 }
 // 1부터 n까지의 수에서 숫자 i가 등장하는 총 횟수
 ll count_digit_frq(ll n, int i) {
   ll ret = 0;
   for (ll j = 1; j <= n; j *= 10) {
-    ll div = j * 10, quote = n / div, rem = n % div;
-    if (i == 0) ret += (quote - 1) * j;
-    else ret += quote * j;
-    if (rem >= i * j) {
-      if (rem < (i + 1) * j) ret += rem - i * j + 1;
-      else ret += j;
-    }
+    ll q = n / (j*10), r = n % (j*10);
+    ret += (i == 0 ? (q-1)*j : q*j);
+    if (r >= i*j) ret += (r < (i+1)*j ? r-i*j+1 : j);
   }
   return ret;
 }

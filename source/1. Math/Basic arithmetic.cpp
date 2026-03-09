@@ -4,9 +4,9 @@ ll modmul(ull a, ull b, ull M) {
 }
 ll modpow(ll b, ll e, ll m) {
   ll ans = 1;
-	for (; e; b = modmul(b, b, m), e /= 2)
-	  if (e & 1) ans = modmul(ans, b, m);
-	return ans;
+  for (; e; b = modmul(b, b, m), e /= 2)
+    if (e & 1) ans = modmul(ans, b, m);
+  return ans;
 }
 ll xgcd(ll a, ll b, ll &x, ll &y) {
   if (!b) return x = 1, y = 0, a;

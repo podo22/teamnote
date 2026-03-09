@@ -5,7 +5,7 @@
  * [Tested on]
  * 
  */
-ll xgcd(ll a, ll b, ll &x, ll &y)
+ll xgcd(ll a, ll b, ll &x, ll &y);
 pair<ll,ll> CRT(ll a1, ll m1, ll a2, ll m2) {
   ll x, y, g = xgcd(m1, m2, x, y);
   if ((a2 - a1) % g) return { -1, -1 };

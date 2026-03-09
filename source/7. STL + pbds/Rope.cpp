@@ -4,10 +4,10 @@
  * [Tested on]
  * 
  */
-#include<ext/rope>
+#include <ext/rope>
 using namespace __gnu_cxx;
 int main() {
-  string str; crope r(str.c_str()); // vector<T> v; rope<T> r(all(v));
+  string str; crope r(str.c_str()); // vector<T> v(N); rope<T> r(v.data(), N);
   r.insert(pos, str); r.erase(pos, len); // Insert & Erase O(logN)
   r.replace(pos, len, str); // Replace O(logN)
   crope r2 = r; // O(1)

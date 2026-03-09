@@ -6,8 +6,8 @@
  * https://www.acmicpc.net/problem/14854
  */
 // when M is big prime; Init: O(MAXN), Query: O(1)
-ll modmul(ll a, ll b, ll m)
-ll modpow(ll b, ll e, ll m)
+ll modmul(ll a, ll b, ll m);
+ll modpow(ll b, ll e, ll m);
 const int M = 1e9+7, MAXN = 4000000;
 ll fac[MAXN+5], finv[MAXN+5];
 void init() {
@@ -23,10 +23,10 @@ ll nCk(int n, int k) {
   return modmul(r, finv[k], M);
 }
 // O(Sum of p^k) per query. (M = product of p^k)
-ll modmul(ll a, ll b, ll m)
-ll modpow(ll b, ll e, ll m)
-ll xgcd(ll a, ll b, ll &x, ll &y)
-ll modinv(ll a, ll m)
+ll modmul(ll a, ll b, ll m);
+ll modpow(ll b, ll e, ll m);
+ll xgcd(ll a, ll b, ll &x, ll &y);
+ll modinv(ll a, ll m);
 ll count(ll n, ll p) {
   ll cnt = 0; while (n > 0) { cnt += n/p; n /= p; }
   return cnt;

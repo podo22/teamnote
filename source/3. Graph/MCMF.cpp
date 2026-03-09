@@ -2,56 +2,64 @@
  * [Metadata]
  * Author : alreadysolved
  * [Tested on]
- * https://www.acmicpc.net/problem/11408
+ * https://www.acmicpc.net/problem/14424
  */
-const ll INF = 1e18;
+template<typename T = ll>
 struct MCMF {
-  struct Edge { int to; ll cap, cost; int rev; };
-  vector<vector<Edge>> graph;
-  vector<ll> dist;
-  vector<int> parent, edge;
-  vector<bool> vis;
-  int n;
-  MCMF(int n) : n(n), graph(n+1), dist(n+1), parent(n+1), edge(n+1), vis(n+1) {}
-  void add(int u, int v, ll cap, ll cost) {
-    graph[u].push_back({ v, cap, cost, sz(graph[v]) });
-    graph[v].push_back({ u, 0, -cost, sz(graph[u])-1 });
+  struct Edge { int to, rev; ll cap; T cost; };
+  const T INF = 1e18, EPS = 1e-9;
+  vector<vector<Edge>> graph; vector<T> dist;
+  vector<int> ptr; vector<bool> vis; int n;
+  MCMF(int n) : n(n), graph(n+1), dist(n+1), ptr(n+1), vis(n+1) {}
+  void add(int u, int v, ll cap, T cost) {
+    graph[u].push_back({ v, sz(graph[v]), cap, cost });
+    graph[v].push_back({ u, sz(graph[u])-1, 0, -cost });
   }
   bool spfa(int s, int t) {
-    fill(all(dist), INF); fill(all(parent), -1); fill(all(vis), false);
-    queue<int> q; q.push(s);
-    dist[s] = 0; vis[s] = true;
+    fill(all(dist), INF); fill(all(vis), 0);
+    deque<int> q; q.push_back(s); dist[s] = 0; vis[s] = 1;
     while (!q.empty()) {
-      int cur = q.front(); q.pop();
-      vis[cur] = false;
-      for (int i = 0; i < sz(graph[cur]); i++) {
-        auto& [nxt, cap, cost, rev] = graph[cur][i];
-        if (cap > 0 && dist[nxt] > dist[cur] + cost) {
+      if (dist[q.front()] > dist[q.back()]) swap(q.front(), q.back());
+      int cur = q.front(); q.pop_front(); vis[cur] = 0;
+      for (auto& [nxt, rev, cap, cost] : graph[cur]) {
+        if (cap > 0 && dist[nxt] > dist[cur] + cost + EPS) {
           dist[nxt] = dist[cur] + cost;
-          parent[nxt] = cur; edge[nxt] = i;
           if (!vis[nxt]) {
-            vis[nxt] = true; q.push(nxt);
+            vis[nxt] = 1;
+            if (!q.empty() && dist[nxt] < dist[q.front()]) q.push_front(nxt);
+            else q.push_back(nxt);
           }
         }
       }
     }
-    return dist[t] != INF;
+    return dist[t] < INF;
   }
-  pair<int,ll> flow(int s, int t) {
-    int res = 0; ll cost = 0;
+  ll dfs(int cur, int t, ll flow, T& cost) {
+    if (cur == t) return flow;
+    vis[cur] = 1;
+    for (int& i = ptr[cur]; i < sz(graph[cur]); i++) {
+      auto& [nxt, rev, cap, cst] = graph[cur][i];
+      if (!vis[nxt] && cap > 0 && abs(dist[nxt] - (dist[cur] + cst)) <= EPS) {
+        ll push = dfs(nxt, t, min(flow, cap), cost);
+        if (push > 0) {
+          graph[nxt][rev].cap += push;
+          cost += push * cst; cap -= push;
+          vis[cur] = 0; return push;
+        }
+      }
+    }
+    return 0;
+  }
+  pair<ll,T> flow(int s, int t) {
+    ll res = 0; T cost = 0;
     while (spfa(s, t)) {
-      ll fl = INF;
-      for (int v = t; v != s; v = parent[v]) {
-        int u = parent[v], idx = edge[v];
-        fl = min(fl, graph[u][idx].cap);
+      // if (dist[t] >= -EPS) break; // Min-Cost Flow
+      fill(all(ptr), 0); fill(all(vis), 0);
+      while (1) {
+        ll push = dfs(s, t, 1e18, cost);
+        if (push == 0) break;
+        res += push;
       }
-      for (int v = t; v != s; v = parent[v]) {
-        int u = parent[v], idx = edge[v], ridx = graph[u][idx].rev;
-        graph[u][idx].cap -= fl;
-        graph[v][ridx].cap += fl;
-        cost += (ll)fl * graph[u][idx].cost;
-      }
-      res += fl;
     }
     return { res, cost };
   }

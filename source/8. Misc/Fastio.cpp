@@ -26,7 +26,7 @@ int main() {
 		if (pw-w == wbuf_sz) write(1, w, pw-w), pw = w;
 		*pw++ = c;
 	};
-	auto write_int = [&](int x) {
+  auto write_int = [&](int x) {
 		if (pw-w+40 > wbuf_sz) write(1, w, pw-w), pw = w;
 		if (x < 0) *pw++ = '-', x = -x;
 		char t[10], *pt = t;
