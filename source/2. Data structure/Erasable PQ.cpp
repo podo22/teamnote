@@ -5,7 +5,7 @@
  * [Tested on]
  * 
  */
-template <typename T = int, typename Compare = std::less<T>>
+template <typename T = int, typename Compare = less<T>>
 struct EraseablePQ {
   priority_queue<T,vector<T>,Compare> q, del;
   void flush() {

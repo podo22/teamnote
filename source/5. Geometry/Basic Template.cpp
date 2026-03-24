@@ -1,6 +1,5 @@
 const double EPS = 1e-9;
-template<typename T>
-struct Point {
+template<typename T> struct Point {
   T x, y;
   bool operator<(const Point& p) const { return x==p.x ? y<p.y : x<p.x; }
   bool operator==(const Point& p) const { return x==p.x && y==p.y; }
