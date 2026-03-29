@@ -5,7 +5,6 @@
  * [Tested on]
  * https://www.acmicpc.net/problem/2244
  */
-// Minkowski Sum of Convex Polygons (CCW only), O(N + M)
 vector<P> Minkowski(vector<P> p, vector<P> q) {
   if (p.empty() || q.empty()) return {};
   rotate(p.begin(), min_element(all(p)), p.end());

@@ -8,8 +8,8 @@
 using namespace __gnu_cxx;
 int main() {
   string str; crope r(str.c_str()); // vector<T> v(N); rope<T> r(v.data(), N);
-  r.insert(pos, str); r.erase(pos, len); // Insert & Erase O(logN)
-  r.replace(pos, len, str); // Replace O(logN)
+  r.insert(pos, str); r.erase(pos, len); // O(logN)
+  r.replace(pos, len, str); // O(logN)
   crope r2 = r; // O(1)
   r2 = r.substr(pos, len); // O(logN)
   r += r2; // Append O(logN)

@@ -15,5 +15,5 @@ int main() {
   pq1.join(pq2); // O(1), pq1: {10, 100}, pq2: {}
   pq1.modify(it, 50); // O(logN), pq1 : {50, 100}
   pq1.erase(it); // O(logN), pq1: {100}
-  pq1.top(); pq1.empty(); pq1.size(); pq1.pop(); // same
+  pq1.top(); pq1.empty(); pq1.size(); pq1.pop();
 }

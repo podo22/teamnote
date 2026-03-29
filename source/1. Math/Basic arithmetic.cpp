@@ -1,10 +1,8 @@
-ll modmul(ll a, ll b, ll m) {
-  return (ll)((__int128)a*b % m);
-}
+ll modmul(ll a, ll b, ll m) { return (ll)((__int128)a*b % m); }
 ll modpow(ll b, ll e, ll m) {
   ll ans = 1;
   for (; e; b = modmul(b, b, m), e /= 2)
-    if (e & 1) ans = modmul(ans, b, m);
+  if (e & 1) ans = modmul(ans, b, m);
   return ans;
 }
 ll xgcd(ll a, ll b, ll &x, ll &y) {
@@ -17,4 +15,13 @@ ll modinv(ll a, ll m) {
   ll g = xgcd(a, m, x, y);
   if (g != 1) return -1;
   return (x%m + m) % m;
+}
+ll phi(ll n) {
+  ll res = n;
+  for (ll i = 2; i*i <= n; i++) if (n%i == 0) {
+    res -= res / i;
+    while (n%i == 0) n /= i;
+  }
+  if (n > 1) res -= res / n;
+  return res;
 }

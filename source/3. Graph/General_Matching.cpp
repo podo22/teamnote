@@ -10,7 +10,7 @@ struct GeneralMatch {
   vector<int> vis, parent, orig, matched, aux;
   queue<int> q; int n, t = 0;
   GeneralMatch(int n) : n(n) {
-    auto init = [&](auto&... vecs) { (vecs.resize(n+1), ...); };
+    auto init = [&](auto&... vs) { (vs.resize(n+1), ...); };
     init(graph, vis, parent, orig, matched, aux);
   }
   void add(int a, int b) { graph[a].push_back(b); graph[b].push_back(a); }

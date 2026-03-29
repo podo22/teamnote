@@ -40,7 +40,7 @@
   \section{Data Structure}
   \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
   \Algorithm{Non-Recursive Segment Tree}{}{}{cpp}{source/2. Data structure/NonRec_SegTree.cpp}{}
-  \Algorithm{1D \& 2D Fenwick Tree}{Point updates and subgrid sums on a 2D plane.}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
+  \Algorithm{1D \& 2D Fenwick Tree}{Point updates and subgrid sums on a 2D plane.}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Fenwick-tree.cpp}{}
   \Algorithm{Merge Sort Tree}{Count/rank of elements in range $[L, R]$.}{$O(\log^2 N)$ per query}{cpp}{source/2. Data structure/MergeSortTree.cpp}{}
   \Algorithm{Persistent Segment Tree}{Accessing previous versions and range k-th element.}{$O(\log N)$ per query}{cpp}{source/2. Data structure/PersistentSegmentTree.cpp}{}
   %\Algorithm{Sweepline Mo's}{Optimized Mo's for $O(1)$ update and $O(1)$ query via offline sweepline.}{$O(N\sqrt{Q})$}{cpp}{source/2. Data structure/Sweepline MOs.cpp}{}
@@ -66,7 +66,7 @@
   
   \section{DP Optimization}
   \Algorithm{Convex Hull Trick}{\texttt{dp[i] = min(dp[j] + b[j] * a[i]), b[j] >= b[j+1]}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
-  \Algorithm{Linear CHT}{CHT when slopes/queries are monotonic.}{$O(N)$}{cpp}{source/4. DP/Linear CHT.cpp}{}
+  \Algorithm{Linear CHT}{CHT when slopes(k)/queries(x) are monotonic.}{$O(N)$}{cpp}{source/4. DP/Linear CHT.cpp}{}
   \Algorithm{D\&C optimization}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j][i]), c is Monge}}{$O(KN \log N)$}{cpp}{source/4. DP/DNC opt.cpp}{}
   \Algorithm{Monotone Queue optimization}{\texttt{dp[i] = min(dp[j] + c[j][i]), c is Monge,\ find cross}}{$O(N \log N)$}{cpp}{source/4. DP/MonotoneQueue opt.cpp}{}
   \Algorithm{Aliens Trick}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j+1][i]), c is Monge, find lambda w/ half bs}}{$O(T \log X)$}{cpp}{source/4. DP/Aliens.cpp}{}
@@ -91,9 +91,9 @@
   \Algorithm{Hashing}{Rolling hash for string matching.}{$O(N)$}{cpp}{source/6. String/Hashing.cpp}{}
   \Algorithm{KMP}{Single pattern matching using prefix function.}{$O(N+M)$}{cpp}{source/6. String/KMP.cpp}{}
   \Algorithm{Manacher}{Find all palindromic substrings in linear time.}{$O(N)$}{cpp}{source/6. String/Manacher.cpp}{}
-  \Algorithm{Suffix Array}{Suffix array and LCP array.}{$O(N \log N)$}{cpp}{source/6. String/SuffixArray.cpp}{}
+  \Algorithm{Suffix Array}{Suffix array and LCP array.}{$sa: O(N \log N), lcp: O(N)$}{cpp}{source/6. String/SuffixArray.cpp}{}
   \Algorithm{Z-algorithm}{Longest common prefix between S and its suffixes.}{$O(N)$}{cpp}{source/6. String/Z.cpp}{}
-  \Algorithm{Eertree}{Manages all distinct palindromic substrings using length and suffix links.}{$O(N \log \Sigma)$}{cpp}{source/6. String/Z.cpp}{}
+  \Algorithm{Eertree}{Manages all distinct palindromic substrings using length and suffix links.}{$O(N \log \Sigma)$}{cpp}{source/6. String/eertree.cpp}{}
   \Algorithm{Suffix Automaton}{Builds a DFA representing all substrings. Supports substring counting and pattern matching.}{$O(N \cdot \Sigma)$}{cpp}{source/6. String/SuffixAutomaton.cpp}{}
   
   \section{STL \& pbds}

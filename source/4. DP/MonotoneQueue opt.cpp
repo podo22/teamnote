@@ -16,7 +16,7 @@ void solve() {
     }
     return hi;
   };
-  deque<pair<ll,ll>> dq; // {candidate_index, start_pos}
+  deque<pair<ll,ll>> dq; // {cand_idx, start_pos}
   dq.push_back({0, 1}); // 초기값: 0번이 1번 위치부터 최적이라고 가정
   for (int i = 1; i <= n; i++) {
     while (dq.size() > 1 && dq[1].second <= i) dq.pop_front();

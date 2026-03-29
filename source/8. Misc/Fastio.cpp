@@ -33,10 +33,8 @@ int main() {
 		do *pt++ = x % 10 + '0'; while (x /= 10);
 		do *pw++ = *--pt; while (pt != t);
 	};
-	auto write_str = [&](string s) {
-		for (auto c : s) write_char(c);
-	};
-  int n = read_int(); char c = read_char();
-  write_int(n); write_char(c);
-  write(1, w, pw - w);
+	auto write_str = [&](string s) { for (auto c : s) write_char(c); };
+	int n = read_int(); char c = read_char();
+	write_int(n); write_char(c);
+	write(1, w, pw - w);
 }

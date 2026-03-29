@@ -4,7 +4,6 @@
  * [Tested on]
  * https://www.acmicpc.net/problem/9248
  */
-// suffix array O(nlogn), lcp array O(n)
 struct SA {
   int n;
   vector<int> sa, lcp, x, y, c;

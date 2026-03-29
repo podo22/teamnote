@@ -5,7 +5,7 @@
  * [Tested on]
  * 
  */
-// O(1) CHT: Both slopes (k) and queries (x) must be monotonic (sorted).
+// slopes(k) and queries(x) must be monotonic
 struct PLL {
   ll x, y;
   PLL(const ll x = 0, const ll y = 0) : x(x), y(y) {}
