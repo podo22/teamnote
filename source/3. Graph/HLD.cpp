@@ -6,29 +6,22 @@
  */
 struct SegTree {
   using T = ll;
-  const T I = -1e18; // MAX: -1e18, SUM: 0, MIN: 1e18
-  T merge(T a, T b) { return max(a, b); };
+  const T I = 0, L = I; // MAX: -1e18, SUM: 0, MIN: 1e18
+  T merge(T a, T b) { return a+b; };
+  T calc(T val, int st, int en) { return val * (en-st+1); /* return val; when MINMAX */ }
   int n;
   vector<T> tree, lazy;
-  SegTree(int n) : n(n) { tree.resize(4*n+1, I); lazy.resize(4*n+1, 0); }
+  SegTree(int n) : n(n) { tree.resize(4*n+1, I); lazy.resize(4*n+1, L); }
   void push(int nd, int st, int en) {
-    if (lazy[nd] == 0) return;
-    tree[nd] += lazy[nd];
-    if (st != en) lazy[nd*2] += lazy[nd], lazy[nd*2+1] += lazy[nd];
-    lazy[nd] = 0;
-  }
-  void _update(int nd, int st, int en, int idx, T val) {
-    push(nd, st, en);
-    if (idx < st || en < idx) return;
-    if (st == en) { tree[nd] = val; return; } // or tree[nd] += val
-    int mid = (st+en)/2;
-    _update(nd*2, st, mid, idx, val); _update(nd*2+1, mid+1, en, idx, val);
-    tree[nd] = merge(tree[nd*2], tree[nd*2+1]);
+    if (lazy[nd] == L) return;
+    tree[nd] = calc(lazy[nd], st, en);
+    if (st != en) lazy[nd*2] = lazy[nd], lazy[nd*2+1] = lazy[nd];
+    lazy[nd] = L;
   }
   void _update(int nd, int st, int en, int l, int r, T val) {
     push(nd, st, en);
     if (r < st || en < l) return;
-    if (l <= st && en <= r) { lazy[nd] += val; push(nd, st, en); return; }
+    if (l <= st && en <= r) { lazy[nd] = val; push(nd, st, en); return; }
     int mid = (st+en)/2;
     _update(nd*2, st, mid, l, r, val); _update(nd*2+1, mid+1, en, l, r, val);
     tree[nd] = merge(tree[nd*2], tree[nd*2+1]);
@@ -40,12 +33,10 @@ struct SegTree {
     int mid = (st+en)/2;
     return merge(_query(nd*2, st, mid, l, r), _query(nd*2+1, mid+1, en, l, r));
   }
-  void update(int idx, T val) { _update(1, 1, n, idx, val); }
+  void update(int idx, T val) { _update(1, 1, n, idx, idx, val); }
   void update(int l, int r, T val) { _update(1, 1, n, l, r, val); }
-  T query(int l, int r) {
-    if (l > r) return I;
-    return _query(1, 1, n, l, r);
-  }
+  T query(int idx) { return _query(1, 1, n, idx, idx); }
+  T query(int l, int r) { return _query(1, 1, n, l, r); }
 };
 struct HLD {
   int n, pv;

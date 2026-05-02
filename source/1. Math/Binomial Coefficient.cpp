@@ -19,6 +19,7 @@ void init() {
     finv[i] = modmul(finv[i+1], i+1, M);
 }
 ll nCk(int n, int k) {
+  if (n < k || k < 0) return 0;
   ll r = modmul(fac[n], finv[n-k], M);
   return modmul(r, finv[k], M);
 }
