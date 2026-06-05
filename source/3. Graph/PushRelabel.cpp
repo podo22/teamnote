@@ -27,14 +27,11 @@ struct HLPP {
     high = max(high, level[u]);
   }
   void relabel(int t) {
-    cnt = 0;
-    for (auto& b : B) b.clear();
-    fill(all(level), n);
+    cnt = 0; for (auto& b : B) b.clear();
+    fill(all(level), n); level[t] = 0;
     queue<int> q; q.push(t);
-    level[t] = 0;
     while (!q.empty()) {
-      int u = q.front(); q.pop();
-      int h = level[u] + 1;
+      int u = q.front(), h = level[u]+1; q.pop();
       for (auto& e : graph[u]) {
         if (graph[e.to][e.rev].cap > 0 && h < level[e.to]) {
           level[e.to] = h; q.push(e.to);
@@ -54,17 +51,17 @@ struct HLPP {
         continue;
       }
       auto f = min(e.cap, excess);
-      e.cap -= f;
-      excess -= f;
+      e.cap -= f; excess -= f;
       if (!ex[e.to]) push(e.to);
-      ex[e.to] += f;
-      graph[e.to][e.rev].cap += f;
+      ex[e.to] += f; graph[e.to][e.rev].cap += f;
       if (!excess) return;
     }
     cnt++; level[u] = h;
     if (level[u] < n && ex[u] > 0) push(u);
   }
   ll flow(int s, int t) {
+    fill(all(ex), 0); fill(all(work), 0);
+    high = cnt = 0;
     relabel(t);
     ex[s] = INF; ex[t] = -INF;
     push(s);

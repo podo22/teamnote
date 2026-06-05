@@ -4,7 +4,7 @@
  * [Tested on]
  * 
  */
-mt19937_64 rng(chrono::high_resolution_clock::now().time_since_epoch().count());
+mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 int randint(int lb, int ub) { return uniform_int_distribution<int>(lb, ub)(rng); }
 const int mod = 998244353;
 ll ipow(ll x, ll p) {

@@ -14,7 +14,7 @@ struct SCC {
   void dfs(int u) {
     dfn[u] = low[u] = ++t;
     st.push(u); ins[u] = true;
-    for (int v : adj[u]) {
+    for (auto v : adj[u]) {
       if (dfn[v] == -1) {
         dfs(v); low[u] = min(low[u], low[v]);
       } else if (ins[v]) {
@@ -31,7 +31,6 @@ struct SCC {
     }
   }
   void build() {
-    for (int i = 0; i < n; i++)
-      if (dfn[i] == -1) dfs(i);
+    for (int i = 0; i < n; i++) if (dfn[i] == -1) dfs(i);
   }
 };

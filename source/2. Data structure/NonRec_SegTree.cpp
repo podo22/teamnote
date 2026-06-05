@@ -59,16 +59,25 @@ template<typename Node> struct SegTree {
   }
 };
 int main() {
-  // 1. Range Sum Query (RSQ)
   vector<int> v = {1, 2, 3, 4, 5};
+  // 1. RSQ (Range Sum Query)
   SegTree<int> rsq(v, 0, [](int a, int b) { return a+b; });
-  rsq.update(3, 10);
-  int sum = rsq.query(2, 4);
-  // 2. Range Minimum Query (RMQ)
-  const int INF = 1e9;
-  SegTree<int> rmq(N, INF, [](int a, int b) { return min(a, b); });
-  // 3. Binary Search on Tree (Order Statistic)
-  // - Requirement: The tree must represent frequency or counts.
-  // - Find the smallest index i such that prefix_sum(1...i) >= k
-  int idx = rsq.find_kth(7); 
+  rsq.add(1, 5);             // v[1] += 5
+  int sum = rsq.query(1, 3); // Sum of v[1..3]
+  int kth = rsq.find_kth(4); // First idx with prefix sum >= 4
+  // 2. RMQ (Range Maximum Query)
+  SegTree<int> rmq(10, -1e9, [](int a, int b) { return max(a, b); });
+  rmq.update(2, 15);         // v[2] = 15
+  int mx = rmq.query(0, 5);  // Max of v[0..5]
+  // 3. SegTree Walk (find), O(log N)
+  // pref: left prefix result, node: current node result
+  int tar = 10;
+  int idx = rmq.find([&](int pref, int node) {
+    // First idx i where max(v[0..i]) >= tar
+    return max(pref, node) >= tar;
+    // First idx i where sum(v[0..i]) >= tar
+    // return pref + node >= tar;
+  });
+
+  return 0;
 }

@@ -1,4 +1,4 @@
-\documentclass[landscape, 9pt, a4paper, oneside]{extarticle}
+\documentclass[landscape, 8pt, a4paper, oneside]{extarticle}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amssymb}
@@ -11,7 +11,7 @@
 \raggedbottom
 \usepackage{fontspec}
 \usepackage{kotex}
-\setmonofont{Monoplex KR SemiBold}
+\setmonofont{Monoplex KR Regular}
 
 \teamnote{Hanyang University}{alreadywa}{alreadysolved}
 
@@ -21,7 +21,6 @@
 \usepackage{etoolbox}
 
 \begin{document} \begin{multicols*}{3}
-  
   \maketitlepage
   
   \section{Basic Implementation}
@@ -40,6 +39,7 @@
   \section{Data Structure}
   \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
   \Algorithm{Non-Recursive Segment Tree}{}{}{cpp}{source/2. Data structure/NonRec_SegTree.cpp}{}
+  \Algorithm{Inversion counting}{}{}{cpp}{source/2. Data structure/Inversion counting.cpp}{}
   \Algorithm{1D \& 2D Fenwick Tree}{Point updates and subgrid sums on a 2D plane.}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Fenwick-tree.cpp}{}
   \Algorithm{Merge Sort Tree}{Count/rank of elements in range $[L, R]$.}{$O(\log^2 N)$ per query}{cpp}{source/2. Data structure/MergeSortTree.cpp}{}
   \Algorithm{Persistent Segment Tree}{Accessing previous versions and range k-th element.}{$O(\log N)$ per query}{cpp}{source/2. Data structure/PersistentSegmentTree.cpp}{}
@@ -53,6 +53,7 @@
   \Algorithm{HLD}{Heavy-Light Decomposition for path queries on trees.}{$O(\log^2 N)$}{cpp}{source/3. Graph/HLD.cpp}{}
   \Algorithm{Centroid Decomposition}{Divide and conquer on trees for path/distance problems.}{$O(N \log N)$ build}{cpp}{source/3. Graph/Centroid Decomposition.cpp}{}
   \Algorithm{Bipartite Matching}{Maximum matching in bipartite graphs.}{$O(E\sqrt{V})$}{cpp}{source/3. Graph/Bipartite_Matching.cpp}{}
+  \Algorithm{Hungarian}{}{$O(N^3)$}{cpp}{source/3. Graph/Hungarian.cpp}{}
   \Algorithm{Dinic}{Efficient maximum flow algorithm.}{$O(V^2E)$}{cpp}{source/3. Graph/Dinic.cpp}{}
   \Algorithm{MCMF}{Minimum Cost Maximum Flow.(zkw MCMF)}{$O(F \cdot E \log V)$}{cpp}{source/3. Graph/MCMF.cpp}{}
   \Algorithm{Circulation}{Flow with lower and upper bounds.}{}{cpp}{source/3. Graph/Circulation.cpp}{}
@@ -117,6 +118,7 @@
   \Algorithm{Highly Composite Numbers, Large Prime}{}{}{}{}{}
   \input{source/8. Misc/Primes}
   
+  \linespread{1.1}
   % source: https://github.com/green5555/Teamnote-archive/blob/main/2020%20ICPC%20-%20Gr-Yee-n55/code/useful.txt
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
   \Algorithm{Useful Stuff}{}{}{}{}{}
@@ -130,16 +132,16 @@
     \item Burnside’s Lemma\\
     경우의 수를 세는데, 특정 transform operation(회전, 반사, ..) 해서 같은 경우들은 하나로 친다. 전체 경우의 수는? 각 operation마다 이 operation을 했을 때 변하지 않는 경우의 수를 센다 (단, “아무것도 하지 않는다” 라는 operation도 있어야 함!) 전체 경우의 수를 더한 후, operation의 수로 나눈다. (답이 맞다면 항상 나누어 떨어져야 한다)
     \item 알고리즘 게임\\
-    - Nim Game의 해법 : 각 더미의 돌의 개수를 모두 XOR했을 때 0 이 아니면 첫번째, 0 이면 두번째 플레이어가 승리.\\
-    - Grundy Number : 어떤 상황의 Grundy Number는, 가능한 다음 상황들의 Grundy Number를 모두 모은 다음, 그 집합에 포함 되지 않는 가장 작은 수가 현재 state의 Grundy Number가 된다. 만약 다음 state가 독립된 여러개의 state들로 나뉠 경우, 각각의 state의 Grundy Number의 XOR 합을 생각한다.\\
-    - Subtraction Game : 한 번에 k 개까지의 돌만 가져갈 수 있는 경우, 각 더미의 돌의 개수를 k + 1로 나눈 나머지를 XOR 합하여 판단한다.\\
-    - Index-k Nim : 한 번에 최대 k개의 더미를 골라 각각의 더미에서 아무렇게나 돌을 제거할 수 있을 때, 각 binary digit에 대하여 합을 k + 1로 나눈 나머지를 계산한다. 만약 이 나머지가 모든 digit에 대하여 0이라면 두번째, 하나라도 0이 아니라면 첫번째 플레이어가 승리.
-    - Misere Nim : 모든 돌 무더기가 1이면 N이 홀수일 때 후공 승, 그렇지 않은 경우 XOR 합 0이면 후공 승
+    - Nim Game의 해법: 각 더미의 돌의 개수를 모두 XOR했을 때 0이 아니면 첫번째, 0이면 두번째 플레이어가 승리.\\
+    - Grundy Number: 어떤 상황의 Grundy Number는, 가능한 다음 상황들의 Grundy Number를 모두 모은 다음, 그 집합에 포함 되지 않는 가장 작은 수가 현재 state의 Grundy Number가 된다. 만약 다음 state가 독립된 여러개의 state들로 나뉠 경우, 각각의 state의 Grundy Number의 XOR 합을 생각한다.\\
+    - Subtraction Game: 한 번에 k 개까지의 돌만 가져갈 수 있는 경우, 각 더미의 돌의 개수를 k + 1로 나눈 나머지를 XOR 합하여 판단한다.\\
+    - Index-k Nim: 한 번에 최대 k개의 더미를 골라 각각의 더미에서 아무렇게나 돌을 제거할 수 있을 때, 각 binary digit에 대하여 합을 k + 1로 나눈 나머지를 계산한다. 만약 이 나머지가 모든 digit에 대하여 0이라면 두번째, 하나라도 0이 아니라면 첫번째 플레이어가 승리.
+    - Misere Nim: 모든 돌 무더기가 1이면 N이 홀수일 때 후공 승, 그렇지 않은 경우 XOR 합 0이면 후공 승
     \item Pick’s Theorem\\
     격자점으로 구성된 simple polygon이 주어짐. I 는 polygon 내부의 격자점 수, B 는 polygon 선분 위 격자점 수, A는 polygon의 넓이라고 할 때, 다음과 같은 식이 성립한다. $A=I+B/2-1$
-    \item 가장 가까운 두 점 : 분할정복으로 가까운 6개의 점만 확인
-    \item 홀의 결혼 정리 : 이분그래프(L-R)에서, 모든 L을 매칭하는 필요충분 조건 = L에서 임의의 부분집합 S를 골랐을 때, 반드시 (S의 크기) $\le$ (S와 연결되어있는 모든 R의 크기)이다.
-    \item 소수 : 10 007 , 10 009 , 10 111 , 31 567 , 70 001 , 1 000 003 , 1 000 033 , 4 000 037 , 99 999 989 , 999 999 937 , 1 000 000 007 , 1 000 000 009 , 9 999 999 967 , 99 999 999 977
+    \item 가장 가까운 두 점: 분할정복으로 가까운 6개의 점만 확인
+    \item 홀의 결혼 정리: 이분그래프(L-R)에서, 모든 L을 매칭하는 필요충분 조건 = L에서 임의의 부분집합 S를 골랐을 때, 반드시 (S의 크기) $\le$ (S와 연결되어있는 모든 R의 크기)이다.
+    \item 소수: 10 007 , 10 009 , 10 111 , 31 567 , 70 001 , 1 000 003 , 1 000 033 , 4 000 037 , 99 999 989 , 999 999 937 , 1 000 000 007 , 1 000 000 009 , 9 999 999 967 , 99 999 999 977
     \item 소수 개수 : (1e5 이하 : 9592), (1e7 이하 : 664 579) , (1e9 이하 : 50 847 534)
     \item $10^{15}$ 이하의 정수 범위의 나눗셈 한번은 오차가 없다.
     \item N의 약수의 개수 = $O(N^{1/3})$, N의 약수의 합 = $O(N \log \log N)$

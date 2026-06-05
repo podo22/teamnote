@@ -36,4 +36,11 @@ struct Circulation {
     int v = dn.graph[u][idx].to, rev = dn.graph[u][idx].rev;
     return dn.graph[v][rev].cap + low[i];
   }
+  // min flow: int t = cc.add(T, S, 0, INF); cc.solve(); cc.cut(t); cc.dn.flow(N, 1);
+  void cut(int i) {
+    auto [u, idx] = edge[i];
+    auto& fwd = dn.graph[u][idx];
+    auto& bwd = dn.graph[fwd.to][fwd.rev];
+    fwd.cap = bwd.cap = 0;
+  }
 };
