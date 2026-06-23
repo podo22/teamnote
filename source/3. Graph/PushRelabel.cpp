@@ -1,78 +1,95 @@
 /**
  * [Metadata]
- * Reference : https://koosaga.com/289
- * Optimization : cgiosy(https://www.acmicpc.net/source/73261883)
+ * Reference : https://loj.ac/s/1500182
  * Implemented by : alreadysolved
- * [Tested on]
- * https://www.acmicpc.net/problem/21731
+ * [Verification]
+ * https://loj.ac/p/127
  */
-const ll INF = 1e18;
-struct HLPP {
-  struct Edge {
-    int to; ll cap; int rev;
-  };
-  vector<vector<Edge>> graph;
-  vector<ll> ex;
-  vector<int> level, work;
-  vector<vector<int>> B;
-  int n, high = 0, cnt = 0;
-  HLPP(int n) : n(n+1), graph(n+1), level(n+1), work(n+1), ex(n+1), B(n+1) {}
-  void add(int u, int v, ll cap) {
-    graph[u].push_back({ v, cap, sz(graph[v]) });
-    graph[v].push_back({ u, cap, sz(graph[u])-1 });
+template<typename T = ll> struct HLPP {
+  struct Edge { int to; T cap; int rev; };
+  T INF = numeric_limits<T>::max();
+  vector<vector<Edge>> adj;
+  vector<T> ex;
+  vector<int> pos, lvl, nxt, gprv, gnxt;
+  int n, high = 0, gap = 0, cnt = 0;
+  HLPP(int n) : n(n+1), adj(n+1), ex(n+1), pos(n+1), lvl(n+1), nxt(2*n+2), gprv(2*n+2), gnxt(2*n+2) {}
+  void add(int u, int v, T cap) {
+    adj[u].push_back({ v, cap, sz(adj[v]) });
+    adj[v].push_back({ u, 0, sz(adj[u])-1 });
   }
-  void push(int u) {
-    if (level[u] >= n) return;
-    B[level[u]].push_back(u);
-    high = max(high, level[u]);
+  void push(int u, int h) {
+    nxt[u] = nxt[n+h]; nxt[n+h] = u;
+    high = max(high, h);
+  }
+  void ugap(int u, int h) {
+    gnxt[u] = gnxt[gprv[u] = n+h];
+    gprv[gnxt[u]] = gnxt[gprv[u]] = u;
+    gap = max(gap, h);
+  }
+  void dgap(int u) {
+    gnxt[gprv[u]] = gnxt[u];
+    gprv[gnxt[u]] = gprv[u];
+  }
+  void addex(int u, T f) {
+    ex[u] += f;
+    if (ex[u] == f) push(u, lvl[u]);
+  }
+  void upd(int u, int h) {
+    if (lvl[u] != n+1) dgap(u);
+    lvl[u] = h; if (h == n+1) return;
+    ugap(u, h); if (ex[u] > 0) push(u, h);
   }
   void relabel(int t) {
-    cnt = 0; for (auto& b : B) b.clear();
-    fill(all(level), n); level[t] = 0;
-    queue<int> q; q.push(t);
+    cnt = high = gap = 0;
+    iota(nxt.begin()+n, nxt.end(), n);
+    iota(gprv.begin()+n, gprv.end(), n);
+    iota(gnxt.begin()+n, gnxt.end(), n);
+    fill(all(lvl), n+1); fill(all(pos), 0);
+    lvl[t] = 0; queue<int> q; q.push(t);
     while (!q.empty()) {
-      int u = q.front(), h = level[u]+1; q.pop();
-      for (auto& e : graph[u]) {
-        if (graph[e.to][e.rev].cap > 0 && h < level[e.to]) {
-          level[e.to] = h; q.push(e.to);
-          if (ex[e.to] > 0) push(e.to);
-        }
+      int u = q.front(); q.pop();
+      for (auto &e : adj[u]) {
+        if (!adj[e.to][e.rev].cap || lvl[e.to] <= lvl[u]+1) continue;
+        upd(e.to, lvl[u]+1); q.push(e.to);
       }
     }
   }
   void discharge(int u) {
-    auto& excess = ex[u];
-    int h = n * 2, sz = sz(graph[u]);
-    for (int& i = work[u], m = sz; m--; i = (i-1 + sz) % sz) {
-      auto& e = graph[u][i];
+    T &v = ex[u]; int h = n, Sz = sz(adj[u]);
+    for (int &i = pos[u], k = Sz; k--; i = (i ? i : Sz)-1) {
+      auto& e = adj[u][i];
       if (!e.cap) continue;
-      if (level[u] != level[e.to] + 1) {
-        h = min(h, level[e.to] + 1);
+      if (lvl[u] != lvl[e.to]+1) {
+        h = min(h, lvl[e.to]);
         continue;
       }
-      auto f = min(e.cap, excess);
-      e.cap -= f; excess -= f;
-      if (!ex[e.to]) push(e.to);
-      ex[e.to] += f; graph[e.to][e.rev].cap += f;
-      if (!excess) return;
+      auto f = min(v, e.cap);
+      v -= f; addex(e.to, f); e.cap -= f;
+      adj[e.to][e.rev].cap += f;
+      if (!v) return;
     }
-    cnt++; level[u] = h;
-    if (level[u] < n && ex[u] > 0) push(u);
-  }
-  ll flow(int s, int t) {
-    fill(all(ex), 0); fill(all(work), 0);
-    high = cnt = 0;
-    relabel(t);
-    ex[s] = INF; ex[t] = -INF;
-    push(s);
-    for (; ~high; high--) {
-      while (!B[high].empty()) {
-        int u = B[high].back();
-        B[high].pop_back();
-        if (level[u] == high) discharge(u);
-        if (cnt > n/8) relabel(t);
+    cnt++;
+    if (gnxt[gnxt[n+lvl[u]]] < n) {
+      upd(u, h+1); return;
+    }
+    for (int i = lvl[u]; gap >= i; gap--) {
+      while (gnxt[n+gap] < n) {
+        int t = gnxt[n+gap];
+        lvl[t] = n+1; dgap(t);
       }
     }
-    return ex[t] + INF;
+  }
+  T flow(int s, int t) {
+    relabel(t);
+    addex(s, INF); ex[t] -= INF;
+    while (~high) {
+      int u = nxt[n+high];
+      if (u >= n) { high--; continue; }
+      nxt[n+high] = nxt[u];
+      if (lvl[u] != high) continue;
+      discharge(u);
+      if (cnt >= 4*n) relabel(t);
+    }
+    return ex[t]+INF;
   }
 };

@@ -79,7 +79,7 @@
 \newcommand{\HideAuthor}{\setboolean{BangShowAuthor}{true}}
 
 \newcommand{\Algorithm}[6]{
-    \subsection{#1}
+    \ifthenelse{\equal{#1}{}}{}{\subsection{#1}}
 
     \ifthenelse{\equal{#2}{} \OR \boolean{BangShowUsage}}{}{{\raggedright \textbf{Usage:} #2\par}}
 

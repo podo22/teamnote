@@ -20,10 +20,10 @@ Pd getC(Pd a, Pd b, Pd c) {
 }
 Pd getC(Pd a, Pd b, Pd c, Pd d) { 
   Pd p = b-a, q = c-a, r = d-a;
-  double bot = ((p / q) * r) * 2.0;
-  if (abs(bot) < EPS) return a;
+  double det = ((p / q) * r) * 2.0;
+  if (abs(det) < EPS) return a;
   Pd top = (p/q) * r.dist2() + (q/r) * p.dist2() + (r/p) * q.dist2();
-  return a + top / bot;
+  return a + top / det;
 } */
 mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 pair<Pd,double> min_circle(vector<Pd> v) {
@@ -37,6 +37,10 @@ pair<Pd,double> min_circle(vector<Pd> v) {
       c = getC(v[i], v[j]); r = dist(c, v[i]);
       for (int k = 0; k < j; k++) if (chk(v[k])) {
         c = getC(v[i], v[j], v[k]); r = dist(c, v[k]);
+        /* // for 3D
+        for (int l = 0; l < k; l++) if (chk(v[l])) {
+          c = getC(v[i], v[j], v[k], v[l]); r = dist(p, v[l]);
+        } */
       }
     }
   }

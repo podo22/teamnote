@@ -1,156 +1,139 @@
 /**
  * [Metadata]
- * Original Author : JusticeHui
- * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Math/FFT-Friends.cpp
+ * Author : ychangseok(https://github.com/ychangseok/PS-template/blob/main/Math/FPS.cpp)
  * [Tested on]
  * 
  */
-template<int M> struct MINT {
-  int v;
-  MINT(ll _v = 0) { v = _v % M; if (v < 0) v += M; }
-  MINT operator+(const MINT& o) const { return MINT(v + o.v); }
-  MINT operator-(const MINT& o) const { return MINT(v - o.v); }
-  MINT operator*(const MINT& o) const { return MINT((ll)v * o.v); }
-  MINT& operator*=(const MINT& o) { return *this = *this * o; }
-  friend MINT pw(MINT a, ll b) {
-    MINT r = 1; for (; b; b >>= 1, a *= a) if (b & 1) r *= a;
-    return r;
+template <ll M = 998244353>
+struct Modint {
+  using V = long long; V val;
+  Modint() : val(0) {} Modint(auto y) : val(y % M) {}
+  operator V() const { return val; }
+  Modint operator-() const { return Modint() -= *this; }
+  Modint operator+(auto rhs) const { return Modint(*this) += rhs; }
+  Modint operator-(auto rhs) const { return Modint(*this) -= rhs; }
+  Modint operator*(auto rhs) const { return Modint(*this) *= rhs; }
+  Modint operator/(auto rhs) const { return Modint(*this) /= rhs; }
+  Modint &operator+=(Modint rhs) { val += rhs.val; if (val >= M) val -= M; return *this; }
+  Modint &operator-=(Modint rhs) { val -= rhs.val; if (val < 0) val += M; return *this; }
+  Modint &operator*=(Modint rhs) { val = val * rhs.val % M; return *this; }
+  Modint &operator/=(Modint rhs) { val = val * rhs.inv() % M; return *this; }
+  Modint inv() { return inv(val, M); }
+  V inv(ll x, ll m) { return x > 1 ? m - inv(m % x, x) * m / x : 1; }
+  Modint pow(auto y) {
+    if (y == 0) return Modint(1);
+    if (y < 0) return Modint(val).inv().pow(-y);
+    Modint ans(1), x(val);
+    while (y) { if (y % 2) ans *= x; x *= x; y /= 2; }
+    return ans;
   }
-  friend MINT inv(MINT a) { return pw(a, M - 2); }
+  friend std::ostream &operator<<(std::ostream &os, const Modint<M> &x) { return os << x.val; }
+  friend std::istream &operator>>(std::istream &is, Modint<M> &x) { ll v; is >> v; x = v; return is; }
 };
-namespace fft {
-  using cpx = complex<double>;
-  void rev_bit(int n, vector<auto>& a) {
+using Mint = Modint<998244353>;
+using Poly = vector<Mint>;
+
+struct FPS {
+  Poly coef;
+  FPS(Poly a) : coef(a) {}
+  FPS(int n = 0) { coef.resize(1); coef[0] = Mint(n); }
+  int size() { return coef.size(); }
+  int deg() { return size() - 1; }
+  Mint& operator[](int index) { assert(index < coef.size()); return coef[index]; }
+  FPS operator+(auto f) {
+    FPS res; res.resize(max(size(), f.size()));
+    for (int i = 0; i < size(); i++) res.coef[i] += coef[i];
+    for (int i = 0; i < f.size(); i++) res.coef[i] += f.coef[i];
+    return res;
+  }
+  FPS operator-(auto f) {
+    FPS res; res.resize(max(size(), f.size()));
+    for (int i = 0; i < size(); i++) res.coef[i] += coef[i];
+    for (int i = 0; i < f.size(); i++) res.coef[i] -= f.coef[i];
+    return res;
+  }
+  FPS operator*(auto f) {
+    Poly nc = polymul(coef, f.coef);
+    nc.resize(size() + f.size() - 1); return FPS(nc);
+  }
+  FPS &operator+=(auto f) { return *this = *this + f; }
+  FPS &operator-=(auto f) { return *this = *this - f; }
+  FPS &operator*=(auto f) { return *this = *this * f; }
+  void resize(int sz) { while (size() < sz) coef.push_back(Mint(0)); while (size() > sz) coef.pop_back(); }
+  void shrink() { while (size() > 1 && coef.back() == 0) coef.pop_back(); }
+  FPS power(ll k) {
+    FPS res(1), f = *this; res[0] = 1;
+    while (k) { if (k % 2) res = res * f; f = f * f; k /= 2; }
+    return res;
+  }
+  FPS inv() {
+    assert(coef[0] != 0); FPS g(Poly{Mint(coef[0]).inv()}), two(2);
+    for (int sz = 1; sz < size(); sz *= 2) {
+      FPS f(*this); f.resize(sz * 2);
+      FPS tmp = g * f; tmp.resize(sz * 2);
+      g = g * (two - tmp); g.resize(sz * 2);
+    }
+    g.resize(size()); return g;
+  }
+  FPS log() {
+    assert(coef[0] != 0); FPS g = differenciate() * inv();
+    g.resize(size()); g = g.integrate(); g.resize(size()); return g;
+  }
+  FPS differenciate() {
+    FPS res; res.resize(size() - 1);
+    for (int i = 1; i < size(); i++) res.coef[i - 1] = coef[i] * i;
+    return res;
+  }
+  FPS integrate() {
+    FPS res; res.resize(size() + 1);
+    for (int i = 1; i <= size(); i++) res.coef[i] = coef[i - 1] * Mint(i).inv();
+    return res;
+  }
+  FPS exp() {
+    assert(coef[0] == 0); FPS g(1), one(1);
+    for (int sz = 1; sz < 2 * size(); sz *= 2) {
+      FPS f(*this); f.resize(sz * 2);
+      g = g * (f + one - g.log()); g.resize(sz * 2);
+    }
+    g.resize(size()); return g;
+  }
+  void print() { for (int i = 0; i < size(); i++) cout << coef[i] << ' '; cout << endl; }
+  Mint evaluate(Mint x) {
+    Mint res(0);
+    for (int i = size() - 1; i >= 0; i--) { res *= x; res += coef[i]; }
+    return res;
+  }
+  private:
+  void ntt(Poly &P, bool inv, Mint g) {
+    int n = P.size(); if (n == 1) return;
     for (int i = 1, j = 0; i < n; i++) {
-      int bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit; j ^= bit;
-      if (i < j) swap(a[i], a[j]);
+      int bit = n >> 1; for (; j & bit; bit >>= 1) j ^= bit;
+      j ^= bit; if (i < j) swap(P[i], P[j]);
     }
-  }
-  void FFT(vector<cpx>& a, bool inv_f) {
-    int n = a.size(); rev_bit(n, a);
-    for (int len = 2; len <= n; len <<= 1) {
-      double ang = 2 * acos(-1) / len * (inv_f ? -1 : 1);
-      cpx wlen(cos(ang), sin(ang));
-      for (int i = 0; i < n; i += len) {
-        cpx w(1);
-        for (int j = 0; j < len / 2; j++) {
-          cpx u = a[i + j], v = a[i + j + len / 2] * w;
-          a[i + j] = u + v; a[i + j + len / 2] = u - v; w *= wlen;
-        }
-      }
-    }
-    if (inv_f) for (auto& x : a) x /= n;
-  }
-  vector<ll> multiply(const vector<ll>& a, const vector<ll>& b) {
-    int n = 1; while (n < a.size() + b.size()) n <<= 1;
-    vector<cpx> fa(n), fb(n);
-    for(int i=0; i<a.size(); i++) fa[i] = cpx(a[i], 0);
-    for(int i=0; i<b.size(); i++) fb[i] = cpx(b[i], 0);
-    FFT(fa, 0); FFT(fb, 0);
-    for(int i=0; i<n; i++) fa[i] *= fb[i];
-    FFT(fa, 1); vector<ll> res(n);
-    for(int i=0; i<n; i++) res[i] = llround(fa[i].real());
-    return res;
-  }
-  vector<ll> multiply_mod(const vector<ll>& a, const vector<ll>& b, ll mod) {
-    int n = 1; while (n < a.size() + b.size()) n <<= 1;
-    vector<cpx> v1(n), v2(n), r1(n), r2(n);
-    for (int i = 0; i < a.size(); i++) v1[i] = cpx(a[i] >> 15, a[i] & 32767);
-    for (int i = 0; i < b.size(); i++) v2[i] = cpx(b[i] >> 15, b[i] & 32767);
-    FFT(v1, 0); FFT(v2, 0);
-    for (int i = 0; i < n; i++) {
-      int j = i ? n - i : i;
-      cpx a1 = (v1[i]+conj(v1[j]))*cpx(0.5, 0), a2 = (v1[i]-conj(v1[j]))*cpx(0, -0.5);
-      cpx b1 = (v2[i]+conj(v2[j]))*cpx(0.5, 0), b2 = (v2[i]-conj(v2[j]))*cpx(0, -0.5);
-      r1[i] = a1 * b1 + a1 * b2 * cpx(0, 1); r2[i] = a2 * b1 + a2 * b2 * cpx(0, 1);
-    }
-    FFT(r1, 1); FFT(r2, 1);
-    vector<ll> res(n);
-    for (int i = 0; i < n; i++) {
-      ll av = (ll)round(r1[i].real()) % mod, cv = (ll)round(r2[i].imag()) % mod;
-      ll bv = ((ll)round(r1[i].imag()) + (ll)round(r2[i].real())) % mod;
-      res[i] = (av << 30) + (bv << 15) + cv; res[i] = (res[i] % mod + mod) % mod;
-    }
-    return res;
-  }
-  template<int W, int M> void NTT(vector<MINT<M>>& a, bool inv_f) {
-    int n = a.size(); rev_bit(n, a);
-    for (int len = 2; len <= n; len <<= 1) {
-      MINT<M> wlen = pw(MINT<M>(W), (M - 1) / len);
-      if (inv_f) wlen = inv(wlen);
-      for (int i = 0; i < n; i += len) {
-        MINT<M> w = 1;
-        for (int j = 0; j < len / 2; j++) {
-          MINT<M> u = a[i + j], v = a[i + j + len / 2] * w;
-          a[i + j] = u + v; a[i + j + len / 2] = u - v; w *= wlen;
-        }
-      }
-    }
-    if (inv_f) { MINT<M> rn = inv(MINT<M>(n)); for (auto& x : a) x *= rn; }
-  }
-}
-template<int W, int M> struct Poly {
-  using T = MINT<M>; vector<T> a;
-  Poly(const vector<T>& _a = {}) : a(_a) { norm(); }
-  void norm() { while (a.size() && a.back().v == 0) a.pop_back(); }
-  int deg() const { return (int)a.size() - 1; }
-  T operator[](int i) const { return i < a.size() ? a[i] : T(0); }
-  Poly operator*(const Poly& o) const {
-    if (a.empty() || o.a.empty()) return {};
-    int n = 1, sz = a.size() + o.a.size() - 1;
-    while (n < sz) n <<= 1;
-    vector<T> fa(n), fb(n); copy(all(a), fa.begin()); copy(all(o.a), fb.begin());
-    fft::NTT<W, M>(fa, 0); fft::NTT<W, M>(fb, 0);
-    for (int i = 0; i < n; i++) fa[i] *= fb[i];
-    fft::NTT<W, M>(fa, 1); return fa;
-  }
-  Poly inv(int n) const {
-    Poly r({ ::inv(a[0]) });
+    vector<Mint> w(n / 2); w[0] = 1;
+    for (int i = 1; i < n / 2; i++) w[i] = w[i - 1] * g;
     for (int i = 1; i < n; i <<= 1) {
-      Poly tmp(vector<T>(a.begin(), a.begin() + min((int)a.size(), i * 2)));
-      r = (r * (Poly({T(2)}) - r * tmp)); r.a.resize(i * 2);
+      int nd = n / (2 * i);
+      for (int j = 0; j < n; j += i << 1) {
+        for (int k = 0; k < i; k++) {
+          Mint tmp = P[i + j + k] * w[nd * k];
+          P[i + j + k] = P[j + k] - tmp; P[j + k] += tmp;
+        }
+      }
     }
-    r.a.resize(n); return r;
+    if (inv) {
+      Mint invn = Mint(n).inv();
+      for (int i = 0; i < n; i++) P[i] *= invn;
+    }
   }
-  Poly operator/(Poly o) const {
-    if (deg() < o.deg()) return {};
-    int n = deg() - o.deg() + 1;
-    Poly ra = a, rb = o.a; reverse(all(ra.a)); reverse(all(rb.a));
-    Poly q = (ra * rb.inv(n)); q.a.resize(n); reverse(all(q.a)); return q;
-  }
-  Poly operator%(Poly o) const {
-    if (deg() < o.deg()) return *this;
-    Poly r = *this - (*this / o) * o; r.norm(); return r;
-  }
-  Poly operator-(const Poly& o) const {
-    vector<T> res(max(a.size(), o.a.size()));
-    for (int i = 0; i < res.size(); i++) res[i] = (*this)[i] - o[i];
-    return res;
+  Poly polymul(Poly v1, Poly v2) {
+    ll n1 = v1.size(), n2 = v2.size(), N = 1;
+    while (N <= n1 + n2 - 1) N *= 2;
+    v1.resize(N); v2.resize(N);
+    Mint g = Mint(3).pow(998244353 / N);
+    ntt(v1, false, g); ntt(v2, false, g);
+    Poly res; res.resize(N);
+    for (int i = 0; i < N; i++) res[i] = v1[i] * v2[i];
+    ntt(res, true, g.inv()); return res;
   }
 };
-using mint = MINT<998244353>;
-using poly = Poly<3, 998244353>;
-mint Kitamasa(poly c, poly a, ll n) {
-  if (n <= a.deg()) return a[n];
-  poly f; for (int i = 0; i <= c.deg(); i++)
-    f.a.push_back(mint(0) - c[c.deg() - i]);
-  f.a.push_back(1); poly res({1}), x({0, 1});
-  for (; n; n >>= 1, x = (x * x) % f)
-    if (n & 1) res = (res * x) % f;
-  mint ans = 0;
-  for (int i = 0; i <= a.deg(); i++)
-    ans = ans + a[i] * res[i];
-  return ans;
-}
-int main() {
-  vector<ll> A = {1, 2, 1}; // 1+2*x+x^2
-  vector<ll> B = {1, 1};  // 1+x
-  vector<ll> C = fft::multiply(A, B); // {1, 3, 3, 1}
-  vector<ll> D = fft::multiply_mod(A, B, 1e9+7);
-  poly p1({1, 2, 1}), p2({1, 1}); // NTT base
-  p1 * p2; p1 / p2; p1 % p2; // polynomial operation
-  // ex. A_n = 1*A_{n-1} + 1*A_{n-2}
-  poly coef({1, 1}); // {c0, c1} 순서 (A_{n-2}, A_{n-1} 계수)
-  poly init({0, 1}); // {A0, A1} 초기값
-  cout << Kitamasa(coef, init, 1e9).v;
-}

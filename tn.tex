@@ -32,9 +32,16 @@
   \Algorithm{Binomial Coefficient}{}{first: $O(1)$ / second: $O(\sum p^k)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
   \Algorithm{Chinese Remainder Theorem}{Solve system of linear congruences.}{$O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
   \Algorithm{FFT \& NTT}{Fast Fourier/Number Theoretic Transform for convolutions.}{$O(N \log N)$}{cpp}{source/1. Math/FFT + NTT.cpp}{}
+  \Algorithm{Bostan-Mori}{}{$O(d \log d \log k)$}{cpp}{source/1. Math/bostan_mori.cpp}{}
   \Algorithm{Linear Sieve}{Find primes and multiplicative functions in linear time.}{$O(N)$}{cpp}{source/1. Math/Linear Sieve.cpp}{}
   \Algorithm{Miller-Rabin \& Pollard-Rho}{Primality test and integer factorization.}{$O(\log^3 N) / O(N^{1/4})$}{cpp}{source/1. Math/Miller rabin + Pollard rho.cpp}{}
   \Algorithm{Xuduh Sieve}{Calculate prefix sum of multiplicative function}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
+  \Algorithm{Discrete Log}{}{$O(\sqrt{P} \log P)$}{cpp}{source/1. Math/Discrete Log.cpp}{}
+  \Algorithm{}{}{}{python}{source/1. Math/Discrete Log.py}{}
+  \Algorithm{Multiplicative Order}{Find the minimum positive $k$ s.t. $a^k \equiv 1 \pmod mod$)}{}{cpp}{source/1. Math/Multiplicative Order.cpp}{}
+  \Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
+  \Algorithm{Power Tower}{}{}{cpp}{source/1. Math/Power Tower.cpp}{}
+  \Algorithm{}{}{}{python}{source/1. Math/Power Tower.py}{}
   
   \section{Data Structure}
   \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
@@ -76,7 +83,9 @@
   
   \section{Geometry}
   \Algorithm{Geometry Template}{Basic point, line, and circle operations.}{}{cpp}{source/5. Geometry/Basic Template.cpp}{}
+  \Algorithm{Closest Pair}{}{$O(N \log N)$}{cpp}{source/5. Geometry/Closest Pair.cpp}{}
   \Algorithm{Convex Hull}{Finds the convex hull using Monotone Chain. Returns vertices in CCW order.}{$O(N \log N)$}{cpp}{source/5. Geometry/ConvexHull.cpp}{}
+  \Algorithm{Convex Hull 3d}{}{$O(N^2)$}{cpp}{source/5. Geometry/ConvexHull 3D.cpp}{}
   \Algorithm{Rotating Calipers}{Calculates the diameter (farthest pair of points) of a convex hull(CCW order).}{$O(N)$}{cpp}{source/5. Geometry/Calipers.cpp}{}
   \Algorithm{Point in Convex Polygon}{Checks if a point is inside or on the boundary of a convex polygon (CCW sorted).}{$O(\log N)$}{cpp}{source/5. Geometry/PointInConvexPolygon.cpp}{}
   \Algorithm{Point in Polygon}{Ray casting algorithm for general polygons.}{$O(N)$}{cpp}{source/5. Geometry/PointInPolygon.cpp}{}
@@ -86,6 +95,8 @@
   \Algorithm{Smallest Enclosing Circle}{Welzl's algorithm to find the Minimum Enclosing Circle. Returns {center, radius}.}{Expected $O(N)$}{cpp}{source/5. Geometry/EnclosingCircle.cpp}{}
   \Algorithm{Geometric Intersections}{Intersection primitives: Segment, Line-Circle, Line-Hull, and Circle-Polygon area.}{$O(1) / O(1) / O(\log N) / O(N)$}{cpp}{source/5. Geometry/Intersect.cpp}{}
   \Algorithm{Half Plane Intersection}{Intersection of half-planes defined by lines (left side is valid). Returns a convex polygon.}{$O(N \log N)$}{cpp}{source/5. Geometry/HalfPlaneIntersect.cpp}{}
+  \Algorithm{Manhattan MST}{}{$O(N \log N)$}{cpp}{source/5. Geometry/manhattan_mst.cpp}{}
+  \Algorithm{Shamos-Hoey}{}{$O(N \log N)$}{cpp}{source/5. Geometry/shamos_hoey.cpp}{}
   
   \section{String}
   \Algorithm{Aho-Corasick}{Multi-pattern matching using trie and failure links.}{$O(\sum |P| + |T|)$}{cpp}{source/6. String/Aho-Corasick.cpp}{}
