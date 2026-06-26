@@ -57,3 +57,55 @@ int get_day_of_week(int y, int m, int d) {
   int w = ((c>>2)-(c<<1)+y+(y>>2)+(13*(m+1)/5)+d-1)%7;
   if (w < 0) w += 7; return w;
 }
+// set / pq 비교함수
+struct CompareFirstOnly {
+  bool operator()(const pair<int, int>& a, const pair<int, int>& b) const {
+    return a.first < b.first;
+  }
+};
+set<pii, CompareFirstOnly> s;
+priority_queue<pii, vector<pii>, CompareFirstOnly> s;
+// LIS
+// a[i] < a[j] -> lower_bound
+// a[i] <= a[j] -> upper_bound
+vector<int> LIS(vector<int> v) {
+  int n = sz(v);
+  vector<int> lis, pos(n);
+  for (int i = 0; i < n; i++) {
+    auto it = lower_bound(all(lis), v[i]);
+    pos[i] = it - lis.begin();
+    if (it == lis.end()) lis.push_back(v[i]);
+    else *it = v[i];
+  }
+  vector<int> res;
+  for (int i = n-1, j = sz(lis)-1; i >= 0; i--) {
+    if (pos[i] == j) {
+      res.push_back(v[i]); j--;
+    }
+  }
+  reverse(all(res));
+  return res;
+}
+// int128 출력
+std::ostream& operator<<(std::ostream& dest, __int128_t value){
+  std::ostream::sentry s(dest);
+  if (s) {
+    __uint128_t tmp = value < 0 ? -value : value;
+    char buffer[128];
+    char* d = std::end(buffer);
+    do{
+      -- d;
+      *d = "0123456789"[ tmp % 10 ];
+      tmp /= 10;
+    }while (tmp != 0);
+    if (value < 0){
+      --d;
+      *d = '-';
+    }
+    int len = std::end(buffer) - d;
+    if (dest.rdbuf()->sputn(d, len) != len) {
+      dest.setstate(std::ios_base::badbit);
+    }
+  }
+  return dest;
+}
