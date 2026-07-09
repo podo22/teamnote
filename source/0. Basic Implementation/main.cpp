@@ -7,5 +7,5 @@
 #define compress(v) sort(all(v)), v.erase(unique(all(v)), v.end())
 #define sz(x) (int)(x).size()
 using namespace std;
-typedef long long ll;
-typedef unsigned long long ull;
+using ll = long long;
+using ull = unsigned long long;

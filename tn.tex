@@ -19,6 +19,11 @@
 \ShowComplexity
 \HideAuthor
 \usepackage{etoolbox}
+\usepackage{tikz}
+\newboolean{BangShowGrid}
+\setboolean{BangShowGrid}{true}
+\newcommand{\ShowGrid}{\setboolean{BangShowGrid}{true}}
+\newcommand{\HideGrid}{\setboolean{BangShowGrid}{false}}
 
 \begin{document} \begin{multicols*}{3}
   \maketitlepage
@@ -72,7 +77,7 @@
   \Algorithm{Find 3 or 4 cycle}{Finds all $C_3$ and $C_4$ cycles using degree ordering.}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
   \Algorithm{Push Relabel}{Max flow via preflow-push and labeling}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
   \Algorithm{General Matching}{Maximum Unweighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
-  \Algorithm{Weighted General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
+  %\Algorithm{Weighted General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
   
   \section{DP Optimization}
   \Algorithm{Convex Hull Trick}{\texttt{dp[i] = min(dp[j] + b[j] * a[i]), b[j] >= b[j+1]}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
@@ -134,14 +139,52 @@
   \linespread{1.1}
   % source: https://github.com/green5555/Teamnote-archive/blob/main/2020%20ICPC%20-%20Gr-Yee-n55/code/useful.txt
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
+  % edit by alreadysolved
   \Algorithm{Useful Stuff}{}{}{}{}{}
   \begin{itemize}
     \item Catalan Number\\
     1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900\\
     $C_n = \binom{2n}{n} / (n + 1);$\\
+    $C_n = \sum_{i=0}^{n-1} C_i \times C_{n-1-i};$\\
     - 길이가 2n인 올바른 괄호 수식의 수\\
     - n + 1개의 리프를 가진 풀 바이너리 트리의 수\\
-    - n + 2각형을 n개의 삼각형으로 나누는 방법의 수
+    - n + 2각형을 n개의 삼각형으로 나누는 방법의 수\\
+    - n*n 격자에서 0,0부터 n,n까지 이동할 때, y=x(대각선)를 넘지않고 우상단으로만 이동하는 경로의 수\\
+    - n개의 노드로 이루어진 이진 트리 구조 개수\\
+    - 1부터 n까지의 수를 스택에 넣고 빼서 만들 수 있는 순열의 개수\\
+    - 원 위에 2n개의 점이 있고, 2개씩 짝지어 선분을 그었을때 어떤 선분도 교차하지 않는 방법의 수\\
+    - $(0,0)$에서 $(N,M)$까지 우상단으로 이동할 때, 직선 $y = x + k$($k>0$)에 닿지않는 경로의 수:
+      전체 경로 수 - 반사된 경로 수 = $\binom{N+M}{N} - \binom{N+M}{N-k}$ (직선 $y = x + k$에 처음 닿은 이후 경로를 $y = x + k$에 대해 대칭 이동 -> $(M-k, N+k)$로 매핑됨)
+    \item Derangements\\
+    N명의 사람이 모자를 벗어두었다가 무작위로 하나씩 집었을 때, 아무도 자기 모자를 쓰지 않을 경우의 수\\
+    - 포함배제 ($D_N = N! \sum_{i=0}^N \frac{(-1)^i}{i!}$) - 팩토리얼 역원 전처리로 O(N)\\
+    - DP ($D_N = (N-1) \times (D_{N-1} + D_{N-2})$ (단, $D_0=1, D_1=0$)) - O(N) dp 테이블을 만들어두면 쿼리 당 O(1)\\
+    - 부분 교란 순열: $N$명 중 정확히 $K$명만 자기 모자를 쓰고, 나머지 $N-K$명은 아무도 자기 모자를 쓰지 않을 경우의 수 - $\binom{N}{K} \times D_{N-K}$
+    \item Stars and Bars\\
+    N개의 구별되지 않는 물건을 K개의 구별되는 상자에 나누어담는 경우의 수 (빈 상자 허용) - $\binom{N+K-1}{K-1}$\\
+    - $x_1 + x_2 + \dots + x_K = N$ ($x_i \ge 0$)의 해의 개수를 구하는 것과 동일\\
+    - 각 상자에 적어도 1개 이상 담아야 한다($x_i \ge 1$): 미리 1개씩 나눠줌. $N'=N-K$로 치환해 $\binom{N'+K-1}{K-1} = \binom{N-1}{K-1}$ 계산\\
+    - 어떤 상자도 $C$개를 초과할 수 없다($x_i \le C$): 포함배제와 결합. (조건을 위반하는 상자를 1개, 2개 선택하는 경우를 빼고 더함)
+    \item 제2종 스털링 수\\
+    서로 다른 $N$개의 물건을 구별되지 않는 $K$개의 상자에 빈 상자 없이 나누어 담는 경우의 수 ($S(N, K)$ 혹은 $\left\{ \begin{matrix} N \\ K \end{matrix} \right\}$)\\
+    - 점화식: $S(N, K) = K \times S(N-1, K) + S(N-1, K-1)$ (단, $S(N, 1) = S(N, N) = 1$)\\
+    - 직접 계산: $S(N, K) = \frac{1}{K!} \sum_{i=0}^K (-1)^{K-i} \binom{K}{i} i^N$ (단일 행 계산 시 $O(K \log N)$)\\
+    - Bell Number ($B_N = \sum_{k=1}^N S(N, k)$): 서로 다른 $N$개의 원소를 분할하는 모든 방법의 수.\\
+    - Bell Number 초항: 1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975
+    \item 자연수의 분할\\
+    서로 같은 $N$개의 물건을 구별되지 않는 $K$개의 상자에 빈 상자 없이 나누어 담는 경우의 수 ($P(N, K)$)\\
+    - 자연수 $N$을 $K$개의 자연수의 합으로 나타내는 방법의 수와 동일.\\
+    - 점화식: $P(N, K) = P(N-1, K-1) + P(N-K, K)$\\
+    - $P(N) = \sum_{k=1}^N P(N, k)$: 자연수 $N$의 총 분할 수. \\
+    - $P(N)$ 초항: 1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101, 135
+    \item Cayley's Formula \& Prüfer Sequence\\
+    $N$개의 구별되는 정점으로 만들 수 있는 서로 다른 스패닝 트리의 개수 = $N^{N-2}$\\
+    - 각 정점의 차수가 $d_1, d_2, \dots, d_N$으로 고정되었을 때 가능한 트리의 개수 = $\frac{(N-2)!}{(d_1-1)!(d_2-1)! \dots (d_N-1)!}$ (단, $\sum d_i = 2N-2$)
+    \item Binomial Identities\\
+    시그마가 포함된 조합론 수식을 $O(1)$로 단순화할 때 사용.\\
+    - Hockey-stick Identity (파스칼의 삼각형 대각선 합): $\sum_{i=K}^N \binom{i}{K} = \binom{N+1}{K+1}$\\
+    - Vandermonde's Identity (두 집합에서 뽑기): $\sum_{i=0}^K \binom{N}{i}\binom{M}{K-i} = \binom{N+M}{K}$\\
+    - 제곱의 합: $\sum_{i=0}^N \binom{N}{i}^2 = \binom{2N}{N}$
     \item Burnside’s Lemma\\
     경우의 수를 세는데, 특정 transform operation(회전, 반사, ..) 해서 같은 경우들은 하나로 친다. 전체 경우의 수는? 각 operation마다 이 operation을 했을 때 변하지 않는 경우의 수를 센다 (단, “아무것도 하지 않는다” 라는 operation도 있어야 함!) 전체 경우의 수를 더한 후, operation의 수로 나눈다. (답이 맞다면 항상 나누어 떨어져야 한다)
     \item 알고리즘 게임\\
@@ -244,4 +287,16 @@
     \end{enumerate}
   \end{itemize}
   
-\end{multicols*} \end{document}
+\end{multicols*}
+
+\ifthenelse{\boolean{BangShowGrid}}{
+  \newpage
+  \thispagestyle{fancy}
+  \noindent 
+  \vspace*{-0.5cm} 
+  \begin{tikzpicture}
+    \draw[step=0.3cm, gray!50, thin] (0,0) grid (28.5, 19.2);
+  \end{tikzpicture}
+}{}
+
+\end{document}
