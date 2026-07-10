@@ -1,3 +1,4 @@
+// alias gpp='g++ -std=c++20 -Wall -Wextra -O2 -fsanitize=address,undefined -DLOCAL'
 #include <bits/stdc++.h> // #include <bits/extc++.h> for pbds
 #pragma GCC optimize ("O3,unroll-loops")
 #pragma GCC target ("avx,avx2,fma")

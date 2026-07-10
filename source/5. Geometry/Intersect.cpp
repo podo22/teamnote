@@ -51,14 +51,14 @@ double areaCirclePoly(P c, double r, const vector<P>& poly) {
     double a = d * p / d.dist2(), b = (p.dist2() - r * r) / d.dist2();
     double det = a * a - b;
     if (det <= EPS) return r * r * atan2(p / q, p * q);
-    double t1 = -a - sqrt(max(0.0, det)), t2 = -a + sqrt(max(0.0, det));
+    double t1 = -a-sqrt(max(0.0, det)), t2 = -a+sqrt(max(0.0, det));
     if (t2 < -EPS || t1 > 1.0 + EPS) return r * r * atan2(p / q, p * q);
     Pd u = p + d * max(0.0, t1), v = p + d * min(1.0, t2);
     return r * r * atan2(p / u, p * u) + u / v + r * r * atan2(v / q, v * q);
   };
   double res = 0; int n = poly.size();
   for(int i = 0; i < n; i++) 
-    res += tri((poly[i] - c).d(), (poly[(i + 1) % n] - c).d());
+    res += tri((poly[i] - c).d(), (poly[(i+1) % n] - c).d());
   return res * 0.5;
 }
 // [4] 볼록 다각형-직선 교차 (O(log N)) Param: 볼록 다각형 h (CCW), 직선 ab

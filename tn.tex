@@ -30,8 +30,7 @@
   
   \section{Basic Implementation}
   \Algorithm{Main Template}{}{}{cpp}{source/0. Basic Implementation/main.cpp}{}
-  \Algorithm{Debug Snippet}{}{}{cpp}{source/0. Basic Implementation/Debug.cpp}{}
-  
+  %\Algorithm{Debug Snippet}{}{}{cpp}{source/0. Basic Implementation/Debug.cpp}{}
   \section{Math}
   \Algorithm{Basic Arithmetic}{}{}{cpp}{source/1. Math/Basic arithmetic.cpp}{}
   \Algorithm{Binomial Coefficient}{}{first: $O(1)$ / second: $O(\sum p^k)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
@@ -47,6 +46,7 @@
   \Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
   \Algorithm{Power Tower}{}{}{cpp}{source/1. Math/Power Tower.cpp}{}
   \Algorithm{}{}{}{python}{source/1. Math/Power Tower.py}{}
+  \Algorithm{Simplex}{}{}{cpp}{source/1. Math/Simplex.cpp}{}
   
   \section{Data Structure}
   \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
@@ -76,6 +76,7 @@
   \Algorithm{BCC}{Biconnected Components, Cut-vertices, and Bridges.}{$O(V+E)$}{cpp}{source/3. Graph/BCC.cpp}{}
   \Algorithm{Find 3 or 4 cycle}{Finds all $C_3$ and $C_4$ cycles using degree ordering.}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
   \Algorithm{Push Relabel}{Max flow via preflow-push and labeling}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
+  \Algorithm{Gomory Hu Tree}{}{}{cpp}{source/3. Graph/Gomory Hu Tree.cpp}{}
   \Algorithm{General Matching}{Maximum Unweighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
   %\Algorithm{Weighted General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
   
@@ -185,6 +186,13 @@
     - Hockey-stick Identity (파스칼의 삼각형 대각선 합): $\sum_{i=K}^N \binom{i}{K} = \binom{N+1}{K+1}$\\
     - Vandermonde's Identity (두 집합에서 뽑기): $\sum_{i=0}^K \binom{N}{i}\binom{M}{K-i} = \binom{N+M}{K}$\\
     - 제곱의 합: $\sum_{i=0}^N \binom{N}{i}^2 = \binom{2N}{N}$
+    \item Fibonacci Identities\\
+    - Cassini's identity: $F_{n-1}F_{n+1} - F_n^2 = (-1)^n$\\
+    - Addition formula: $F_{n+k} = F_k F_{n+1} + F_{k-1} F_n$\\
+    - Zeckendorf's theorem: 모든 양의 정수는 연속하지 않는 피보나치 수들의 합으로 유일하게 표현 가능하며, 이는 그리디하게 큰 피보나치 수부터 빼는 것으로 구할 수 있다.
+    \item Möbius Inversion\\
+    - $g(n) = \sum_{d|n} f(d) \iff f(n) = \sum_{d|n} \mu(d)g(n/d)$
+    - $g(n) = \sum_{n|d} f(d) \iff f(n) = \sum_{n|d} \mu(d/n)g(d)$
     \item Burnside’s Lemma\\
     경우의 수를 세는데, 특정 transform operation(회전, 반사, ..) 해서 같은 경우들은 하나로 친다. 전체 경우의 수는? 각 operation마다 이 operation을 했을 때 변하지 않는 경우의 수를 센다 (단, “아무것도 하지 않는다” 라는 operation도 있어야 함!) 전체 경우의 수를 더한 후, operation의 수로 나눈다. (답이 맞다면 항상 나누어 떨어져야 한다)
     \item 알고리즘 게임\\

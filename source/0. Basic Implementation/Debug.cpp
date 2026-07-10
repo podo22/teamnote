@@ -1,4 +1,3 @@
-// alias gpp='g++ -std=c++20 -Wall -Wextra -O2 -fsanitize=address,undefined -DLOCAL'
 #ifdef LOCAL
 #define debug(...) cerr << "[" << #__VA_ARGS__ << "]: ", __dbg(__VA_ARGS__)
 #else

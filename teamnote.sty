@@ -9,8 +9,12 @@
 \usepackage{indentfirst}
 \usepackage{enumitem}
 \setlist[itemize]{itemsep=3pt, topsep=1pt, parsep=1pt, partopsep=0pt, leftmargin=1.2em, labelsep=0.3em}
-
+\usepackage[bottomtitles]{titlesec}
+\renewcommand{\bottomtitlespace}{0pt}
+\titlespacing*{\section}{0pt}{1.0ex plus .2ex}{0.5ex plus .1ex}
+\titlespacing*{\subsection}{0pt}{0.8ex plus .2ex}{0.3ex plus .1ex}
 \usepackage{multicol}
+\raggedcolumns
 \setlength{\columnsep}{15pt}
 \setlength{\columnseprule}{0.1pt}
 \pagenumbering{arabic}
@@ -80,13 +84,21 @@
 
 \newcommand{\Algorithm}[6]{
     \ifthenelse{\equal{#1}{}}{}{\subsection{#1}}
+    \gdef\hasmeta{0}
 
-    \ifthenelse{\equal{#2}{} \OR \boolean{BangShowUsage}}{}{{\raggedright \textbf{Usage:} #2\par}}
+    \begingroup
+    \setlength{\parskip}{0pt} 
+    \setlength{\parindent}{0pt}
 
-    \ifthenelse{\equal{#3}{} \OR \boolean{BangShowComplexity}}{}{{\raggedright\textbf{Time Complexity:} #3\par}}
+    \ifthenelse{\equal{#2}{} \OR \boolean{BangShowUsage}}{}{{\raggedright \textbf{Usage:} #2\par}\gdef\hasmeta{1}}
 
-    \ifthenelse{\equal{#6}{} \OR \boolean{BangShowAuthor}}{}{\textbf{Author:} #6}
+    \ifthenelse{\equal{#3}{} \OR \boolean{BangShowComplexity}}{}{{\raggedright\textbf{Time Complexity:} #3\par}\gdef\hasmeta{1}}
 
+    \ifthenelse{\equal{#6}{} \OR \boolean{BangShowAuthor}}{}{{\textbf{Author:} #6}\gdef\hasmeta{1}}
+    
+    \endgroup
+
+    \ifthenelse{\equal{\hasmeta}{1}}{\vspace{-0.5em}}{}
     \ifthenelse{\equal{#5}{}}{}{\ifthenelse{\equal{#4}{}}{\inputminted[]{cpp}{#5}}{\inputminted[]{#4}{#5}}}
 }
 \let\oldAlgorithm\Algorithm
