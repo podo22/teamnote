@@ -33,19 +33,21 @@
   %\Algorithm{Debug Snippet}{}{}{cpp}{source/0. Basic Implementation/Debug.cpp}{}
   \section{Math}
   \Algorithm{Basic Arithmetic}{}{}{cpp}{source/1. Math/Basic arithmetic.cpp}{}
-  \Algorithm{Binomial Coefficient}{}{first: $O(1)$ / second: $O(\sum p^k)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
+  \Algorithm{Binomial Coefficient}{}{$O(1)$ / $O(\sum p^k)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
   \Algorithm{Chinese Remainder Theorem}{Solve system of linear congruences.}{$O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
   \Algorithm{FFT \& NTT}{Fast Fourier/Number Theoretic Transform for convolutions.}{$O(N \log N)$}{cpp}{source/1. Math/FFT + NTT.cpp}{}
   \Algorithm{Bostan-Mori}{}{$O(d \log d \log k)$}{cpp}{source/1. Math/bostan_mori.cpp}{}
   \Algorithm{Linear Sieve}{Find primes and multiplicative functions in linear time.}{$O(N)$}{cpp}{source/1. Math/Linear Sieve.cpp}{}
   \Algorithm{Miller-Rabin \& Pollard-Rho}{Primality test and integer factorization.}{$O(\log^3 N) / O(N^{1/4})$}{cpp}{source/1. Math/Miller rabin + Pollard rho.cpp}{}
+  \Algorithm{XOR Basis}{}{}{cpp}{source/1. Math/XOR Basis.cpp}{}
+  \Algorithm{Floor Sum}{$\sum_{k=1}^{n} \lfloor n/k \rfloor$}{}{cpp}{source/1. Math/Floor Sum.cpp}{}
   \Algorithm{Xuduh Sieve}{Calculate prefix sum of multiplicative function}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
   \Algorithm{Discrete Log}{}{$O(\sqrt{P} \log P)$}{cpp}{source/1. Math/Discrete Log.cpp}{}
-  \Algorithm{}{}{}{python}{source/1. Math/Discrete Log.py}{}
+  %\Algorithm{}{}{}{python}{source/1. Math/Discrete Log.py}{}
   \Algorithm{Multiplicative Order}{Find the minimum positive $k$ s.t. $a^k \equiv 1 \pmod mod$)}{}{cpp}{source/1. Math/Multiplicative Order.cpp}{}
-  \Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
+  %\Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
   \Algorithm{Power Tower}{}{}{cpp}{source/1. Math/Power Tower.cpp}{}
-  \Algorithm{}{}{}{python}{source/1. Math/Power Tower.py}{}
+  %\Algorithm{}{}{}{python}{source/1. Math/Power Tower.py}{}
   \Algorithm{Simplex}{}{}{cpp}{source/1. Math/Simplex.cpp}{}
   
   \section{Data Structure}
@@ -58,11 +60,13 @@
   %\Algorithm{Sweepline Mo's}{Optimized Mo's for $O(1)$ update and $O(1)$ query via offline sweepline.}{$O(N\sqrt{Q})$}{cpp}{source/2. Data structure/Sweepline MOs.cpp}{}
   \Algorithm{Link-Cut Tree}{Dynamic tree structure supporting link, cut, and path operations using auxiliary Splay trees.}{Amortized $O(\log N)$}{cpp}{source/2. Data structure/LinkCutTree.cpp}{}
   \Algorithm{Li Chao Tree}{}{}{cpp}{source/2. Data structure/Li chao tree.cpp}{}
-  \Algorithm{Lazy Segment Tree}{}{}{cpp}{source/2. Data structure/Lazy segtree.cpp}{}
-  
+  %\Algorithm{Lazy Segment Tree}{}{}{cpp}{source/2. Data structure/Lazy segtree.cpp}{}
+  \Algorithm{DSU (Weighted)}{}{}{cpp}{source/2. Data structure/DSU (Weighted).cpp}{}
+  \Algorithm{Trie}{}{}{cpp}{source/2. Data structure/Trie.cpp}{}
+
   \section{Graph}
   \Algorithm{Bellman Ford}{SSSP with negative weights/cycles.}{$O(VE)$}{cpp}{source/3. Graph/Bellman.cpp}{}
-  \Algorithm{SPFA (SLF Optimized)}{SSSP with negative weights. Returns false if negative cycle detected.}{Avg $O(E)$, Worst $O(VE)$}{cpp}{source/3. Graph/SPFA.cpp}{}
+  %\Algorithm{SPFA (SLF Optimized)}{SSSP with negative weights. Returns false if negative cycle detected.}{Avg $O(E)$, Worst $O(VE)$}{cpp}{source/3. Graph/SPFA.cpp}{}
   \Algorithm{LCA}{Lowest Common Ancestor using binary lifting.}{$O(\log N)$}{cpp}{source/3. Graph/LCA.cpp}{}
   \Algorithm{HLD}{Heavy-Light Decomposition for path queries on trees.}{$O(\log^2 N)$}{cpp}{source/3. Graph/HLD.cpp}{}
   \Algorithm{Centroid Decomposition}{Divide and conquer on trees for path/distance problems.}{$O(N \log N)$ build}{cpp}{source/3. Graph/Centroid Decomposition.cpp}{}
@@ -122,7 +126,7 @@
   \Algorithm{Permutation \& Combination}{next\_permutation and mask-based combinations.}{}{cpp}{source/7. STL + pbds/Permutation + Combination.cpp}{}
   \Algorithm{Priority Queue (pb\_ds)}{Meldable heap supporting modify/erase via point\_iterator.}{$O(\log N)$}{cpp}{source/7. STL + pbds/Priority queue(pbds).cpp}{}
   \Algorithm{Rope}{Persistent sequence supporting fast insertion, deletion and slicing.}{$O(\log N)$}{cpp}{source/7. STL + pbds/Rope.cpp}{}
-  \Algorithm{Trie (pb\_ds)}{Prefix tree implementation from pb\_ds.}{}{cpp}{source/7. STL + pbds/Trie(pbds).cpp}{}
+  %\Algorithm{Trie (pb\_ds)}{Prefix tree implementation from pb\_ds.}{}{cpp}{source/7. STL + pbds/Trie(pbds).cpp}{}
   
   \section{Misc}
   \Algorithm{Custom Hash}{Custom hash for pair, vector.}{}{cpp}{source/8. Misc/Custom hash.cpp}{}

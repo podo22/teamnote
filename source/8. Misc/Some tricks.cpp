@@ -87,25 +87,32 @@ vector<int> LIS(vector<int> v) {
   return res;
 }
 // int128 출력
-std::ostream& operator<<(std::ostream& dest, __int128_t value){
-  std::ostream::sentry s(dest);
+ostream &operator<<(ostream &dest, __int128_t value){
+  ostream::sentry s(dest);
   if (s) {
     __uint128_t tmp = value < 0 ? -value : value;
     char buffer[128];
-    char* d = std::end(buffer);
-    do{
+    char* d = end(buffer);
+    do {
       -- d;
       *d = "0123456789"[ tmp % 10 ];
       tmp /= 10;
-    }while (tmp != 0);
-    if (value < 0){
+    } while (tmp != 0);
+    if (value < 0) {
       --d;
       *d = '-';
     }
-    int len = std::end(buffer) - d;
+    int len = nd(buffer) - d;
     if (dest.rdbuf()->sputn(d, len) != len) {
-      dest.setstate(std::ios_base::badbit);
+      dest.setstate(ios_base::badbit);
     }
   }
   return dest;
+}
+// 도달 가능 여부 O(N^3 / 64)
+bitset<MAXN> reach[MAXN];
+for (int k = 0; k < n; k++) {
+  for (int i = 0; i < n; i++) {
+    if (reach[i][k]) reach[i] |= reach[k];
+  }
 }
