@@ -10,9 +10,9 @@
 // Manacher("abaaba") = {0,1,0,3,0,1,6,1,0,3,0,1,0}
 // # a # b # a # a # b # a #
 // 0 1 0 3 0 1 6 1 0 3 0 1 0
-struct manacher {
+struct Manacher {
   vector<int> p;
-  template<class T> manacher(const T &s) {
+  template<class T> Manacher(const T &s) {
     int n = sz(s)*2+1, c = 0, r = 0;
     p.assign(n, 0); T t; t.resize(n);
     for (int i = 0; i < sz(s); i++) t[i*2+1] = s[i];

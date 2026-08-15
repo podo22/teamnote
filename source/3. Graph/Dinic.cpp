@@ -23,6 +23,7 @@ struct Dinic {
       for (auto [nxt, cap, rev] : graph[cur]) {
         if (cap > 0 && level[nxt] == -1) {
           level[nxt] = level[cur]+1;
+          if (nxt == t) return true;
           q.push(nxt);
         }
       }

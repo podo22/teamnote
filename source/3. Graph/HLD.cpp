@@ -1,43 +1,74 @@
 /**
- * [Metadata]
- * Author : alreadysolved
- * [Tested on]
- * https://www.acmicpc.net/problem/13510
- */
+* [Metadata]
+* Author : alreadysolved
+* [Tested on]
+* https://www.acmicpc.net/problem/13510
+*/
 struct SegTree {
-  using T = ll;
-  const T I = 0, L = I; // MAX: -1e18, SUM: 0, MIN: 1e18
-  T merge(T a, T b) { return a+b; };
-  T calc(T val, int st, int en) { return val * (en-st+1); /* return val; when MINMAX */ }
-  int n;
-  vector<T> tree, lazy;
-  SegTree(int n) : n(n) { tree.resize(4*n+1, I); lazy.resize(4*n+1, L); }
-  void push(int nd, int st, int en) {
-    if (lazy[nd] == L) return;
-    tree[nd] = calc(lazy[nd], st, en);
-    if (st != en) lazy[nd*2] = lazy[nd], lazy[nd*2+1] = lazy[nd];
-    lazy[nd] = L;
+  const ll INF = 4e18;
+  struct T { ll sum, mn, mx; };
+  struct L { ll add, set; bool has; };
+  int n; vector<T> tr; vector<L> lz;
+  SegTree(int n) : n(n), tr(4*n+1), lz(4*n+1, { 0, 0, 0 }) {}
+  T id() { return { 0, INF, -INF }; }
+  bool empty(L f) { return !f.has && f.add==0; }
+  T merge(T a, T b) { return {a.sum+b.sum, min(a.mn,b.mn), max(a.mx,b.mx)}; }
+  L comp(L f, L g) { // comp(f, g)(x) = f(g(x))
+    if (f.has) return f;
+    g.add += f.add;
+    return g;
   }
-  void _update(int nd, int st, int en, int l, int r, T val) {
-    push(nd, st, en);
-    if (r < st || en < l) return;
-    if (l <= st && en <= r) { lazy[nd] = val; push(nd, st, en); return; }
-    int mid = (st+en)/2;
-    _update(nd*2, st, mid, l, r, val); _update(nd*2+1, mid+1, en, l, r, val);
-    tree[nd] = merge(tree[nd*2], tree[nd*2+1]);
+  void apply(int nd, int s, int e, L f) {
+    int len = e-s+1;
+    if (f.has) tr[nd] = { f.set * len, f.set, f.set };
+    tr[nd].sum += f.add * len;
+    tr[nd].mn += f.add; tr[nd].mx += f.add;
   }
-  T _query(int nd, int st, int en, int l, int r) {
-    push(nd, st, en);
-    if (r < st || en < l) return I;
-    if (l <= st && en <= r) return tree[nd];
-    int mid = (st+en)/2;
-    return merge(_query(nd*2, st, mid, l, r), _query(nd*2+1, mid+1, en, l, r));
+  void push(int nd, int s, int e) {
+    if (empty(lz[nd])) return;
+    apply(nd, s, e, lz[nd]);
+    if (s != e) {
+      lz[nd<<1]   = comp(lz[nd], lz[nd<<1]);
+      lz[nd<<1|1] = comp(lz[nd], lz[nd<<1|1]);
+    }
+    lz[nd] = { 0, 0, 0 };
   }
-  void update(int idx, T val) { _update(1, 1, n, idx, idx, val); }
-  void update(int l, int r, T val) { _update(1, 1, n, l, r, val); }
-  T query(int idx) { return _query(1, 1, n, idx, idx); }
-  T query(int l, int r) { return _query(1, 1, n, l, r); }
+  void build(int nd, int s, int e, const vector<ll>& a) {
+    if (s == e) return void(tr[nd] = { a[s], a[s], a[s] });
+    int m = (s+e)>>1;
+    build(nd<<1, s, m, a);
+    build(nd<<1|1, m+1, e, a);
+    tr[nd] = merge(tr[nd<<1], tr[nd<<1|1]);
+  }
+  void upd(int nd, int s, int e, int l, int r, L f) {
+    push(nd, s, e);
+    if (r < s || e < l) return;
+    if (l <= s && e <= r) {
+      lz[nd] = comp(f, lz[nd]);
+      push(nd, s, e);
+      return;
+    }
+    int m = (s+e)>>1;
+    upd(nd<<1, s, m, l, r, f);
+    upd(nd<<1|1, m+1, e, l, r, f);
+    tr[nd] = merge(tr[nd<<1], tr[nd<<1|1]);
+  }
+  T qry(int nd, int s, int e, int l, int r) {
+    push(nd, s, e);
+    if (r < s || e < l) return id();
+    if (l <= s && e <= r) return tr[nd];
+    int m = (s+e)>>1;
+    return merge(qry(nd<<1, s, m, l, r), qry(nd<<1|1, m+1, e, l, r));
+  }
+  void build(const vector<ll>& a) { build(1, 0, n-1, a); }
+  void add(int l, int r, ll x) { upd(1, 0, n-1, l, r, { x, 0, 0 }); }
+  void set(int l, int r, ll x) { upd(1, 0, n-1, l, r, { 0, x, 1 }); }
+  T query(int l, int r) { return qry(1, 0, n-1, l, r); }
+  ll qsum(int l, int r) { return qry(1, 0, n-1, l, r).sum; }
+  ll qmin(int l, int r) { return qry(1, 0, n-1, l, r).mn; }
+  ll qmax(int l, int r) { return qry(1, 0, n-1, l, r).mx; }
 };
+
 struct HLD {
   int n, pv;
   vector<vector<int>> adj;
@@ -50,29 +81,45 @@ struct HLD {
     for (auto& v : adj[u]) {
       if (v == p) continue;
       dfs1(v, u); siz[u] += siz[v];
-      if (siz[v] > siz[adj[u][0]] || adj[u][0] == p) swap(v, adj[u][0]);
+      if (adj[u][0] == p || siz[v] > siz[adj[u][0]]) swap(v, adj[u][0]);
     }
   }
   void dfs2(int u, int p) {
-    in[u] = ++pv;
+    in[u] = pv++;
     for (auto v : adj[u]) {
       if (v == p) continue;
       top[v] = (v == adj[u][0] ? top[u] : v);
       dfs2(v, u);
     }
   }
-  void build() {
+  void build(const vector<ll>& a) { // a[u]: vertex value, 1-indexed
     pv = 0;
     for (int i = 1; i <= n; i++) {
       if (!siz[i]) {
         top[i] = i;
-        dfs1(i, 0); dfs2(i, 0);
+        dfs1(i, 0);
+        dfs2(i, 0);
       }
     }
+    vector<ll> base(n);
+    for (int i = 1; i <= n; i++) base[in[i]] = a[i];
+    seg.build(base);
   }
-  void update(int u, int val) { seg.update(in[u], val); }
-  ll query(int u, int v, bool edge = false) {
-    ll res = seg.I;
+  void path_upd(int u, int v, ll x, bool edge = false) {
+    while (top[u] != top[v]) {
+      if (dep[top[u]] < dep[top[v]]) swap(u, v);
+      seg.add(in[top[u]], in[u], x); // or seg.set
+      u = par[top[u]];
+    }
+    if (dep[u] > dep[v]) swap(u, v);
+    if (in[u] + edge <= in[v]) {
+      seg.add(in[u] + edge, in[v], x); // or seg.set
+    }
+  }
+  void setv(int u, ll x) { seg.set(in[u], in[u], x); }
+  void addv(int u, ll x) { seg.add(in[u], in[u], x); }
+  SegTree::T path_qry(int u, int v, bool edge = false) {
+    SegTree::T res = seg.id();
     while (top[u] != top[v]) {
       if (dep[top[u]] < dep[top[v]]) swap(u, v);
       res = seg.merge(res, seg.query(in[top[u]], in[u]));
@@ -81,4 +128,7 @@ struct HLD {
     if (dep[u] > dep[v]) swap(u, v);
     return seg.merge(res, seg.query(in[u]+edge, in[v]));
   }
+  ll qsum(int u, int v, bool edge = false) { return path_qry(u, v, edge).sum; }
+  ll qmin(int u, int v, bool edge = false) { return path_qry(u, v, edge).mn; }
+  ll qmax(int u, int v, bool edge = false) { return path_qry(u, v, edge).mx; }
 };

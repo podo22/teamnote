@@ -12,7 +12,7 @@ template<typename T = ll> struct HLPP {
   vector<T> ex;
   vector<int> pos, lvl, nxt, gprv, gnxt;
   int n, high = 0, gap = 0, cnt = 0;
-  HLPP(int n) : n(n+1), adj(n+1), ex(n+1), pos(n+1), lvl(n+1), nxt(2*n+2), gprv(2*n+2), gnxt(2*n+2) {}
+  HLPP(int n) : n(n+1), adj(n+2), ex(n+2), pos(n+2), lvl(n+2), nxt(2*n+3), gprv(2*n+3), gnxt(2*n+3) {}
   void add(int u, int v, T cap) {
     adj[u].push_back({ v, cap, sz(adj[v]) });
     adj[v].push_back({ u, 0, sz(adj[u])-1 });
