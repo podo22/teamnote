@@ -1,27 +1,33 @@
 /**
  * [Metadata]
- * Original Author : JusticeHui
- * Source : https://github.com/justiceHui/icpc-teamnote-for-newbie/blob/master/code/String/Hashing.cpp
+ * Author : alreadysolved
  * [Tested on]
  * 
- */
-// 전처리 O(N), 부분 문자열의 해시값을 O(1)에 구함
-// Hashing<917, 998244353> H; H.build("ABCDABCD");
-// assert(H.get(1, 4) == H.get(5, 8));
-// 주의: get 함수의 인자는 1-based 닫힌 구간
-// 주의: M은 10억 근처의 소수, P는 M과 서로소
-// 1e5+3, 1e5+13, 131'071, 524'287, 1'299'709, 1'301'021
-// 1e9-63, 1e9+7, 1e9+9, 1e9+103
-template<long long P, long long M> struct Hashing {
-  vector<long long> h, p;
-  void build(const string &s){
-    int n = s.size();
-    h = p = vector<long long>(n+1); p[0] = 1;
-    for(int i=1; i<=n; i++) h[i] = (h[i-1] * P + s[i-1]) % M;
-    for(int i=1; i<=n; i++) p[i] = p[i-1] * P % M;
+*/
+template<ll P1, ll M1, ll P2, ll M2>
+struct Hashing {
+  vector<ll> h1, h2, p1, p2;
+  void build(const string &s) {
+    int n = sz(s);
+    h1 = h2 = p1 = p2 = vector<ll>(n+1);
+    p1[0] = p2[0] = 1;
+    for (int i = 0; i < n; i++) {
+      h1[i+1] = (h1[i] * P1 + s[i]) % M1;
+      h2[i+1] = (h2[i] * P2 + s[i]) % M2;
+      p1[i+1] = p1[i] * P1 % M1;
+      p2[i+1] = p2[i] * P2 % M2;
+    }
   }
-  long long get(int s, int e) const {
-    long long res = (h[e] - h[s-1] * p[e-s+1]) % M;
-    return res >= 0 ? res : res + M;
+  pair<ll, ll> get(int l, int r) const { // 0-idx, [l, r)
+    ll r1 = (h1[r] - h1[l] * p1[r-l]) % M1;
+    ll r2 = (h2[r] - h2[l] * p2[r-l]) % M2;
+    if (r1 < 0) r1 += M1;
+    if (r2 < 0) r2 += M2;
+    return { r1, r2 };
   }
 };
+// 1e5+3, 1e5+13, 131'071, 524'287, 1'299'709, 1'301'021
+// 1e9-63, 1e9+7, 1e9+9, 1e9+103
+// using Hash = Hashing<917, 998244353, 10009, 1000000007>;
+// HS H; H.build(s);
+// H.get(l, r) == H.get(l2, r2) → s[l..r-1] 와 s[l2..r2-1] 이 같은지

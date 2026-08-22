@@ -5,6 +5,15 @@
  * [Tested on]
  * 
  */
+// 문자열의 모든 부분 문자열을 상태(≤2N)로 압축해 담은 DFA
+// 부분 문자열의 개수·등장 횟수·매칭. O(len)
+// suffix_automaton<int, initialized_array<int,26,0>> T;
+// T.extend(s); // 문자열을 순서대로 삽입
+// T.ans // 서로 다른 부분 문자열 개수
+// T.next[v][c] // 전이 (없으면 0), v=0이 루트
+// T.len[v], T.link[v] // 상태 길이, suffix link
+// * 등장 횟수: 각 상태의 endpos 크기 = "그 상태의 가장 긴 문자열" 등장 횟수
+//   extend 후, 각 상태 cnt=1(클론은 0)로 두고 link 트리에서 자식->부모로 누적합
 template<typename T, size_t S, T init_val>
 struct initialized_array : public array<T, S> {
   initialized_array(){ this->fill(init_val); }

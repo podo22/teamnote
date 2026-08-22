@@ -5,6 +5,12 @@
  * [Tested on]
  * 
  */
+// PST: 구간 k번째 수 (좌표압축 + 버전 배열)
+// 1) 값들을 좌표압축 -> 최대값 = 압축 인덱스
+// 2) root[0]=new PSTNode; init(root[0], 0, maxC);
+// 3) for i=1..n: root[i]=new PSTNode; update(root[i-1], root[i], 0, maxC, a[i]);
+// 4) kth(root[l-1], root[r], 0, maxC, k)  -> 구간 [l,r]의 k번째 작은 값(압축idx)
+// root[i] = prefix [1..i] 버전. [l,r] = root[r] - root[l-1]
 struct PSTNode{
   PSTNode *l, *r; int v;
   PSTNode(){ l = r = nullptr; v = 0; }

@@ -1,10 +1,10 @@
 /**
- * [Metadata]
- * Reference : https://blog.kyouko.moe/20?category=767011
- * Implemented by : alreadysolved
- * [Verification]
- * Solved : https://www.acmicpc.net/problem/15737
- */
+* [Metadata]
+* Reference : https://blog.kyouko.moe/20?category=767011
+* Implemented by : alreadysolved
+* [Verification]
+* Solved : https://www.acmicpc.net/problem/15737
+*/
 struct GeneralMatch {
   vector<vector<int>> graph;
   vector<int> vis, parent, orig, matched, aux;
@@ -60,8 +60,17 @@ struct GeneralMatch {
   }
   int match() {
     int ans = 0;
-    for(int i = 1; i <= n; i++) {
-      if(!matched[i] && bfs(i)) ans++;
+    //find random matching (not necessary, constant improvement)
+    vector<int> v(N-1); iota(all(v), 1);
+    shuffle(all(v), mt19937(0x94949));
+    for (auto x : v) if (!matched[x]) {
+      for (auto y : graph[x]) if (!matched[y]) {
+        matched[x] = y, matched[y] = x;
+        ans++; break;
+      }
+    }
+    for (int i = 1; i <= n; i++) {
+      if (!matched[i] && bfs(i)) ans++;
     }
     return ans;
   }

@@ -4,6 +4,9 @@
  * [Tested on]
  * https://www.acmicpc.net/problem/9248
  */
+// Suffix Array — 모든 접미사 사전순 정렬 + LCP
+//  sa[i] : i번째 사전순 작은 접미사의 시작 인덱스 (0-idx)
+//  lcp[i] : sa[i-1] ~ sa[i] 공통 접두사 길이 (lcp[0]=0)
 struct SA {
   int n;
   vector<int> sa, lcp, x, y, c;

@@ -4,6 +4,12 @@
 * [Tested on]
 * https://www.acmicpc.net/problem/13510
 */
+// HLD: 트리 경로/서브트리 쿼리를 세그트리 구간으로 변환 (1-idx 정점).
+// hld.build(a) // a[u]=정점 u 값 (1-indexed). 정점/간선 가중치 모두 지원
+// path_upd(u,v,x, edge=0) // 경로 u~v에 x 적용 (edge=1이면 LCA 정점 제외, 간선용)
+// setv(u,x)/addv(u,x) // 정점 단일 갱신
+// qsum/qmin/qmax(u,v, edge=0) // 경로 쿼리
+// * edge=true: 간선 가중치 문제에서 씀 (정점을 간선에 대응, LCA 빼고)
 struct SegTree {
   const ll INF = 4e18;
   struct T { ll sum, mn, mx; };
@@ -68,7 +74,6 @@ struct SegTree {
   ll qmin(int l, int r) { return qry(1, 0, n-1, l, r).mn; }
   ll qmax(int l, int r) { return qry(1, 0, n-1, l, r).mx; }
 };
-
 struct HLD {
   int n, pv;
   vector<vector<int>> adj;

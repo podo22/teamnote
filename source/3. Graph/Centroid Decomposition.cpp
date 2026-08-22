@@ -21,7 +21,12 @@ struct CentroidTree {
         return get_cent(next, curr, to_sz);
     return curr;
   }
-  void solve(int u) { /* 현재 센트로이드를 포함하는 모든 경로를 계산하는 로직 */ }
+  void solve(int u) { 
+    // * solve(u): 현재 centroid u를 지나는 모든 경로를 여기서 계산.
+    //  - u에서 각 서브트리로 DFS하며 거리/조건 집계
+    //  - 서로 다른 서브트리에서 오는 경로끼리 쌍을 만들 때 중복 주의
+    // build(1) 호출하면 자동으로 centroid tree 완성.
+  }
   int build(int curr, int p = -1) {
     int cent = get_cent(curr, -1, get_sz(curr, -1));
     solve(cent);

@@ -5,6 +5,11 @@
  * [Tested on]
  * 
  */
+// Xuduh Sieve: multiplicative function f의 prefix sum을 O(N^{2/3})에.
+// pf(n)  : f의 prefix sum (n이 작을 때, 선형체로 미리 계산)
+// pg(n)  : g의 prefix sum (g는 f*g가 쉬운 함수. 보통 1(x)=1 -> n)
+// pfg(n) : (f*g)의 prefix sum
+// xudyh_sieve sieve(th, pf, pg, pfg);  ->  sieve.query(N)
 /* e(x) = [x==1], 1(x) = 1, id_k(x) = x^k
 mu: mobius function, id(x) = x
 phi: euler totient function

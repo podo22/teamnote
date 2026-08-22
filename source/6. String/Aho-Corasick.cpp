@@ -6,6 +6,9 @@
 * [Tested on]
 * https://www.acmicpc.net/problem/9250
 */
+// Aho-Corasick: 여러 패턴을 T에서 한 번에 매칭
+// ac.insert(p, id) -> ac.build() -> ac.find(T)/ac.count(T)
+// find: {패턴id, 끝idx} 목록(겹치는 짧은 패턴은 out 링크로). id는 1부터.
 const int CH = 26;
 struct AhoCorasick {
   struct Node {

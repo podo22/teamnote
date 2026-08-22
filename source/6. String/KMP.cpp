@@ -4,6 +4,8 @@
  * [Tested on]
  * https://www.acmicpc.net/problem/1786
  */
+// minPeriod(): 최소 주기. s = p^k 꼴이면 |p|, 아니면 len(s)
+// pi[i]: prefix [0..i]의 최장 접두사=접미사 길이
 template <typename T> struct KMP {
   T P; vector<int> pi;
   KMP(const T& P) : P(P), pi(sz(P)) {
