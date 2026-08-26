@@ -32,3 +32,9 @@ bool isInter(P a, P b, P c, P d) {
   }
   return ab <= 0 && cd <= 0;
 }
+ll area2(const vector<P>& v) { // 다각형 넓이*2
+  ll res = 0; int n = sz(v);
+  for (int i = 0; i < n; i++)
+    res += v[i] / v[(i+1)%n];
+  return abs(res);
+}

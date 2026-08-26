@@ -107,7 +107,6 @@
   \Algorithm{Point in Polygon}{Ray casting algorithm for general polygons.}{$O(N)$}{cpp}{source/5. Geometry/PointInPolygon.cpp}{}
   \Algorithm{Sort Points}{Angular sort. 1. Relative to pivot (Convex Hull). 2. Relative to origin.}{}{cpp}{source/5. Geometry/SortPoints.cpp}{}
   \Algorithm{Linear Minkowski Sum}{Minkowski Sum of Two convex(must be CCW order).}{$O(N+M)$}{cpp}{source/5. Geometry/LinearMinkowski.cpp}{}
-  \Algorithm{Polygon Area}{Calculates 2 $\times$ Area of a polygon (Shoelace formula).}{$O(N)$}{cpp}{source/5. Geometry/PolygonArea.cpp}{}
   \Algorithm{Smallest Enclosing Circle}{Welzl's algorithm to find the Minimum Enclosing Circle. Returns {center, radius}.}{Expected $O(N)$}{cpp}{source/5. Geometry/EnclosingCircle.cpp}{}
   \Algorithm{Geometric Intersections}{Intersection primitives: Segment, Line-Circle, Line-Hull, and Circle-Polygon area.}{$O(1) / O(1) / O(\log N) / O(N)$}{cpp}{source/5. Geometry/Intersect.cpp}{}
   \Algorithm{Half Plane Intersection}{Intersection of half-planes defined by lines (left side is valid). Returns a convex polygon.}{$O(N \log N)$}{cpp}{source/5. Geometry/HalfPlaneIntersect.cpp}{}
@@ -221,11 +220,7 @@
     \item Euler's phi $\phi (n)=n\prod _{p\mid n}\left(1-{\frac {1}{p}}\right)$
     \item Lucas' Theorem $\binom{m}{n}=\prod\binom{m_i}{n_i} \pmod p$ $m_i$, $n_i$는 $p^i$의 계수
     \item 스케줄링에서 데드라인이 빠른 걸 쓰는게 이득. 늦은 스케줄이 안들어갈 때 가장 시간 소모가 큰 스케줄 1개를 제거하면 이득.
-    \item Dilworth / Mirsky 정리\\
-    - Dilworth: 최소 체인 분할 수 = 최대 반사슬 크기\\
-    - Mirsky: 최소 반사슬 분할 수 = 최대 체인 크기 (= LIS 길이)\\
-    - "수열을 최소 개수의 감소수열로 분할" = LIS 길이 (Mirsky)
-    \item 2차원 누적합/imos ($i$ = 행, $j$ = 열, 1-based)\\
+    \item 2차원 누적합 / imos ($i$ = 행, $j$ = 열, 1-based)\\
     누적합 생성: $S[i][j] = S[i-1][j] + S[i][j-1] - S[i-1][j-1] + A[i][j]$\\
     구간합 $[i_1,j_1]\sim[i_2,j_2]$: $S[i_2][j_2] - S[i_1-1][j_2] - S[i_2][j_1-1] + S[i_1-1][j_1-1]$\\
     imos ($+v$), 부호 패턴 $+,-,-,+$:\\
@@ -234,8 +229,6 @@
     \item 순열 swap 관련\\
     - 버블소트 최소 swap = inversion 개수\\
     - 순열 정렬 최소 swap = $N - (\text{사이클 개수})$
-    \item Zobrist Hashing: 각 값에 랜덤 64bit 부여, 집합/상태 해시 = XOR(개수 구분은 +). 순서 무관 비교.
-    \item 가우스 소거 응용: 기대값/확률 DP에 순환이 있으면 $\to$ 연립방정식 $\to$ 가우스. 스패닝 트리 개수 = 라플라시안 cofactor det.
   \end{itemize}
   
   
@@ -318,6 +311,29 @@
     \end{enumerate}
   \end{itemize}
   
+  \Algorithm{LP \& Flow Duality}{}{}{}{}{}
+  \begin{itemize}
+    \item \textbf{Difference Constraints (차이 제약 $\to$ SPFA)}
+    \begin{itemize}
+      \item $x_v - x_u \le w \iff u \to v$ (가중치 $w$).\\ $x_i \le C \iff 0 \to i$ ($C$), $x_i \ge C \iff i \to 0$ ($-C$).\\ $x_i - x_j = C \iff$ 양방향 ($C, -C$).
+      \item 더미 노드 $0$을 시작점으로 SPFA 실행. 구한 최단 거리 dist[i] 값이 곧 제약을 만족하는 변수 $x_i$의 해(최댓값).
+      \item 더미 노드 $0 \to i$ ($w=0$) 간선 필수. dist[u] == INF일 땐 relaxation 금지. cnt[u] >= V 감지 시 음수 사이클 존재 = 해 없음(모순).
+    \end{itemize}
+
+    \item \textbf{Convex Potential $\to$ MCMF Dual (포텐셜 차이 + 볼록 비용)}
+    \begin{itemize}
+      \item 제약 조건 $x_v - x_u \le C \implies u \to v$ (용량 $\infty$, 비용 $C$).\\ 볼록 비용 $f(x_v - x_u)$는 기울기 $w_k$(비용), 구간 $c_k$(용량)인 병렬 간선으로 분할 생성.
+      \item 구축한 그래프에서 MCMF 실행. 구하고자 하는 최소 비용/목표값 = MCMF의 최종 Min Cost. (변수 $x_i$ 값 복원 필요 시 잔여 그래프 포텐셜 $h_u$ 활용)
+      \item 제약 간선 비용 $C < 0$이면 일반 Dijkstra MCMF 불가 $\to$ SPFA-Dijkstra MCMF 적용, 또는 Min-Cost Circulation 사용.
+    \end{itemize}
+
+    \item \textbf{Planar Min-Cut $\to$ Dual Dijkstra (평면 그래프 민컷)}
+    \begin{itemize}
+      \item 면을 정점으로 변환. 원본 간선의 좌/우 면을 잇는 Dual 간선 생성 (가중치 = 원본 용량).
+      \item $S_{face}$에서 $T_{face}$까지 다익스트라 실행. 최단 거리 $dist[T_face]$ = 원본 그래프의 최소컷 값.
+      \item 외곽 면을 $S_{face}, T_{face}$ 2개로 분리 정의. 용량 $\infty$ 원본 간선은 Dual 간선을 생성하지 않음.
+    \end{itemize}
+  \end{itemize}
 \end{multicols*}
 
 \ifthenelse{\boolean{BangShowGrid}}{
