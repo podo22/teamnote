@@ -322,8 +322,10 @@
 
     \item \textbf{Convex Potential $\to$ MCMF Dual (포텐셜 차이 + 볼록 비용)}
     \begin{itemize}
-      \item 제약 조건 $x_v - x_u \le C \implies u \to v$ (용량 $\infty$, 비용 $C$).\\ 볼록 비용 $f(x_v - x_u)$는 기울기 $w_k$(비용), 구간 $c_k$(용량)인 병렬 간선으로 분할 생성.
-      \item 구축한 그래프에서 MCMF 실행. 구하고자 하는 최소 비용/목표값 = MCMF의 최종 Min Cost. (변수 $x_i$ 값 복원 필요 시 잔여 그래프 포텐셜 $h_u$ 활용)
+      \item 제약 조건 $x_v - x_u \le C \implies u \to v$ (용량 $\infty$, 비용 $C$).
+      \item 목표 차이 $T$ 및 오차 패널티 $|(x_v - x_u) - T|$ : 정점 $u, v$에 공급/수요 $+T$ 부여 후 $u \leftrightarrow v$ 양방향 (용량 $\infty$, 비용 $1$) 간선 생성.
+      \item 일반 볼록 비용 $f(x_v - x_u)$ : (구간 길이 $\to$ 용량), (기울기 $\to$ 비용) 변환하여 $u \to v$ 다중 간선 생성.
+      \item MCMF 실행 $\to$ 최종 Min Cost가 구하는 최적 비용. (포텐셜 복원 시 잔여 그래프 $h_u$ 활용)
       \item 제약 간선 비용 $C < 0$이면 일반 Dijkstra MCMF 불가 $\to$ SPFA-Dijkstra MCMF 적용, 또는 Min-Cost Circulation 사용.
     \end{itemize}
 
