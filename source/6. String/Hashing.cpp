@@ -30,4 +30,4 @@ struct Hashing {
 // 1e9-63, 1e9+7, 1e9+9, 1e9+103
 // using Hash = Hashing<917, 998244353, 10009, 1000000007>;
 // HS H; H.build(s);
-// H.get(l, r) == H.get(l2, r2) → s[l..r-1] 와 s[l2..r2-1] 이 같은지
+// H.get(l, r) == H.get(l2, r2): s[l..r-1] == s[l2..r2-1]

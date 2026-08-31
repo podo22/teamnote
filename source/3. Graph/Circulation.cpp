@@ -7,8 +7,7 @@
 const ll INF = 1e18;
 struct Dinic {}; // or MCMF
 struct Circulation {
-  vector<ll> demand, low;
-  vector<pair<int,int>> edge;
+  vector<ll> demand, low; vector<pair<int,int>> edge;
   int n, S, T; Dinic dn;
   Circulation(int n) : n(n), S(n+1), T(n+2), demand(n+3, 0), dn(n+2) {};
   void add_demand(int u, ll d) { demand[u] += d; }

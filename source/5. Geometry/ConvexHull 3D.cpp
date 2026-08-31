@@ -6,8 +6,7 @@
  */
 struct face{ int a, b, c; PT d; };
 vector<face> convex_hull_3d(vector<PT> &p) {
-  // https://codeforces.com/blog/entry/81768
-  // -1. 중복 점 제거 (normalize 등하면 중복 점이 생길 수도 있다)
+  // -1. 중복 점 제거 (normalize하면 중복 점이 생길 수 있음)
   // 0. size <= 3 -> exit
   // 1. 전부 한 직선 위에 있는지 판정 yes -> exit
   // 2. first 3 points are not on the same line일 때까지 셔플하고 전부 한 평면 위에 있는 지 판정 yes -> exit
@@ -21,15 +20,15 @@ vector<face> convex_hull_3d(vector<PT> &p) {
   vector<face> f;
   vector<vector<bool>> dead(n, vector<bool>(n, true));
   auto add_face = [&](int a, int b, int c) {
-    f.push_back({a, b, c, (p[b]-p[a])^(p[c]-p[a])});
-    dead[a][b] = dead[b][c] = dead[c][a] = false;
+    f.push_back({a, b, c, (p[b]-p[a]) ^ (p[c]-p[a])});
+    dead[a][b] = dead[b][c] = dead[c][a] = 0;
   };
   add_face(0, 1, 2); add_face(0, 2, 1);
   for (int i = 3; i < n; i++) {
     vector<face> nf;
     for (face &F : f){
       if ((p[i] - p[F.a]) * F.d > 0) {
-        dead[F.a][F.b] = dead[F.b][F.c] = dead[F.c][F.a] = true;
+        dead[F.a][F.b] = dead[F.b][F.c] = dead[F.c][F.a] = 1;
       } else {
         nf.push_back(F);
       }

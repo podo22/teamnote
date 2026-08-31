@@ -1,5 +1,4 @@
-ll modpow(ll b, ll e);
-ll modinv(ll a, ll m);
+// modpow, modinv
 struct Gauss {
   const ll M = 1000000007;
   // return: 소거 성공 여부(false면 역행렬/해 없음)

@@ -5,15 +5,13 @@
  * 
  */
 struct SCC {
-  int n, cnt, t;
-  vector<vector<int>> adj;
-  vector<int> dfn, low, id;
-  vector<bool> ins; stack<int> st;
+  int n, cnt, t; vector<vector<int>> adj;
+  vector<int> dfn, low, id, ins; stack<int> st;
   SCC(int n) : n(n), adj(n), dfn(n, -1), low(n, -1), id(n, -1), ins(n), cnt(0), t(0) {}
   void add(int u, int v) { adj[u].push_back(v); }
   void dfs(int u) {
     dfn[u] = low[u] = ++t;
-    st.push(u); ins[u] = true;
+    st.push(u); ins[u] = 1;
     for (auto v : adj[u]) {
       if (dfn[v] == -1) {
         dfs(v); low[u] = min(low[u], low[v]);
@@ -24,7 +22,7 @@ struct SCC {
     if (low[u] == dfn[u]) {
       while (true) {
         int v = st.top(); st.pop();
-        ins[v] = false; id[v] = cnt;
+        ins[v] = 0; id[v] = cnt;
         if (u == v) break;
       }
       cnt++;

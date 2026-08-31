@@ -11,7 +11,7 @@ using namespace __gnu_pbds;
 template <typename T>
 using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 // ordered_set<int> os;
-// os.find_by_order(k): k번째 원소의 iterator 반환 (0-indexed, 없으면 os.end())
+// os.find_by_order(k): k번째 원소의 iter 반환 (0-idx, 없으면 os.end())
 // os.order_of_key(x) : x보다 작은 원소의 개수 반환
 template <typename T>
 using ord_multiset = tree<T, null_type, less_equal<T>, rb_tree_tag, tree_order_statistics_node_update>;

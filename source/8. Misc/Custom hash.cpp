@@ -7,7 +7,7 @@
 struct custom_hash {
   template <class T>
   void combine(size_t& seed, const T& v) const {
-    seed ^= hash<T>{}(v) + 0x9e3779b9 + (seed << 6) + (seed >> 2);
+    seed ^= hash<T>{}(v) + 0x9e3779b9 + (seed<<6) + (seed>>2);
   }
   template <class T1, class T2>
   size_t operator()(const pair<T1, T2>& p) const {

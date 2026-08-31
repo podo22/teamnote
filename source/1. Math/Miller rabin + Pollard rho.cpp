@@ -6,8 +6,7 @@
  * [Tested on]
  * 
  */
-ll modmul(ll a, ll b, ll m);
-ll modpow(ll b, ll e, ll m);
+// modmul, modpow
 bool isPrime(ll n) {
   if (n < 2 || n % 6 % 4 != 1) return (n | 1) == 3;
   ll A[] = {2, 325, 9375, 28178, 450775, 9780504, 1795265022},

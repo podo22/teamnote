@@ -60,8 +60,7 @@ template<typename T = ll> struct HLPP {
       auto& e = adj[u][i];
       if (!e.cap) continue;
       if (lvl[u] != lvl[e.to]+1) {
-        h = min(h, lvl[e.to]);
-        continue;
+        h = min(h, lvl[e.to]); continue;
       }
       auto f = min(v, e.cap);
       v -= f; addex(e.to, f); e.cap -= f;

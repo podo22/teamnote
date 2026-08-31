@@ -6,8 +6,7 @@
  * https://www.acmicpc.net/problem/14854
  */
 // when M is big prime; Init: O(MAXN), Query: O(1)
-ll modmul(ll a, ll b, ll m);
-ll modpow(ll b, ll e, ll m);
+// modmul, modpow
 const int M = 1e9+7, MAXN = 4000000;
 ll fac[MAXN+5], finv[MAXN+5];
 void init() {

@@ -40,12 +40,10 @@ struct BiMatch { // Hopcroft-Karp
   }
   int match() {
     int ans = 0;
-    for (int i = 1; i <= ns; i++) {
-      for (int j : graph[i]) {
-        if (!mB[j]) {
-          mA[i] = j; mB[j] = i;
-          ans++; break;
-        }
+    for (int i = 1; i <= ns; i++) for (int j : graph[i]) {
+      if (!mB[j]) {
+        mA[i] = j; mB[j] = i;
+        ans++; break;
       }
     }
     while (1) {
@@ -63,7 +61,9 @@ struct BiMatch { // Hopcroft-Karp
     fA.assign(ns+1, 0); fB.assign(ms+1, 0);
     visA.assign(ns+1, 0); visB.assign(ms+1, 0);
     queue<int> q;
-    for (int i = 1; i <= ns; i++) if (!mA[i]) fA[i] = visA[i] = 1, q.push(i);
+    for (int i = 1; i <= ns; i++) if (!mA[i]) {
+      fA[i] = visA[i] = 1; q.push(i);
+    }
     while (!q.empty()) {
       int u = q.front(); q.pop();
       for (int v : graph[u]) if (!visB[v]) {
@@ -73,7 +73,9 @@ struct BiMatch { // Hopcroft-Karp
         }
       }
     }
-    for (int i = 1; i <= ms; i++) if (!mB[i]) fB[i] = 1, q.push(i);
+    for (int i = 1; i <= ms; i++) if (!mB[i]) {
+      fB[i] = 1; q.push(i);
+    }
     while (!q.empty()) {
       int v = q.front(); q.pop();
       for (int u : grev[v]) {
@@ -85,8 +87,7 @@ struct BiMatch { // Hopcroft-Karp
     }
   }
   pair<vector<int>,vector<int>> vertex() { // find minimum vertex cover
-    chkEss();
-    vector<int> va, vb;
+    chkEss(); vector<int> va, vb;
     for (int i = 1; i <= ns; i++) if (!visA[i]) va.push_back(i);
     for (int i = 1; i <= ms; i++) if (visB[i]) vb.push_back(i);
     return { va, vb };
@@ -94,8 +95,7 @@ struct BiMatch { // Hopcroft-Karp
 };
 /* struct BiMatch { // Kuhn's Algorithm
   vector<vector<int>> graph;
-  vector<int> mA, mB, vis;
-  int ns, ms;
+  vector<int> mA, mB, vis; int ns, ms;
   BiMatch(int n, int m) : ns(n), ms(m), graph(n+1), mA(n+1), mB(m+1), vis(n+1) {}
   void add(int a, int b) { graph[a].push_back(b); }
   bool dfs(int cur) {

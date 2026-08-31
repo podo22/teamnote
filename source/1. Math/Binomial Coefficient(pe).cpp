@@ -6,10 +6,7 @@
  * https://www.acmicpc.net/problem/14854
  */
 // O(Sum of p^k) per query. (M = product of p^k)
-ll modmul(ll a, ll b, ll m);
-ll modpow(ll b, ll e, ll m);
-ll xgcd(ll a, ll b, ll &x, ll &y);
-ll modinv(ll a, ll m);
+// modmul, modpow, xgcd, modinv
 ll count(ll n, ll p) {
   ll cnt = 0; while (n > 0) { cnt += n/p; n /= p; }
   return cnt;

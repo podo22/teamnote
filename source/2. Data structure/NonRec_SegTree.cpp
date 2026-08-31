@@ -6,56 +6,51 @@
  * 
 */
 template<typename Node> struct SegTree {
-  int n, size;
-  Node e; // 항등원
-  vector<Node> tree;
-  function<Node(Node, Node)> func;
-  SegTree(int n, const Node& e, auto func) : n(n), size(1<<(__lg(n)+1)), e(e), tree(size<<1, e), func(func) {}
-  SegTree(const vector<Node>& v, const Node& e, auto func) : n(sz(v)), size(1<<(__lg(n)+1)), e(e), tree(size<<1, e), func(func) {
-    for (int i = 0; i < n; i++) tree[i+size] = v[i];
-    for (int i = size-1; i > 0; i--) tree[i] = func(tree[i<<1], tree[i<<1 | 1]);
+  int n, siz; Node e; // 항등원
+  vector<Node> tr;
+  function<Node(Node, Node)> fn;
+  SegTree(int n, const Node& e, auto fn) : n(n), siz(1<<(__lg(n)+1)), e(e), tr(siz<<1, e), fn(fn) {}
+  SegTree(const vector<Node>& v, const Node& e, auto fn) : n(sz(v)), siz(1<<(__lg(n)+1)), e(e), tr(siz<<1, e), fn(fn) {
+    for (int i = 0; i < n; i++) tr[i+siz] = v[i];
+    for (int i = siz-1; i > 0; i--) tr[i] = fn(tr[i<<1], tr[i<<1 | 1]);
   }
   void add(int i, const Node& val) {
-    tree[i += size] += val;
-    while (i >>= 1) {
-      tree[i] = func(tree[i<<1], tree[i<<1 | 1]);
-    }
+    tr[i += siz] += val;
+    while (i >>= 1) tr[i] = fn(tr[i<<1], tr[i<<1 | 1]);
   }
   void update(int i, const Node& val) {
-    tree[i += size] = val;
-    while (i >>= 1) {
-      tree[i] = func(tree[i<<1], tree[i<<1 | 1]);
-    }
+    tr[i += siz] = val;
+    while (i >>= 1) tr[i] = fn(tr[i<<1], tr[i<<1 | 1]);
   }
-  Node query(int i) { return tree[i + size]; }
+  Node query(int i) { return tr[i + siz]; }
   Node query(int l, int r) {
     Node L = e, R = e;
-    for (l += size, r += size; l <= r; l >>= 1, r >>= 1) {
-      if (l & 1) L = func(L, tree[l++]);
-      if (~r & 1) R = func(tree[r--], R);
+    for (l += siz, r += siz; l <= r; l >>= 1, r >>= 1) {
+      if (l & 1) L = fn(L, tr[l++]);
+      if (~r & 1) R = fn(tr[r--], R);
     }
-    return func(L, R);
+    return fn(L, R);
   }
   int find_kth(Node k) {
-    if (tree[1] < k) return -1;
-    int node = 1;
-    while (node < size) {
-      node <<= 1;
-      if (tree[node] < k) { k -= tree[node]; node |= 1; }
+    if (tr[1] < k) return -1;
+    int nd = 1;
+    while (nd < siz) {
+      nd <<= 1;
+      if (tr[nd] < k) { k -= tr[nd]; nd |= 1; }
     }
-    return node - size;
+    return nd - siz;
   }
   int find(auto chk) {
-    if (!chk(e, tree[1])) return -1;
+    if (!chk(e, tr[1])) return -1;
     int cur = 1; Node pref = e;
-    while (cur < size) {
-      if (chk(pref, tree[cur << 1])) cur = cur << 1;
+    while (cur < siz) {
+      if (chk(pref, tr[cur << 1])) cur = cur << 1;
       else {
-        pref = func(pref, tree[cur << 1]);
+        pref = fn(pref, tr[cur << 1]);
         cur = cur << 1 | 1;
       }
     }
-    return cur - size;
+    return cur - siz;
   }
 };
 int main() {
@@ -70,14 +65,12 @@ int main() {
   rmq.update(2, 15);         // v[2] = 15
   int mx = rmq.query(0, 5);  // Max of v[0..5]
   // 3. SegTree Walk (find), O(log N)
-  // pref: left prefix result, node: current node result
+  // pref: left prefix result, nd: current nd result
   int tar = 10;
-  int idx = rmq.find([&](int pref, int node) {
+  int idx = rmq.find([&](int pref, int nd) {
     // First idx i where max(v[0..i]) >= tar
-    return max(pref, node) >= tar;
+    return max(pref, nd) >= tar;
     // First idx i where sum(v[0..i]) >= tar
-    // return pref + node >= tar;
+    // return pref + nd >= tar;
   });
-
-  return 0;
 }

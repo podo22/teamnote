@@ -10,8 +10,7 @@ struct SparseTable {
   vector<vector<T>> st;
   SparseTable(const vector<T>& v, Op op) : n(sz(v)), f(op) {
     lg = __lg(max(1, n)) + 1;
-    st.assign(lg, vector<T>(n));
-    st[0] = v;
+    st.assign(lg, vector<T>(n)); st[0] = v;
     for (int i = 1; i < lg; i++) {
       int len = 1 << i;
       for (int m = len; m < n+len; m += len*2) {
@@ -32,6 +31,6 @@ struct SparseTable {
     return f(st[k][l], st[k][r]);
   }
 };
-// SparseTable st(v, [](ll a, ll b){ return min(a, b); }); // RMQ
-// SparseTable st(v, [](ll a, ll b){ return gcd(a, b); }); // Range GCD
-// SparseTable st(v, [](ll a, ll b){ return a + b; }); // Range Sum
+// st(v, [](ll a, ll b){ return min(a, b); }); // RMQ
+// st(v, [](ll a, ll b){ return gcd(a, b); }); // Range GCD
+// st(v, [](ll a, ll b){ return a + b; }); // Range Sum

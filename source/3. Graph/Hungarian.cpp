@@ -5,9 +5,8 @@
  * https://www.acmicpc.net/problem/14216
  */
 template<typename T = ll> struct Hungarian {
-  vector<T> u, v, ans;
-  vector<int> p, way; int n, m;
-  const T INF = 1e15;
+  vector<T> u, v, ans; vector<int> p, way;
+  int n, m; const T INF = 1e15;
   Hungarian(int n, int m) : n(n), m(m), u(n+1), v(m+1), p(m+1), way(m+1) {}
   T solve (const vector<vector<T>> &a) {
     ans.clear();

@@ -16,8 +16,7 @@ void dnc(int k, int l, int r, int pL, int pR) {
   for (int j = pL; j <= min(mid, pR); j++) {
     ll val = (j==0 ?: dp[k-1][j-1]) + get_cost(j, mid);
     if (val > dp[k][mid]) {
-      dp[k][mid] = val;
-      opt = j;
+      dp[k][mid] = val; opt = j;
     }
   }
   dnc(k, l, mid - 1, pL, opt);

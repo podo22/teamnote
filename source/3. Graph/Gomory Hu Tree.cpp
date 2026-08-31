@@ -9,7 +9,7 @@ vector<Edge> gomory_hu(int n, const vector<Edge> &ev) {
     Dinic dn(n);
     for (auto& [u, v, w] : ev) { dn.add(u, v, w); dn.add(v, u, w); }
     tree.push_back({i, par[i], dn.flow(i, par[i])});
-    vector<bool> cut = dn.mincut(i); 
+    vector<bool> cut = dn.mincut(i);
     for (int j = i + 1; j <= n; j++) {
       if (cut[j] && par[j] == par[i]) par[j] = i;
     }

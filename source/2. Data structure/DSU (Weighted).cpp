@@ -26,8 +26,7 @@ struct WeightedDSU {
   WeightedDSU(int n) : p(n+1), d(n+1, 0) { iota(all(p), 0); }
   int find(int x) {
     if (p[x] == x) return x;
-    int r = find(p[x]);
-    d[x] += d[p[x]];
+    int r = find(p[x]); d[x] += d[p[x]];
     return p[x] = r;
   }
   int diff(int a, int b) { find(a); find(b); return d[a]-d[b]; } // for parity: ret &1

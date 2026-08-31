@@ -13,7 +13,7 @@ array<ll,3> closestPair(vector<P> &v) {
   auto cmp = [](const P &a, const P &b) {
     return a.y == b.y ? a.x < b.x : a.y < b.y;
   };
-  set<P, decltype(cmp)> s(cmp);
+  set<P,decltype(cmp)> s(cmp);
   ll d = 9e18; array<ll,3> ans = { d, -1, -1 };
   for (int i = 0, j = 0; i < sz(v); i++) {
     while (j < i && (v[i].x-v[j].x)*(v[i].x-v[j].x) >= d) s.erase(v[j++]);

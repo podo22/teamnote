@@ -1,180 +1,177 @@
 /**
- * [Metadata]
- * Original Author : JusticeHui
- * Source : https://justicehui.github.io/hard-algorithm/2021/01/01/link-cut-tree/
- * [Tested on]
- * 
- */
-struct Node {
-  Node *l, *r, *p;
-  bool flip; int sz;
-  T now, sum, lz;
-  Node() {
-    l = r = p = nullptr; sz = 1;
-    flip = false; now = sum = lz = 0;
+* [Metadata]
+* [Tested on]
+* 
+*/
+// MAXN은 (초기 크기 + insert 총 횟수) 이상
+const ll INF = 1e18, MAXN = 3e5+5;
+struct BBST {
+  struct Node {
+    int l = 0, r = 0, p = 0;
+    ll cnt = 0, val = 0, sum = 0, mx = -INF, mn = INF, lz = 0;
+    bool flip = false;
+  } tr[MAXN];
+  int rt = 0, ptr = 0, pos[MAXN];
+  void clear() {
+    fill(tr, tr+ptr+1, Node{});
+    rt = ptr = 0;
   }
-  bool IsLeft() const { return p && this == p->l; }
-  bool IsRoot() const { return !p || (this != p->l && this != p->r); }
-  friend int GetSize(const Node *x) { return x ? x->sz : 0; }
-  friend T GetSum(const Node *x) { return x ? x->sum : 0; }
-  void Rotate() {
-    p->Push(); Push();
-    if (IsLeft())
-      r && (r->p = p), p->l = r, r = p;
-    else
-      l && (l->p = p), p->r = l, l = p;
-    if (!p->IsRoot())
-      (p->IsLeft() ? p->p->l : p->p->r) = this;
-    auto t = p; p = t->p;
-    t->p = this; t->Update();
-    Update();
+  int new_nd(ll v = 0, int id = -1) {
+    auto &n = tr[++ptr];
+    n.val = n.mx = n.mn = n.sum = v; n.cnt = 1;
+    n.l = n.r = n.p = n.lz = 0; n.flip = false;
+    if (id != -1) pos[id] = ptr;
+    return ptr;
   }
-  void Update() {
-    sz = 1 + GetSize(l) + GetSize(r);
-    sum = now + GetSum(l) + GetSum(r);
+  bool is_rt(int x) { return !tr[x].p || (tr[tr[x].p].l != x && tr[tr[x].p].r != x); }
+  void update(int x) {
+    if (!x) return;
+    auto &n = tr[x], &l = tr[n.l], &r = tr[n.r];
+    n.cnt = 1+l.cnt+r.cnt; n.sum = n.val + l.sum + r.sum;
+    n.mx = max({n.val, n.l ? l.mx : -INF, n.r ? r.mx : -INF});
+    n.mn = min({n.val, n.l ? l.mn : INF, n.r ? r.mn : INF});
   }
-  void Update(const T &val) {
-    now = val; Update();
+  void apply(int x, ll v) {
+    if (!x) return;
+    auto &n = tr[x]; n.val += v; n.lz += v;
+    n.mx += v; n.mn += v; n.sum += v*n.cnt;
   }
-  void Push() {
-    Update(now + lz);
-    if (flip)
-      swap(l, r);
-    for (auto c : {l, r}) if (c)
-        c->flip ^= flip, c->lz += lz;
-    lz = 0; flip = false;
+  void push(int x) {
+    if (!x) return;
+    auto &n = tr[x];
+    if (n.lz) {
+      apply(n.l, n.lz); apply(n.r, n.lz); n.lz = 0;
+    } if (n.flip) {
+      swap(n.l, n.r);
+      if (n.l) tr[n.l].flip ^= 1;
+      if (n.r) tr[n.r].flip ^= 1;
+      n.flip = false;
+    }
+  }
+  void push_all(int x) {
+    if (!is_rt(x)) push_all(tr[x].p);
+    push(x);
+  }
+  void rotate(int x) {
+    int p = tr[x].p, g = tr[p].p, b;
+    if (x == tr[p].l) tr[p].l = b = tr[x].r, tr[x].r = p;
+    else tr[p].r = b = tr[x].l, tr[x].l = p;
+    tr[x].p = g; tr[p].p = x;
+    if (b) tr[b].p = p;
+    if (!is_rt(p)) (tr[g].l == p ? tr[g].l : tr[g].r) = x;
+    else rt = x;
+    update(p); update(x);
+  }
+  void splay(int x, int tgt = 0) {
+    push_all(x);
+    while (tr[x].p != tgt && !is_rt(x)) {
+      int p = tr[x].p, g = tr[p].p;
+      if (g != tgt && !is_rt(p)) {
+        if ((tr[p].l == x) == (tr[g].l == p)) rotate(p);
+        else rotate(x);
+      } rotate(x);
+    }
+    if (!tgt && is_rt(x)) rt = x;
+  }
+  // k번째 원소를 tg(기본 0=루트) 아래로 splay
+  void find_kth(int k, int tg = 0) {
+    int cur = rt;
+    while (push(cur), 1) {
+      int lc = tr[tr[cur].l].cnt;
+      if (k == lc+1) break;
+      if (k <= lc) cur = tr[cur].l;
+      else k -= lc+1, cur = tr[cur].r;
+    }
+    splay(cur, tg);
+  }
+  // 구간을 서브트리로 모음 (루트 반환, 1 <= l <= r <= N)
+  int gather(int l, int r) {
+    find_kth(r+2); find_kth(l, rt);
+    return tr[tr[rt].l].r;
+  }
+  int build(int l, int r, int p, const vector<ll> &v) {
+    if (l > r) return 0;
+    int mid = (l+r)/2, val = 0, id = -1;
+    if (mid > 1 && mid < sz(v)+2) val = v[mid-2], id = mid-1;
+    int x = new_nd(val, id);
+    tr[x].p = p;
+    tr[x].l = build(l, mid-1, x, v);
+    tr[x].r = build(mid+1, r, x, v);
+    update(x); return x;
+  }
+  void init(const vector<ll> &v) { // v는 0-idx vector
+    clear();
+    rt = build(1, sz(v)+2, 0, v);
+  }
+  void add_val(int l, int r, ll v) { apply(gather(l, r), v); }
+  int get_idx(int id) { // ID 원소의 인덱스 반환 (1-idx)
+    push_all(pos[id]); splay(pos[id]);
+    return tr[tr[rt].l].cnt;
+  }
+  ll get_val(int k) { find_kth(k+1); return tr[rt].val; }
+  void reverse(int l, int r) { tr[gather(l, r)].flip ^= 1; }
+  // k번째 뒤(0: 앞 / N: 뒤)에 값 v (ID: id) 삽입
+  void insert(int k, ll v, int id = -1) {
+    find_kth(k+1); find_kth(k+2, rt);
+    int x = new_nd(v, id), p = tr[rt].r;
+    tr[p].l = x; tr[x].p = p;
+    update(p); update(rt); splay(x);
+  }
+  void erase(int l, int r) {
+    int p = tr[gather(l, r)].p;
+    tr[p].r = 0; update(p); splay(p);
+  }
+  
+  void shift(int l, int r, int k) { // k칸 우측 시프트
+    int L = r-l+1; k = (k%L+L) % L;
+    if (!k) return;
+    reverse(l, r); reverse(l, l+k-1); reverse(l+k, r);
+  }
+  // === Link-Cut tree ===
+  // 루트~x 경로를 단일 Splay로 연결
+  void access(int x) {
+    for (int y = 0; x; y = x, x = tr[x].p) {
+      splay(x); tr[x].r = y; update(x);
+    }
+  }
+  void make_rt(int x) { access(x); splay(x); tr[x].flip ^= 1; }
+  int find_rt(int x) {
+    access(x); splay(x);
+    while (push(x), tr[x].l) x = tr[x].l;
+    splay(x); return x;
+  }
+  bool conn(int u, int v) { return find_rt(u) == find_rt(v); }
+  // link/cur: 간선 (u, v) 추가/제거 (성공 시 true)
+  bool link(int u, int v) {
+    if (conn(u, v)) return false;
+    make_rt(u); tr[u].p = v; return true;
+  }
+  bool cut(int u, int v) {
+    make_rt(u);
+    if (find_rt(v) == u && tr[v].p == u && !tr[v].l) {
+      tr[v].p = tr[u].r = 0;
+      update(u); return true;
+    }
+    return false;
+  }
+  void cut(int x) { // x와 부모 노드 간선 제거
+    access(x); splay(x);
+    if (tr[x].l) {
+      tr[tr[x].l].p = 0; tr[x].l = 0; update(x);
+    }
+  }
+  int lca(int u, int v) {
+    if (!conn(u, v)) return 0;
+    access(u); access(v); splay(u);
+    return tr[u].p ? tr[u].p : u;
+  }
+  // path_xxx: u, v가 연결되어 있을 때만 호출 가능
+  Node path_qry(int u, int v) {
+    make_rt(u); access(v); splay(v);
+    return tr[v];
+  }
+  void path_upd(int u, int v, ll val) {
+    make_rt(u); access(v); splay(v);
+    apply(v, val);
   }
 };
-Node *rt;
-Node *Splay(Node *x, Node *g = nullptr) {
-  for (g || (rt = x); x->p != g; x->Rotate()) {
-    if (!x->p->IsRoot()) x->p->p->Push();
-    x->p->Push(); x->Push();
-    if (x->p->p != g)
-      (x->IsLeft() ^ x->p->IsLeft() ? x : x->p)->Rotate();
-  }
-  x->Push(); return x;
-}
-Node *Kth(int k) {
-  for (auto x = rt;; x = x->r) {
-    for (; x->Push(), x->l && x->l->sz > k; x = x->l);
-    if (x->l) k -= x->l->sz;
-    if (!k--) return Splay(x);
-  }
-}
-Node *Gather(int s, int e) {
-  auto t = Kth(e + 1);
-  return Splay(t, Kth(s - 1))->l;
-}
-Node *Flip(int s, int e) {
-  auto x = Gather(s, e);
-  x->flip ^= 1;
-  return x;
-}
-Node *Shift(int s, int e, int k) {
-  if (k >= 0) { // shift to right
-    k %= e - s + 1;
-    if (k)
-      Flip(s, e), Flip(s, s + k - 1), Flip(s + k, e);
-  } else { // shift to left
-    k = -k;
-    k %= e - s + 1;
-    if (k)
-      Flip(s, e), Flip(s, e - k), Flip(e - k + 1, e);
-  }
-  return Gather(s, e);
-}
-int Idx(Node *x) { return x->l->sz; }
-//////////// Link Cut Tree Start ////////////
-Node *Splay(Node *x) {
-  for (; !x->IsRoot(); x->Rotate()) {
-    if (!x->p->IsRoot()) x->p->p->Push();
-    x->p->Push(); x->Push();
-    if (!x->p->IsRoot())
-      (x->IsLeft() ^ x->p->IsLeft() ? x : x->p)->Rotate();
-  }
-  x->Push();
-  return x;
-}
-void Access(Node *x) {
-  Splay(x); x->r = nullptr;
-  x->Update();
-  for (auto y = x; x->p; Splay(x))
-    y = x->p, Splay(y), y->r = x, y->Update();
-}
-int GetDepth(Node *x) {
-  Access(x); x->Push();
-  return GetSize(x->l);
-}
-Node *GetRoot(Node *x) {
-  Access(x);
-  for (x->Push(); x->l; x->Push())
-    x = x->l;
-  return Splay(x);
-}
-Node *GetPar(Node *x) {
-  Access(x); x->Push();
-  if (!x->l) return nullptr;
-  x = x->l;
-  for (x->Push(); x->r; x->Push())
-    x = x->r;
-  return Splay(x);
-}
-void Link(Node *p, Node *c) {
-  Access(c); Access(p);
-  c->l = p; p->p = c;
-  c->Update();
-}
-void Cut(Node *c) {
-  Access(c);
-  c->l->p = nullptr;
-  c->l = nullptr;
-  c->Update();
-}
-Node *GetLCA(Node *x, Node *y) {
-  Access(x); Access(y); Splay(x);
-  return x->p ? x->p : x;
-}
-Node *Ancestor(Node *x, int k) {
-  k = GetDepth(x) - k;
-  assert(k >= 0);
-  for (;; x->Push()) {
-    int s = GetSize(x->l);
-    if (s == k) return Access(x), x;
-    if (s < k) k -= s + 1, x = x->r;
-    else x = x->l;
-  }
-}
-void MakeRoot(Node *x) {
-  Access(x); Splay(x);
-  x->flip ^= 1; x->Push();
-}
-bool IsConnect(Node *x, Node *y) { return GetRoot(x) == GetRoot(y); }
-void PathUpdate(Node *x, Node *y, T val) {
-  Node *root = GetRoot(x); // original root
-  MakeRoot(x); Access(y); Splay(x);
-  x->lz += val; x->Push();
-  MakeRoot(root); // Revert
-  Node *lca = GetLCA(x, y);
-  Access(lca); Splay(lca);
-  lca->Push(); lca->Update(lca->now - val);
-}
-T VertexQuery(Node *x, Node *y) {
-  Node *l = GetLCA(x, y); T ret = l->now;
-  Access(x); Splay(l);
-  if (l->r) ret = ret + l->r->sum;
-  Access(y); Splay(l);
-  if (l->r) ret = ret + l->r->sum;
-  return ret;
-}
-Node *GetQueryResultNode(Node *u, Node *v) {
-  if (!IsConnect(u, v)) return 0;
-  MakeRoot(u); Access(v);
-  auto ret = v->l;
-  while (ret->mx != ret->now) {
-    if (ret->l && ret->mx == ret->l->mx)
-      ret = ret->l;
-    else ret = ret->r;
-  }
-  Access(ret); return ret;
-}

@@ -24,13 +24,11 @@ struct LiChaoTree {
     tree.push_back({-1, -1, s, e, id});
   }
   void update(int node, Line v) {
-    ll s = tree[node].s, e = tree[node].e;
-    ll m = s + (e - s) / 2;
+    ll s = tree[node].s, e = tree[node].e, m = s+(e-s)/2;
     Line low = tree[node].line, high = v;
     if (low.get(s) > high.get(s)) swap(low, high);
     if (low.get(e) <= high.get(e)) {
-      tree[node].line = low;
-      return;
+      tree[node].line = low; return;
     }
     if (low.get(m) < high.get(m)) {
       tree[node].line = low;
@@ -54,7 +52,7 @@ struct LiChaoTree {
       update(node, v); return;
     }
     ll s = tree[node].s, e = tree[node].e;
-    ll m = s + (e - s) / 2;
+    ll m = s+(e-s)/2;
     if (tree[node].l == -1) {
       tree[node].l = tree.size();
       tree.push_back({-1, -1, s, m, id});

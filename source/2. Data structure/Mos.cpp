@@ -5,7 +5,7 @@
  * 
  */
 struct Query { int l, r, idx; };
-vector<ll> mos(vector<int> a, vector<Query> q) { // a는 값으로 받음(복사) -> 원본 보존
+vector<ll> mos(vector<int> a, vector<Query> q) {
   int n = sz(a);
   auto tmp = a; compress(tmp);
   for (auto &x : a) x = lower_bound(all(tmp), x) - tmp.begin();
