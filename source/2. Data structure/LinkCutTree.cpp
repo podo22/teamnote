@@ -1,8 +1,9 @@
 /**
-* [Metadata]
-* [Tested on]
-* 
-*/
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 // MAXN은 (초기 크기 + insert 총 횟수) 이상
 const ll INF = 1e18, MAXN = 3e5+5;
 struct BBST {
@@ -121,11 +122,67 @@ struct BBST {
     int p = tr[gather(l, r)].p;
     tr[p].r = 0; update(p); splay(p);
   }
-  
   void shift(int l, int r, int k) { // k칸 우측 시프트
     int L = r-l+1; k = (k%L+L) % L;
     if (!k) return;
     reverse(l, r); reverse(l, l+k-1); reverse(l+k, r);
+  }
+  int build_val(int l, int r, int p, const vector<pair<ll, int>> &v) {
+    if (l > r) return 0;
+    int mid = (l + r) / 2;
+    ll val = 0; int id = -1;
+    if (mid == 1) val = -INF;
+    else if (mid == sz(v) + 2) val = INF;
+    else val = v[mid - 2].first, id = v[mid - 2].second;
+    int x = new_nd(val, id);
+    tr[x].p = p;
+    tr[x].l = build_val(l, mid - 1, x, v);
+    tr[x].r = build_val(mid + 1, r, x, v);
+    update(x); return x;
+  }
+  // (val, id) 사전순 정렬된 v(0-idx)로 트리 생성
+  void init_val(const vector<pair<ll, int>> &v = {}) {
+    clear();
+    rt = build_val(1, sz(v) + 2, 0, v);
+  }
+  // (val, id) >= (s, id) 인 첫 노드를 tg 아래로 splay
+  int lower_bound(ll s, int id = -1, int tg = 0) {
+    int cur = rt, ret = 0;
+    while (cur) { push(cur);
+      if (pair(tr[cur].val, tr[cur].id) >= pair(s, id)) {
+        ret = cur; cur = tr[cur].l;
+      }
+      else cur = tr[cur].r;
+    }
+    if (ret) splay(ret, tg);
+    return ret;
+  }
+  // (val, id) < (s, id) 인 마지막 노드를 tg 아래로 splay
+  int prev_bound(ll s, int id = -1, int tg = 0) {
+    int cur = rt, ret = 0;
+    while (cur) { push(cur);
+      if (pair(tr[cur].val, tr[cur].id) < pair(s, id)) {
+        ret = cur; cur = tr[cur].r;
+      }
+      else cur = tr[cur].l;
+    }
+    if (ret) splay(ret, tg);
+    return ret;
+  }
+  // 값 [(s1, id1), (s2, id2)) 구간을 모음 (루트 반환)
+  int gather_val(ll s1, int id1, ll s2, int id2) {
+    int r = lower_bound(s2, id2), l = prev_bound(s1, id1, r);
+    return tr[l].r;
+  }
+  // (v, id)값 노드 정렬 위치에 삽입
+  void insert_val(ll v, int id = -1) {
+    int r = lower_bound(v, id), l = prev_bound(v, id, r);
+    int x = new_nd(v, id); tr[l].r = x; tr[x].p = l;
+    update(l); update(r); splay(x);
+  }
+  void erase_val(ll v, int id = -1) { // (v, id)값 노드 제거
+    int r = lower_bound(v, id+1), l = prev_bound(v, id, r);
+    tr[l].r = 0; update(l); update(r); splay(l);
   }
   // === Link-Cut tree ===
   // 루트~x 경로를 단일 Splay로 연결
