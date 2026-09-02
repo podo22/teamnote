@@ -8,17 +8,16 @@
 const ll INF = 1e18, MAXN = 3e5+5;
 struct BBST {
   struct Node {
-    int l = 0, r = 0, p = 0;
+    int l = 0, r = 0, p = 0, id = -1;
     ll cnt = 0, val = 0, sum = 0, mx = -INF, mn = INF, lz = 0;
     bool flip = false;
   } tr[MAXN];
   int rt = 0, ptr = 0, pos[MAXN];
   void clear() {
-    fill(tr, tr+ptr+1, Node{});
-    rt = ptr = 0;
+    fill(tr, tr+ptr+1, Node{}); rt = ptr = 0;
   }
   int new_nd(ll v = 0, int id = -1) {
-    auto &n = tr[++ptr];
+    auto &n = tr[++ptr]; n.id = id;
     n.val = n.mx = n.mn = n.sum = v; n.cnt = 1;
     n.l = n.r = n.p = n.lz = 0; n.flip = false;
     if (id != -1) pos[id] = ptr;
@@ -127,29 +126,27 @@ struct BBST {
     if (!k) return;
     reverse(l, r); reverse(l, l+k-1); reverse(l+k, r);
   }
-  int build_val(int l, int r, int p, const vector<pair<ll, int>> &v) {
+  int build_val(int l, int r, int p, const vector<pair<ll,int>> &v) {
     if (l > r) return 0;
     int mid = (l + r) / 2;
     ll val = 0; int id = -1;
     if (mid == 1) val = -INF;
-    else if (mid == sz(v) + 2) val = INF;
-    else val = v[mid - 2].first, id = v[mid - 2].second;
-    int x = new_nd(val, id);
-    tr[x].p = p;
+    else if (mid == sz(v)+2) val = INF;
+    else val = v[mid-2].first, id = v[mid-2].second;
+    int x = new_nd(val, id); tr[x].p = p;
     tr[x].l = build_val(l, mid - 1, x, v);
     tr[x].r = build_val(mid + 1, r, x, v);
     update(x); return x;
   }
   // (val, id) 사전순 정렬된 v(0-idx)로 트리 생성
-  void init_val(const vector<pair<ll, int>> &v = {}) {
-    clear();
-    rt = build_val(1, sz(v) + 2, 0, v);
+  void init_val(const vector<pair<ll,int>> &v = {}) {
+    clear(); rt = build_val(1, sz(v)+2, 0, v);
   }
   // (val, id) >= (s, id) 인 첫 노드를 tg 아래로 splay
   int lower_bound(ll s, int id = -1, int tg = 0) {
     int cur = rt, ret = 0;
     while (cur) { push(cur);
-      if (pair(tr[cur].val, tr[cur].id) >= pair(s, id)) {
+      if (tie(tr[cur].val, tr[cur].id) >= tie(s, id)) {
         ret = cur; cur = tr[cur].l;
       }
       else cur = tr[cur].r;
@@ -161,7 +158,7 @@ struct BBST {
   int prev_bound(ll s, int id = -1, int tg = 0) {
     int cur = rt, ret = 0;
     while (cur) { push(cur);
-      if (pair(tr[cur].val, tr[cur].id) < pair(s, id)) {
+      if (tie(tr[cur].val, tr[cur].id) < tie(s, id)) {
         ret = cur; cur = tr[cur].r;
       }
       else cur = tr[cur].l;
@@ -169,8 +166,8 @@ struct BBST {
     if (ret) splay(ret, tg);
     return ret;
   }
-  // 값 [(s1, id1), (s2, id2)) 구간을 모음 (루트 반환)
-  int gather_val(ll s1, int id1, ll s2, int id2) {
+  // 값 [ (s1,id1), (s2,id2) ) 구간을 모음 (루트 반환)
+  int gather_val(ll s1, ll s2, int id1 = -1, int id2 = -1) {
     int r = lower_bound(s2, id2), l = prev_bound(s1, id1, r);
     return tr[l].r;
   }
