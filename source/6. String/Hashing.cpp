@@ -4,8 +4,7 @@
  * [Tested on]
  * 
 */
-template<ll P1, ll M1, ll P2, ll M2>
-struct Hashing {
+template<ll P1, ll M1, ll P2, ll M2> struct Hashing {
   vector<ll> h1, h2, p1, p2;
   void build(const string &s) {
     int n = sz(s);
@@ -29,5 +28,5 @@ struct Hashing {
 // 1e5+3, 1e5+13, 131'071, 524'287, 1'299'709, 1'301'021
 // 1e9-63, 1e9+7, 1e9+9, 1e9+103
 // using Hash = Hashing<917, 998244353, 10009, 1000000007>;
-// HS H; H.build(s);
+// Hash H; H.build(s);
 // H.get(l, r) == H.get(l2, r2): s[l..r-1] == s[l2..r2-1]

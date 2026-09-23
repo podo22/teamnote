@@ -19,9 +19,9 @@ struct Circulation {
   }
   ll solve() {
     ll sum = 0, res = 0;
-    for (int i = 1; i <= n; i++) sum += demand[i];
-    if (sum != 0) return false;
-    for (int i = 1; i <= n; i++) {
+    for (int i = 0; i <= n; i++) sum += demand[i];
+    if (sum != 0) return -1;
+    for (int i = 0; i <= n; i++) {
       if (demand[i] > 0) {
         dn.add(S, i, demand[i]); res += demand[i];
       }

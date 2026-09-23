@@ -289,16 +289,22 @@
   \end{itemize}
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/MinCut.tex
+  % edit by alreadysolved
   \Algorithm{Mincut 모델링}{}{}{}{}{}
   \begin{itemize}
     \item $N$개의 boolean 변수 $v_1, \cdots, v_n$을 정해서 비용을 최소화하는 문제=true인 점은 $T$, false인 점은 $F$와 연결되게 분할하는 민컷 문제
     \begin{enumerate}
       \item $v_i$가 T일 때 비용 발생: $i$에서 F로 가는 비용 간선
-      \item $v_i$가 F일 때 비용 발생: $i$에서 T로 가는 비용 간선
+      \item $v_i$가 F일 때 비용 발생: T에서 $i$로 가는 비용 간선
       \item $v_i$가 T이고 $v_j$가 F일 때 비용 발생: $i$에서 $j$로 가는 비용 간선
       \item $v_i \ne v_j$일 때 비용 발생: $i$에서 $j$로, $j$에서 $i$로 가는 비용 간선
-      \item $v_i$가 T면 $v_j$도 T여야 함: $i$에서 $j$로 가는 무한 간선
-      \item $v_i$가 F면 $v_j$도 F여야 함: $j$에서 $i$로 가는 무한 간선
+      \item $v_i$가 T면 $v_j$도 T여야 함($v_i \implies v_j$): $i$에서 $j$로 가는 무한 간선
+      \item $v_i$가 F면 $v_j$도 F여야 함($v_j \implies v_i$): $j$에서 $i$로 가는 무한 간선
+      \item $v_i$가 무조건 T/F: T에서 $i$ / $i$에서 F로 가는 무한 간선
+      \item $v_i = v_j$여야 함: $i \to j$, $j \to i$ 양방향 무한 간선
+      \item $v_i \ne v_j$여야 함: 이분 그래프만 가능. $v'_j = \neg v_j$, $v_i = v'_j$로 치환 ($i \leftrightarrow j$ 무한 간선)
+      \item $\neg(v_i \land v_j)$ (둘 다 T 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v_i \implies v'_j$ ($i \to j$ 무한 간선)
+      \item $v_i \lor v_j$ (둘 다 F 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v'_j \implies v_i$ ($j \to i$ 무한 간선)
     \end{enumerate}
     \item 5/6번 + $v_i$와 $v_j$가 달라야 한다는 조건이 있으면 MAX-2SAT
     \item Maximum Density Subgraph (NEERC'06H, BOJ 3611 팀의 난이도)
