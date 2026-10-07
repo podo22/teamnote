@@ -2,7 +2,7 @@
  * [Metadata]
  * Author : alreadysolved
  * [Tested on]
- * https://www.acmicpc.net/problem/13510
+ * 
  */
 // HLD: 트리 경로/서브트리 쿼리를 세그트리 구간으로 변환 (1-idx 정점).
 // hld.build(a) // a[u]=정점 u 값 (1-indexed). 정점/간선 가중치 모두 지원
@@ -14,7 +14,7 @@ template<typename T> struct SegTree {
   struct Nd { T sum, mn, mx; };
   struct Lz { T add, set; bool has; };
   int n; vector<Nd> tr; vector<Lz> lz;
-  SegTree(int n) : n(n), tr(4*n+1), lz(4*n+1, { 0, 0, 0 }) {}
+  SegTree(int n) : n(n), tr(4*n+5), lz(4*n+5, { 0, 0, 0 }) {}
   Nd id() { return { 0, numeric_limits<T>::max(), numeric_limits<T>::lowest() }; }
   bool empty(Lz f) { return !f.has && f.add==0; }
   Nd merge(Nd a, Nd b) { return { a.sum+b.sum, min(a.mn,b.mn), max(a.mx,b.mx) }; }
@@ -40,7 +40,10 @@ template<typename T> struct SegTree {
     lz[nd] = { 0, 0, 0 };
   }
   void build(int nd, int s, int e, const vector<T>& a) {
-    if (s == e) return void(tr[nd] = { a[s], a[s], a[s] });
+    if (s == e) {
+      T v = (s < sz(a) ? a[s] : 0);
+      return void(tr[nd] = { v, v, v });
+    }
     int m = (s+e)>>1;
     build(nd<<1, s, m, a);
     build(nd<<1|1, m+1, e, a);
@@ -65,13 +68,13 @@ template<typename T> struct SegTree {
     int m = (s+e)>>1;
     return merge(qry(nd<<1, s, m, l, r), qry(nd<<1|1, m+1, e, l, r));
   }
-  void build(const vector<T>& a) { build(1, 0, n-1, a); }
-  void add(int l, int r, T x) { upd(1, 0, n-1, l, r, { x, 0, 0 }); }
-  void set(int l, int r, T x) { upd(1, 0, n-1, l, r, { 0, x, 1 }); }
-  Nd query(int l, int r) { return qry(1, 0, n-1, l, r); }
-  T qsum(int l, int r) { return qry(1, 0, n-1, l, r).sum; }
-  T qmin(int l, int r) { return qry(1, 0, n-1, l, r).mn; }
-  T qmax(int l, int r) { return qry(1, 0, n-1, l, r).mx; }
+  void build(const vector<T>& a) { build(1, 0, n, a); }
+  void add(int l, int r, T x) { upd(1, 0, n, l, r, { x, 0, 0 }); }
+  void set(int l, int r, T x) { upd(1, 0, n, l, r, { 0, x, 1 }); }
+  Nd query(int l, int r) { return qry(1, 0, n, l, r); }
+  T qsum(int l, int r) { return qry(1, 0, n, l, r).sum; }
+  T qmin(int l, int r) { return qry(1, 0, n, l, r).mn; }
+  T qmax(int l, int r) { return qry(1, 0, n, l, r).mx; }
 };
 template<typename T = ll> struct HLD {
   int n, pv;

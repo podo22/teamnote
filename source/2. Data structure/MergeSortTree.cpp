@@ -28,12 +28,10 @@ struct MergeSortTree {
       if (!(r & 1)) {
         res += tr[r].end() - upper_bound(all(tr[r]), k);
         r--; }
-      /*
-       - Count < k: lower_bound(all(v)) - v.begin()
-       - Count <= k: upper_bound(all(v)) - v.begin()
-       - Count >= k: v.end() - lower_bound(all(v))
-       - Count > k: v.end() - upper_bound(all(v))
-      */
+      /* - Count < k: lower_bound(all(v)) - v.begin()
+         - Count <= k: upper_bound(all(v)) - v.begin()
+         - Count >= k: v.end() - lower_bound(all(v))
+         - Count > k: v.end() - upper_bound(all(v)) */
     }
     return res;
   }

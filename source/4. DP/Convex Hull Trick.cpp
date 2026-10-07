@@ -36,12 +36,9 @@ template <typename T = ll> struct LineContainer : multiset<Line<T>, less<>> {
     return l.k * x + l.m;
   }
 }; // add(-k, -m), -query(x) for Lower hull(min)
-LineContainer CHT;
-int main() {
-  dp[0] = 0; CHT.add(a[0], dp[0]);
-  for (int i = 1; i < n; i++) { // dp[i] = Max(a[j]*b[i] + dp[j])
-    dp[i] = CHT.query(b[i]);
-    CHT.add(a[i], dp[i]);
-  }
-  cout << dp[n-1] << "\n";
+LineContainer<ll> CHT;
+dp[0] = 0; CHT.add(a[0], dp[0]);
+for (int i = 1; i < n; i++) { // dp[i] = Max(a[j]*b[i] + dp[j])
+  dp[i] = CHT.query(b[i]);
+  CHT.add(a[i], dp[i]);
 }

@@ -76,8 +76,7 @@ struct Gauss {
       for (int i = r + 1; i < n; i++) {
         ll f = a[i][c];
         if (f == 0) continue;
-        for (int j = c; j < m; j++)
-        a[i][j] = (a[i][j] - f * a[r][c] % M + M) % M;
+        for (int j = c; j < m; j++) a[i][j] = (a[i][j] - f * a[r][j] % M + M) % M;
       }
       r++;
     }

@@ -53,24 +53,15 @@ template<typename Node> struct SegTree {
     return cur - siz;
   }
 };
-int main() {
-  vector<int> v = {1, 2, 3, 4, 5};
-  // 1. RSQ (Range Sum Query)
-  SegTree<int> rsq(v, 0, [](int a, int b) { return a+b; });
-  rsq.add(1, 5);             // v[1] += 5
-  int sum = rsq.query(1, 3); // Sum of v[1..3]
-  int kth = rsq.find_kth(4); // First idx with prefix sum >= 4
-  // 2. RMQ (Range Maximum Query)
-  SegTree<int> rmq(10, -1e9, [](int a, int b) { return max(a, b); });
-  rmq.update(2, 15);         // v[2] = 15
-  int mx = rmq.query(0, 5);  // Max of v[0..5]
-  // 3. SegTree Walk (find), O(log N)
-  // pref: left prefix result, nd: current nd result
-  int tar = 10;
-  int idx = rmq.find([&](int pref, int nd) {
-    // First idx i where max(v[0..i]) >= tar
-    return max(pref, nd) >= tar;
-    // First idx i where sum(v[0..i]) >= tar
-    // return pref + nd >= tar;
-  });
-}
+vector<int> v = {1, 2, 3, 4, 5};
+SegTree<int> rsq(v, 0, [](int a, int b) { return a+b; });
+rsq.add(1, 5);             // v[1] += 5
+rsq.query(1, 3);           // [1,3] 합, 양끝 포함
+rsq.find_kth(4);           // 누적합 >= 4인 첫 인덱스. 원소 비음수
+SegTree<int> rmq(10, -1e9, [](int a, int b) { return max(a,b); });
+rmq.update(2, 15);         // v[2] = 15
+rmq.query(0, 5);           // [0,5] 최댓값
+// find: 누적 결과가 조건을 처음 만족하는 인덱스, 없으면 -1.
+// pref는 이미 지나온 왼쪽 구간, nd는 검사할 구간의 결과.
+int tar = 10;
+rmq.find([&](int pref, int nd) { return max(pref, nd) >= tar; });

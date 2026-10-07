@@ -8,17 +8,25 @@
 struct Fenwick {
   const ll MAXN = 100000;
   vector<ll> tree; int SZ;
-  Fenwick(ll sz) : SZ(sz+1), tree(sz+1) {}
+  Fenwick(ll n) : tree(n), SZ(n) {}
   Fenwick() : Fenwick(MAXN) {}
-  ll query(ll p) { // sum from index 1 to p, inclusive
+  ll query(ll p) { // sum from index 0 to p, inclusive
     ll ret = 0;
-    for (; p > 0; p -= p & -p) ret += tree[p];
+    for (; p >= 0; p = (p & (p+1)) - 1) ret += tree[p];
     return ret;
   }
   void add(ll p, ll val) {
-    for (; p <= SZ; p += p & -p) tree[p] += val;
+    for (; p < SZ; p |= p+1) tree[p] += val;
   }
 };
+// Ex. inversion counting
+vector<ll> v = a; compress(v);
+Fenwick bit(sz(v)); ll inv = 0;
+for (int i = 0; i < sz(a); i++) {
+  int x = lower_bound(all(v), a[i]) - v.begin();
+  inv += i - bit.query(x);
+  bit.add(x, 1);
+}
 // Fenwick_2d<int> T(n+1,m+1) for nxm grid indexed from 1
 template<class T> struct Fenwick_2d {
   vector<vector<T>> x;

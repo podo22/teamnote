@@ -8,7 +8,7 @@ template<typename T> struct Point {
   Point operator*(T n) const { return {x*n, y*n}; }
   Point operator/(T n) const { return {x/n, y/n}; }
   T operator*(const Point& p) const { return x*p.x + y*p.y; }
-  T operator/(const Point& p) const { return x*p.y - y*p.x; }
+  T operator/(const Point& p) const { retur n x*p.y - y*p.x; }
   /* 3D dot, cross
   T operator*(const Point& p) const { return x*p.x + y*p.y + z*p.z; }
   Point operator/(const Point& p) const { 

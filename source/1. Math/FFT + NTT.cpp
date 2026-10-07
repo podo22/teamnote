@@ -7,7 +7,8 @@
 template <ll M = 998244353>
 struct Modint {
   using V = long long; V val;
-  Modint() : val(0) {} Modint(auto y) : val(y % M) {}
+  Modint() : val(0) {}
+  Modint(auto y) : val(y % M) { if (val < 0) val += M; }
   operator V() const { return val; }
   Modint operator-() const { return Modint() -= *this; }
   Modint operator+(auto rhs) const { return Modint(*this) += rhs; }
@@ -18,7 +19,7 @@ struct Modint {
   Modint &operator-=(Modint rhs) { val -= rhs.val; if (val < 0) val += M; return *this; }
   Modint &operator*=(Modint rhs) { val = val * rhs.val % M; return *this; }
   Modint &operator/=(Modint rhs) { val = val * rhs.inv() % M; return *this; }
-  Modint inv() { return inv(val, M); }
+  Modint inv() { assert(val != 0); return inv(val, M); }
   V inv(ll x, ll m) { return x > 1 ? m - inv(m % x, x) * m / x : 1; }
   Modint pow(auto y) {
     if (y == 0) return Modint(1);

@@ -24,44 +24,21 @@ template <int S = 26, char OS = 'a'> struct Trie {
     if (count(s) < c) return false;
     insert(s, -c); return true;
   }
-  // 완전 일치 개수, O(|s|)
-  int count(const auto& s) const {
+  int walk(const auto& s) const {
     int u = 0;
     for (auto i : s) {
-      int idx = i - OS;
-      if (u == -1 || tree[u].nxt[idx] == -1) return 0;
-      u = tree[u].nxt[idx];
-    }
-    return tree[u].end;
+      int v = tree[u].nxt[i-OS];
+      if (v == -1) return -1;
+      u = v;
+    } return u;
   }
-  // prefix로 포함 개수, O(|s|)
-  int count_prefix(const auto& s) const {
-    int u = 0;
-    for (auto i : s) {
-      int idx = i - OS;
-      if (u == -1 || tree[u].nxt[idx] == -1) return 0;
-      u = tree[u].nxt[idx];
-    }
-    return tree[u].pass;
+  int count(const auto& s) const { // 완전 일치 개수, O(|s|)
+    int u = walk(s);
+    return u == -1 ? 0 : tree[u].end;
   }
-  // 사전순 k번째 문자열, O(|s| * S)
-  string kth(int k) const {
-    if (k <= 0 || k > tree[0].pass) return "";
-    int u = 0; string res = "";
-    while (true) {
-      if (k <= tree[u].end) return res;
-      k -= tree[u].end;
-      for (int i = 0; i < S; i++) {
-        int v = tree[u].nxt[i];
-        if (v != -1 && tree[v].pass > 0) {
-          if (k <= tree[v].pass) {
-            res += (char)(i + OS);
-            u = v; break;
-          }
-          k -= tree[v].pass;
-        }
-      }
-    }
+  int count_prefix(const auto& s) const { // prefix로 포함 개수, O(|s|)
+    int u = walk(s);
+    return u == -1 ? 0 : tree[u].pass;
   }
 };
 template <typename T = ll, int B = 62> struct XorTrie {
@@ -97,32 +74,6 @@ template <typename T = ll, int B = 62> struct XorTrie {
     }
     return tree[u].cnt;
   }
-  // max(x ^ y), O(B)
-  T max_xor(T x) const {
-    int u = 0; T res = 0;
-    for (int i = B-1; i >= 0; i--) {
-      int b = (x >> i) & 1, p = b ^ 1;
-      if (tree[u].nxt[p] != -1 && tree[tree[u].nxt[p]].cnt > 0) {
-        res |= (T(1) << i); u = tree[u].nxt[p];
-      } else {
-        u = tree[u].nxt[b];
-      }
-    }
-    return res;
-  }
-  // min(x ^ y), O(B)
-  T min_xor(T x) const {
-    int u = 0; T res = 0;
-    for (int i = B-1; i >= 0; i--) {
-      int b = (x >> i) & 1;
-      if (tree[u].nxt[b] != -1 && tree[tree[u].nxt[b]].cnt > 0) {
-        u = tree[u].nxt[b];
-      } else {
-        res |= (T(1) << i); u = tree[u].nxt[b ^ 1];
-      }
-    }
-    return res;
-  }
   // x^y 기준 k번째 최솟값(1-idx), O(B)
   T kth_xor(T x, int k) const { 
     if (k <= 0 || k > tree[0].cnt) return -1;
@@ -138,6 +89,8 @@ template <typename T = ll, int B = 62> struct XorTrie {
     }
     return res;
   }
+  T min_xor(T x) const { return kth_xor(x, 1); }
+  T max_xor(T x) const { return kth_xor(x, tree[0].cnt); }
   // (x^y) < k 만족하는 y 개수, O(B)
   int count_less(T x, T k) const {
     int u = 0, res = 0;

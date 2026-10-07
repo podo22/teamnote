@@ -56,10 +56,10 @@ struct BBST {
     int p = tr[x].p, g = tr[p].p, b;
     if (x == tr[p].l) tr[p].l = b = tr[x].r, tr[x].r = p;
     else tr[p].r = b = tr[x].l, tr[x].l = p;
-    tr[x].p = g; tr[p].p = x;
-    if (b) tr[b].p = p;
     if (!is_rt(p)) (tr[g].l == p ? tr[g].l : tr[g].r) = x;
     else rt = x;
+    tr[x].p = g; tr[p].p = x;
+    if (b) tr[b].p = p;
     update(p); update(x);
   }
   void splay(int x, int tgt = 0) {
@@ -91,7 +91,7 @@ struct BBST {
   }
   int build(int l, int r, int p, const vector<ll> &v) {
     if (l > r) return 0;
-    int mid = (l+r)/2, val = 0, id = -1;
+    int mid = (l+r)/2, id = -1; ll val = 0;
     if (mid > 1 && mid < sz(v)+2) val = v[mid-2], id = mid-1;
     int x = new_nd(val, id);
     tr[x].p = p;

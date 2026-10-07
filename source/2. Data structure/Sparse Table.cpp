@@ -14,9 +14,9 @@ struct SparseTable {
     for (int i = 1; i < lg; i++) {
       int len = 1 << i;
       for (int m = len; m < n+len; m += len*2) {
-        st[i][m-1] = v[m-1];
-        for (int j = m-2; j >= max(0, m-len); j--)
-          st[i][j] = f(v[j], st[i][j+1]);
+        int e = min(m, n);
+        st[i][e-1] = v[e-1];
+        for (int j = e-2; j >= max(0, m-len); j--) st[i][j] = f(v[j], st[i][j+1]);
         if (m < n) {
           st[i][m] = v[m];
           for (int j = m+1; j < min(n, m+len); j++)

@@ -4,23 +4,22 @@
  * [Tested on]
  * 
  */
-struct face{ int a, b, c; PT d; };
-vector<face> convex_hull_3d(vector<PT> &p) {
-  // -1. 중복 점 제거 (normalize하면 중복 점이 생길 수 있음)
-  // 0. size <= 3 -> exit
-  // 1. 전부 한 직선 위에 있는지 판정 yes -> exit
-  // 2. first 3 points are not on the same line일 때까지 셔플하고 전부 한 평면 위에 있는 지 판정 yes -> exit
-  int n = p.size();
-  if (n <= 3) exit(1);
-  while (true) {
-    // shuffle until first 4 points are not on the same plane
-    shuffle(all(p), mt19937(random_device{}()));
-    if (((p[1]-p[0])^(p[2]-p[0])) * (p[3]-p[0]) != 0) break;
-  }
+struct face { int a, b, c; P d; };
+vector<face> ConvexHull_3d(vector<P> &p) {
+  compress(p); int n = sz(p);
+  if (n <= 3) return {};
+  int k = 2;
+  while (k < n && ((p[1]-p[0]) / (p[k]-p[0])) == P{0, 0, 0}) k++;
+  if (k == n) return {};
+  swap(p[2], p[k]);
+  k = 3;
+  while (k < n && (((p[1]-p[0]) / (p[2]-p[0])) * (p[k]-p[0])) == 0) k++;
+  if (k == n) return {};
+  swap(p[3], p[k]);
   vector<face> f;
   vector<vector<bool>> dead(n, vector<bool>(n, true));
   auto add_face = [&](int a, int b, int c) {
-    f.push_back({a, b, c, (p[b]-p[a]) ^ (p[c]-p[a])});
+    f.push_back({ a, b, c, (p[b]-p[a]) / (p[c]-p[a]) });
     dead[a][b] = dead[b][c] = dead[c][a] = 0;
   };
   add_face(0, 1, 2); add_face(0, 2, 1);
