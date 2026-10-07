@@ -35,15 +35,15 @@
   \Algorithm{Basic Arithmetic}{}{}{cpp}{source/1. Math/Basic arithmetic.cpp}{}
   \Algorithm{Binomial Coefficient}{}{Init: $O(MAXN)$, Query: $O(1)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
   %\Algorithm{Binomial Coefficient}{}{}{cpp}{source/1. Math/Binomial Coefficient(pe).cpp}{}
-  \Algorithm{Chinese Remainder Theorem}{Solve system of linear congruences.}{$O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
-  \Algorithm{FFT \& NTT}{Fast Fourier/Number Theoretic Transform for convolutions.}{$O(N \log N)$}{cpp}{source/1. Math/FFT + NTT.cpp}{}
-  \Algorithm{Bostan-Mori}{}{$O(d \log d \log k)$}{cpp}{source/1. Math/bostan_mori.cpp}{}
-  \Algorithm{Linear Sieve}{Find primes and multiplicative functions in linear time.}{$O(N)$}{cpp}{source/1. Math/Linear Sieve.cpp}{}
+  \Algorithm{Chinese Remainder Theorem}{여러 나머지 조건을 동시에 만족하는 정수}{$O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
+  \Algorithm{FFT \& NTT}{$c_k=\sum_{i+j=k}a_i b_j$ 형태의 합을 한꺼번에 계산}{$O(N \log N)$}{cpp}{source/1. Math/FFT + NTT.cpp}{}
+  \Algorithm{Bostan-Mori}{유리 생성함수 $P/Q$의 먼 계수, 알려진 선형 점화식의 큰 인덱스 항}{$O(d \log d \log k)$}{cpp}{source/1. Math/bostan_mori.cpp}{}
+  \Algorithm{Linear Sieve}{}{$O(N)$}{cpp}{source/1. Math/Linear Sieve.cpp}{}
   \Algorithm{Miller-Rabin \& Pollard-Rho}{Primality test and integer factorization.}{$O(\log^3 N) / O(N^{1/4})$}{cpp}{source/1. Math/Miller rabin + Pollard rho.cpp}{}
-  \Algorithm{XOR Basis}{}{}{cpp}{source/1. Math/XOR Basis.cpp}{}
+  \Algorithm{XOR Basis}{부분집합 XOR의 생성 가능 여부·최댓값·k번째 값. 원소 하나와의 XOR는 XorTrie.}{}{cpp}{source/1. Math/XOR Basis.cpp}{}
   \Algorithm{Floor Sum}{$\sum_{k=1}^{n} \lfloor n/k \rfloor$}{}{cpp}{source/1. Math/Floor Sum.cpp}{}
-  \Algorithm{Xuduh Sieve}{Calculate prefix sum of multiplicative function}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
-  \Algorithm{Discrete Sqrt}{}{$O()$}{cpp}{source/1. Math/Discrete Sqrt.cpp}{}
+  \Algorithm{Xuduh Sieve}{큰 $N$까지의 $\phi$, $\mu$ 누적합}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
+  \Algorithm{Discrete Root}{}{}{cpp}{source/1. Math/Discrete Sqrt.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Discrete Log.py}{}
   \Algorithm{Multiplicative Order}{Find the minimum positive $k$ s.t. $a^k \equiv 1 \pmod mod$)}{}{cpp}{source/1. Math/Multiplicative Order.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
@@ -56,88 +56,88 @@
   \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
   \Algorithm{Non-Recursive Segment Tree}{}{}{cpp}{source/2. Data structure/NonRec_SegTree.cpp}{}
   %\Algorithm{Inversion counting}{}{}{cpp}{source/2. Data structure/Inversion counting.cpp}{}
-  \Algorithm{1D \& 2D Fenwick Tree}{Point updates and subgrid sums on a 2D plane.}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Fenwick-tree.cpp}{}
+  \Algorithm{1D \& 2D Fenwick Tree}{}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Fenwick-tree.cpp}{}
   %\Algorithm{Merge Sort Tree}{Count/rank of elements in range $[L, R]$.}{$O(\log^2 N)$ per query}{cpp}{source/2. Data structure/MergeSortTree.cpp}{}
-  \Algorithm{Persistent Segment Tree}{Accessing previous versions and range k-th element.}{$O(\log N)$ per query}{cpp}{source/2. Data structure/PersistentSegmentTree.cpp}{}
+  \Algorithm{Persistent Segment Tree}{정적 배열의 구간 k번째 값·값 범위별 개수·이전/다음 값}{$O(\log N)$ per query}{cpp}{source/2. Data structure/PersistentSegmentTree.cpp}{}
   %\Algorithm{Sweepline Mo's}{Optimized Mo's for $O(1)$ update and $O(1)$ query via offline sweepline.}{$O(N\sqrt{Q})$}{cpp}{source/2. Data structure/Sweepline MOs.cpp}{}
-  \Algorithm{Link-Cut Tree}{Dynamic tree structure supporting link, cut, and path operations using auxiliary Splay trees.}{Amortized $O(\log N)$}{cpp}{source/2. Data structure/LinkCutTree.cpp}{}
-  \Algorithm{Li Chao Tree}{}{}{cpp}{source/2. Data structure/Li chao tree.cpp}{}
+  \Algorithm{Link-Cut Tree}{간선 연결·삭제가 있는 숲의 경로 쿼리·갱신. 고정 트리는 HLD}{Amortized $O(\log N)$}{cpp}{source/2. Data structure/LinkCutTree.cpp}{}
+  \Algorithm{Li Chao Tree}{순서 제약 없는 직선 추가·최솟값 쿼리}{}{cpp}{source/2. Data structure/Li chao tree.cpp}{}
   %\Algorithm{Lazy Segment Tree}{}{}{cpp}{source/2. Data structure/Lazy segtree.cpp}{}
   \Algorithm{DSU (Weighted)}{}{}{cpp}{source/2. Data structure/DSU (Weighted).cpp}{}
   \Algorithm{Trie}{}{}{cpp}{source/2. Data structure/Trie.cpp}{}
-  \Algorithm{Disjoint Sparse Table}{}{}{cpp}{source/2. Data structure/Sparse Table.cpp}{}
-  \Algorithm{Mo's Algorithm}{}{}{cpp}{source/2. Data structure/Mos.cpp}{}
+  \Algorithm{Disjoint Sparse Table}{결합법칙만 필요하며 멱등성은 불필요}{}{cpp}{source/2. Data structure/Sparse Table.cpp}{}
+  \Algorithm{Mo's Algorithm}{양 끝 원소의 추가·삭제로 답을 갱신할 수 있는 오프라인 구간 쿼리}{}{cpp}{source/2. Data structure/Mos.cpp}{}
 
   \section{Graph}
-  \Algorithm{Bellman Ford}{SSSP with negative weights/cycles.}{$O(VE)$}{cpp}{source/3. Graph/Bellman.cpp}{}
+  \Algorithm{Bellman Ford}{}{$O(VE)$}{cpp}{source/3. Graph/Bellman.cpp}{}
   %\Algorithm{SPFA (SLF Optimized)}{SSSP with negative weights. Returns false if negative cycle detected.}{Avg $O(E)$, Worst $O(VE)$}{cpp}{source/3. Graph/SPFA.cpp}{}
   %\Algorithm{LCA}{Lowest Common Ancestor using binary lifting.}{$O(\log N)$}{cpp}{source/3. Graph/LCA.cpp}{}
-  \Algorithm{ETT}{}{}{cpp}{source/3. Graph/ETT.cpp}{}
-  \Algorithm{HLD}{Heavy-Light Decomposition for path queries on trees.}{$O(\log^2 N)$}{cpp}{source/3. Graph/HLD.cpp}{}
-  \Algorithm{Centroid Decomposition}{Divide and conquer on trees for path/distance problems.}{$O(N \log N)$ build}{cpp}{source/3. Graph/Centroid Decomposition.cpp}{}
-  \Algorithm{Bipartite Matching}{Maximum matching in bipartite graphs.}{$O(E\sqrt{V})$}{cpp}{source/3. Graph/Bipartite_Matching.cpp}{}
-  \Algorithm{Hungarian}{}{$O(N^3)$}{cpp}{source/3. Graph/Hungarian.cpp}{}
-  \Algorithm{Dinic}{Efficient maximum flow algorithm.}{$O(V^2E)$}{cpp}{source/3. Graph/Dinic.cpp}{}
-  \Algorithm{MCMF}{Minimum Cost Maximum Flow.(zkw MCMF)}{$O(F \cdot E \log V)$}{cpp}{source/3. Graph/MCMF.cpp}{}
+  \Algorithm{Euler Tour / Subtree Flattening}{}{}{cpp}{source/3. Graph/ETT.cpp}{}
+  \Algorithm{HLD}{for path queries on trees.}{$O(\log^2 N)$}{cpp}{source/3. Graph/HLD.cpp}{}
+  \Algorithm{Centroid Decomposition}{for path/distance problems.}{$O(N \log N)$ build}{cpp}{source/3. Graph/Centroid Decomposition.cpp}{}
+  \Algorithm{Bipartite Matching}{}{$O(E\sqrt{V})$}{cpp}{source/3. Graph/Bipartite_Matching.cpp}{}
+  \Algorithm{Hungarian}{비용 행렬 기반 일대일 최소 비용 매칭. 용량·네트워크 제약이 추가되면 MCMF}{$O(N^3)$}{cpp}{source/3. Graph/Hungarian.cpp}{}
+  \Algorithm{Dinic}{}{$O(V^2E)$}{cpp}{source/3. Graph/Dinic.cpp}{}
+  \Algorithm{MCMF}{}{$O(F \cdot E \log V)$}{cpp}{source/3. Graph/MCMF.cpp}{}
   \Algorithm{Circulation}{Flow with lower and upper bounds.}{}{cpp}{source/3. Graph/Circulation.cpp}{}
-  \Algorithm{SCC}{Strongly Connected Components.}{$O(V+E)$}{cpp}{source/3. Graph/SCC.cpp}{}
+  \Algorithm{SCC}{방향 그래프의 순환 의존성을 압축하여 DAG로 변환}{$O(V+E)$}{cpp}{source/3. Graph/SCC.cpp}{}
   \Algorithm{2-sat}{Solves 2-SAT in $O(V+E)$; $x_i$ is true if $SCC(x_i) < SCC(\neg x_i)$.}{$O(V+E)$}{cpp}{source/3. Graph/two-sat.cpp}{}
-  \Algorithm{BCC}{Biconnected Components, Cut-vertices, and Bridges.}{$O(V+E)$}{cpp}{source/3. Graph/BCC.cpp}{}
-  \Algorithm{Find 3 or 4 cycle}{Finds all $C_3$ and $C_4$ cycles using degree ordering.}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
-  \Algorithm{Push Relabel}{Max flow via preflow-push and labeling}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
-  \Algorithm{Gomory Hu Tree}{}{}{cpp}{source/3. Graph/Gomory Hu Tree.cpp}{}
+  \Algorithm{BCC}{정점·간선 제거에 따른 연결성. 단절점·브리지·block-cut tree.}{$O(V+E)$}{cpp}{source/3. Graph/BCC.cpp}{}
+  \Algorithm{Find 3 or 4 cycle}{}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
+  \Algorithm{Push Relabel}{}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
+  \Algorithm{Gomory Hu Tree}{무방향 용량 그래프의 여러 정점 쌍 최소컷. 트리 경로의 최소 간선 가중치로 조회}{}{cpp}{source/3. Graph/Gomory Hu Tree.cpp}{}
   %\Algorithm{General Matching}{Maximum Unweighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
   %\Algorithm{Weighted General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
   
   \section{DP Optimization}
   \Algorithm{Convex Hull Trick}{\texttt{dp[i] = min(dp[j] + b[j] * a[i]), b[j] >= b[j+1]}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
   \Algorithm{Linear CHT}{CHT when slopes(k)/queries(x) are monotonic.}{$O(N)$}{cpp}{source/4. DP/Linear CHT.cpp}{}
-  \Algorithm{D\&C optimization}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j][i]), c is Monge}}{$O(KN \log N)$}{cpp}{source/4. DP/DNC opt.cpp}{}
-  \Algorithm{Monotone Queue optimization}{\texttt{dp[i] = min(dp[j] + c[j][i]), c is Monge,\ find cross}}{$O(N \log N)$}{cpp}{source/4. DP/MonotoneQueue opt.cpp}{}
-  \Algorithm{Aliens Trick}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j+1][i]), c is Monge, find lambda w/ half bs}}{$O(T \log X)$}{cpp}{source/4. DP/Aliens.cpp}{}
+  \Algorithm{D\&C optimization}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j][i]), c is Monge}. 이전 행에서 전이하는 DP의 최적 후보 위치가 비감소. 구간 분할 DP 등에 적용.}{$O(KN \log N)$}{cpp}{source/4. DP/DNC opt.cpp}{}
+  \Algorithm{Monotone Queue optimization}{\texttt{dp[i] = min(dp[j] + c[j][i]), c is Monge,\ find cross}. 같은 행의 앞선 상태에서 전이하며, 후보의 우열이 한 번만 역전. 후보별 최적 구간을 deque로 관리.}{$O(N \log N)$}{cpp}{source/4. DP/MonotoneQueue opt.cpp}{}
+  \Algorithm{Aliens Trick}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j+1][i]), c is Monge, find lambda w/ half bs}. 정확히 K개 선택·분할하는 제약을 개수당 패널티로 대체}{$O(T \log X)$}{cpp}{source/4. DP/Aliens.cpp}{}
   \Algorithm{Sum Over Subsets}{\texttt{dp[mask] = sum(A[i]), i is in mask}}{$O(N2^N)$}{cpp}{source/4. DP/SumOverSubsets.cpp}{}
-  \Algorithm{Berlekamp Massey}{Linear recurrence $N$-th term. Sparse matrix determinant.}{$N$-th term: $O(K^2 \log N)$ / Det: $O(N(N+E))$}{cpp}{source/4. DP/Berlekamp_massey.cpp}{}
+  \Algorithm{Berlekamp Massey}{초기 항들에서 선형 점화식을 찾아 N번째 항 계산}{$N$-th term: $O(K^2 \log N)$ / Det: $O(N(N+E))$}{cpp}{source/4. DP/Berlekamp_massey.cpp}{}
   
   \section{Geometry}
-  \Algorithm{Geometry Template}{Basic point, line, and circle operations.}{}{cpp}{source/5. Geometry/Basic Template.cpp}{}
+  \Algorithm{Geometry Template}{}{}{cpp}{source/5. Geometry/Basic Template.cpp}{}
   \Algorithm{Closest Pair}{}{$O(N \log N)$}{cpp}{source/5. Geometry/Closest Pair.cpp}{}
-  \Algorithm{Convex Hull}{Finds the convex hull using Monotone Chain. Returns vertices in CCW order.}{$O(N \log N)$}{cpp}{source/5. Geometry/ConvexHull.cpp}{}
+  \Algorithm{Convex Hull}{Returns vertices in CCW order.}{$O(N \log N)$}{cpp}{source/5. Geometry/ConvexHull.cpp}{}
   \Algorithm{Convex Hull 3d}{}{$O(N^2)$}{cpp}{source/5. Geometry/ConvexHull 3D.cpp}{}
   \Algorithm{Rotating Calipers}{Calculates the diameter (farthest pair of points) of a convex hull(CCW order).}{$O(N)$}{cpp}{source/5. Geometry/Calipers.cpp}{}
   \Algorithm{Point in Convex Polygon}{Checks if a point is inside or on the boundary of a convex polygon (CCW sorted).}{$O(\log N)$}{cpp}{source/5. Geometry/PointInConvexPolygon.cpp}{}
   \Algorithm{Point in Polygon}{Ray casting algorithm for general polygons.}{$O(N)$}{cpp}{source/5. Geometry/PointInPolygon.cpp}{}
-  \Algorithm{Sort Points}{Angular sort. 1. Relative to pivot (Convex Hull). 2. Relative to origin.}{}{cpp}{source/5. Geometry/SortPoints.cpp}{}
+  \Algorithm{Angular sort}{Angular sort. 1. Relative to pivot (Convex Hull). 2. Relative to origin.}{}{cpp}{source/5. Geometry/SortPoints.cpp}{}
   \Algorithm{Linear Minkowski Sum}{Minkowski Sum of Two convex(must be CCW order).}{$O(N+M)$}{cpp}{source/5. Geometry/LinearMinkowski.cpp}{}
   \Algorithm{Smallest Enclosing Circle}{Welzl's algorithm to find the Minimum Enclosing Circle. Returns {center, radius}.}{Expected $O(N)$}{cpp}{source/5. Geometry/EnclosingCircle.cpp}{}
   \Algorithm{Geometric Intersections}{Intersection primitives: Segment, Line-Circle, Line-Hull, and Circle-Polygon area.}{$O(1) / O(1) / O(\log N) / O(N)$}{cpp}{source/5. Geometry/Intersect.cpp}{}
-  \Algorithm{Half Plane Intersection}{Intersection of half-planes defined by lines (left side is valid). Returns a convex polygon.}{$O(N \log N)$}{cpp}{source/5. Geometry/HalfPlaneIntersect.cpp}{}
-  \Algorithm{Manhattan MST}{}{$O(N \log N)$}{cpp}{source/5. Geometry/manhattan_mst.cpp}{}
+  \Algorithm{Half Plane Intersection}{일차 부등식의 공통 영역·볼록 다각형 교집합·다각형 kernel}{$O(N \log N)$}{cpp}{source/5. Geometry/HalfPlaneIntersect.cpp}{}
+  \Algorithm{Manhattan MST}{맨해튼 거리의 완전 그래프 MST}{$O(N \log N)$}{cpp}{source/5. Geometry/manhattan_mst.cpp}{}
   %\Algorithm{Shamos-Hoey}{}{$O(N \log N)$}{cpp}{source/5. Geometry/shamos_hoey.cpp}{}
   
   \section{String}
-  \Algorithm{Aho-Corasick}{Multi-pattern matching using trie and failure links.}{$O(\sum |P| + |T|)$}{cpp}{source/6. String/Aho-Corasick.cpp}{}
-  \Algorithm{Hashing}{Rolling hash for string matching.}{$O(N)$}{cpp}{source/6. String/Hashing.cpp}{}
-  \Algorithm{KMP}{Single pattern matching using prefix function.}{$O(N+M)$}{cpp}{source/6. String/KMP.cpp}{}
-  \Algorithm{Manacher}{Find all palindromic substrings in linear time.}{$O(N)$}{cpp}{source/6. String/Manacher.cpp}{}
-  \Algorithm{Suffix Array}{Suffix array and LCP array.}{$sa: O(N \log N), lcp: O(N)$}{cpp}{source/6. String/SuffixArray.cpp}{}
-  \Algorithm{Z-algorithm}{Longest common prefix between S and its suffixes.}{$O(N)$}{cpp}{source/6. String/Z.cpp}{}
-  \Algorithm{Eertree}{Manages all distinct palindromic substrings using length and suffix links.}{$O(N \log \Sigma)$}{cpp}{source/6. String/eertree.cpp}{}
-  \Algorithm{Suffix Automaton}{Builds a DFA representing all substrings. Supports substring counting and pattern matching.}{$O(N \cdot \Sigma)$}{cpp}{source/6. String/SuffixAutomaton.cpp}{}
+  \Algorithm{Aho-Corasick}{Multi-pattern matching}{$O(\sum |P| + |T|)$}{cpp}{source/6. String/Aho-Corasick.cpp}{}
+  \Algorithm{Rolling Hash}{}{$O(N)$}{cpp}{source/6. String/Hashing.cpp}{}
+  \Algorithm{KMP}{Single pattern matching}{$O(N+M)$}{cpp}{source/6. String/KMP.cpp}{}
+  \Algorithm{Manacher}{중심별 회문 반지름·최장 회문·회문 개수·구간 회문 판정}{$O(N)$}{cpp}{source/6. String/Manacher.cpp}{}
+  \Algorithm{Suffix Array}{부분문자열의 사전순·반복 부분문자열·suffix 간 LCP}{$sa: O(N \log N), lcp: O(N)$}{cpp}{source/6. String/SuffixArray.cpp}{}
+  \Algorithm{Z-algorithm}{각 위치와 접두사의 일치 길이·접두사 등장 횟수·반복 구조}{$O(N)$}{cpp}{source/6. String/Z.cpp}{}
+  \Algorithm{Eertree}{서로 다른 회문을 길이·등장 횟수별로 관리. 중심별 반지름만 필요하면 Manacher}{$O(N \log \Sigma)$}{cpp}{source/6. String/eertree.cpp}{}
+  \Algorithm{Suffix Automaton}{서로 다른 부분문자열의 개수·등장 횟수·최장 공통 부분문자열. 사전순·LCP 중심이면 Suffix Array}{$O(N \cdot \Sigma)$}{cpp}{source/6. String/SuffixAutomaton.cpp}{}
   
   \section{STL \& pbds}
-  \Algorithm{Hash map (pb\_ds)}{Faster hash table using pb\_ds.}{$O(1)$}{cpp}{source/7. STL + pbds/Hash map(pbds).cpp}{}
-  \Algorithm{Ordered Set (pb\_ds)}{Set supporting order\_of\_key and find\_by\_order.}{$O(\log N)$}{cpp}{source/7. STL + pbds/Ordered Set(pbds).cpp}{}
-  \Algorithm{Permutation \& Combination}{next\_permutation and mask-based combinations.}{}{cpp}{source/7. STL + pbds/Permutation + Combination.cpp}{}
+  \Algorithm{Hash map (pb\_ds)}{}{$O(1)$}{cpp}{source/7. STL + pbds/Hash map(pbds).cpp}{}
+  \Algorithm{Ordered Set (pb\_ds)}{}{$O(\log N)$}{cpp}{source/7. STL + pbds/Ordered Set(pbds).cpp}{}
+  \Algorithm{Permutation \& Combination}{}{}{cpp}{source/7. STL + pbds/Permutation + Combination.cpp}{}
   \Algorithm{Priority Queue (pb\_ds)}{Meldable heap supporting modify/erase via point\_iterator.}{$O(\log N)$}{cpp}{source/7. STL + pbds/Priority queue(pbds).cpp}{}
-  \Algorithm{Rope}{Persistent sequence supporting fast insertion, deletion and slicing.}{$O(\log N)$}{cpp}{source/7. STL + pbds/Rope.cpp}{}
+  \Algorithm{Rope}{}{$O(\log N)$}{cpp}{source/7. STL + pbds/Rope.cpp}{}
   %\Algorithm{Trie (pb\_ds)}{Prefix tree implementation from pb\_ds.}{}{cpp}{source/7. STL + pbds/Trie(pbds).cpp}{}
   
   \section{Misc}
   \Algorithm{Custom Hash}{Custom hash for pair, vector.}{}{cpp}{source/8. Misc/Custom hash.cpp}{}
-  \Algorithm{Fast I/O}{Fast integer I/O using fread/fwrite.}{}{cpp}{source/8. Misc/Fastio.cpp}{}
-  \Algorithm{Random}{Better random for mt19937.}{}{cpp}{source/8. Misc/Random.cpp}{}
-  \Algorithm{Ternary Search}{Finding extremum of unimodal functions.}{$O(\log N)$}{cpp}{source/8. Misc/Ternary search.cpp}{}
-  \Algorithm{Some tricks}{Collection of bitwise hacks and optimization techniques.}{}{cpp}{source/8. Misc/Some tricks.cpp}{}
+  \Algorithm{Fast I/O}{}{}{cpp}{source/8. Misc/Fastio.cpp}{}
+  \Algorithm{Random}{}{}{cpp}{source/8. Misc/Random.cpp}{}
+  \Algorithm{Ternary Search}{}{$O(\log N)$}{cpp}{source/8. Misc/Ternary search.cpp}{}
+  \Algorithm{Some tricks}{}{}{cpp}{source/8. Misc/Some tricks.cpp}{}
   
   \section{Checklist + Useful Info}
   
