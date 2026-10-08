@@ -84,3 +84,17 @@ ll ceil_div(ll a, ll b) {
   ll q = a/b, r = a%b;
   return q + (r && (r<0) == (b<0));
 }
+// 부분배열 GCD/AND/OR의 결과별 개수·합 집계.
+// v: 현재 위치에서 끝나는 부분배열의 {결과 값, 개수}, 짧은 구간부터.
+vector<pair<ll,ll>> v;
+ll ans = 0;
+for (ll x : a) {
+  vector<pair<ll,ll>> nv{{ x, 1 }};
+  for (auto [g, c] : v) {
+    g = gcd(g, x); // AND: g &= x; OR: g |= x;
+    if (nv.back().first == g) nv.back().second += c;
+    else nv.push_back({ g, c });
+  }
+  v.swap(nv);
+  for (auto [g, c] : v) ans += g*c; // 모든 부분배열 GCD의 합
+}

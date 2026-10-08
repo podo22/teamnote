@@ -25,7 +25,6 @@ int primitive_root(int p) {
 }
 // 소수 p에서 x^k == a (mod p)의 해 하나. 없으면 -1.
 // k >= 1. 최소 해를 보장하지 않음.
-// O(sqrt(p) log p) 시간, O(sqrt(p)) 공간.
 int discrete_root(ll k, ll a, int p) {
   assert(p >= 2 && k >= 1);
   a = (a%p + p) % p;

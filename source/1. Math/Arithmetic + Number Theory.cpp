@@ -2,7 +2,7 @@ ll modmul(ll a, ll b, ll m) { return (ll)((__int128)a*b % m); }
 ll modpow(ll b, ll e, ll m) {
   ll ans = 1;
   for (; e; b = modmul(b, b, m), e /= 2)
-    if (e & 1) ans = modmul(ans, b, m);
+  if (e & 1) ans = modmul(ans, b, m);
   return ans;
 }
 ll xgcd(ll a, ll b, ll &x, ll &y) {
@@ -57,5 +57,17 @@ ll floor_sum(ll n) {
     // n / x yields the same value for i <= x <= last.
   }
   return sum;
+}
+// sum_{i=0}^{n-1} floor((a*i+b)/m), O(log m). n,a,b>=0, m>0
+ll floor_sum(ll n, ll m, ll a, ll b) {
+  ll ret = 0;
+  while (true) {
+    ret += (__int128)n*(n-1)/2*(a/m) + (__int128)n*(b/m);
+    a %= m; b %= m;
+    __int128 y = (__int128)a*n + b;
+    if (y < m) return ret;
+    n = y/m; b = y%m;
+    swap(a, m);
+  }
 }
 // nCk: fac[0]=1; finv[N]=modpow(fac[N],M-2,M); C(n,k)=fac[n]*finv[k]%M*finv[n-k]%M (M prime, N<M, k<0 or k>n => 0).
