@@ -12,9 +12,9 @@ struct EraseablePQ {
     while (!del.empty() && !q.empty() && q.top() == del.top()) {
       q.pop(); del.pop(); }
   }
-  void push(const T& x) { q.push(x); flush(); }
-  void erase(const T& x) { del.push(x); flush(); }
-  void pop() { flush(); if (!q.empty()) q.pop(); flush(); }
+  void push(const T& x) { q.push(x); }
+  void erase(const T& x) { del.push(x); }
+  void pop() { flush(); if (!q.empty()) q.pop(); }
   const T& top() { flush(); return q.top(); }
   int size() const { return int(q.size() - del.size()); }
   bool empty() { return q.size() == del.size(); }

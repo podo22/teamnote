@@ -92,34 +92,21 @@ struct BiMatch { // Hopcroft-Karp
     for (int i = 1; i <= ms; i++) if (visB[i]) vb.push_back(i);
     return { va, vb };
   }
+  // 현재 미매칭인 왼쪽 정점 u에서 한 번 증강. 성공하면 크기 +1.
+  // for (int u = 1; u <= bm.ns; u++) cnt += bm.augment(u);
+  bool augment(int u) {
+    if (mA[u]) return false;
+    vector<char> vis(ns+1);
+    auto dfs = [&](auto&& self, int u) -> bool {
+      if (vis[u]) return false;
+      vis[u] = 1;
+      for (int v : graph[u]) {
+        if (!mB[v] || self(self, mB[v])) {
+          mA[u] = v; mB[v] = u; return true;
+        }
+      }
+      return false;
+    };
+    return dfs(dfs, u);
+  }
 };
-/* struct BiMatch { // Kuhn's Algorithm
-  vector<vector<int>> graph;
-  vector<int> mA, mB, vis; int ns, ms;
-  BiMatch(int n, int m) : ns(n), ms(m), graph(n+1), mA(n+1), mB(m+1), vis(n+1) {}
-  void add(int a, int b) { graph[a].push_back(b); }
-  bool dfs(int cur) {
-    vis[cur] = 1;
-    for (int i : graph[cur]) {
-      if (mB[i] == 0) {
-        mA[cur] = i; mB[i] = cur; return true;
-      }
-    }
-    for (auto i : graph[cur]) {
-      int ori = mB[i];
-      if (ori == 0 || (!vis[ori] && dfs(ori))) {
-        mA[cur] = i; mB[i] = cur; return true;
-      }
-    }
-    return false;
-  }
-  int match() {
-    int res = 0;
-    for (int i = 1; i <= ns; i++) {
-      if (mA[i]) continue;
-      fill(all(vis), 0);
-      if (dfs(i)) res++;
-    }
-    return res;
-  }
-}; */

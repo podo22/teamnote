@@ -1,63 +1,73 @@
 /**
  * [Metadata]
- * Original Author : JusticeHui
- * Source : https://github.com/justiceHui/icpc-teamnote/blob/master/code/Graph/BCC.cpp
+ * 
  * [Tested on]
  * 
  */
-// 1-based, 다른 거 호출하기 전에 tarjan 먼저 호출
-vector<int> G[MAX_V]; int In[MAX_V], Low[MAX_V], P[MAX_V];
-void addEdge(int s, int e){ G[s].push_back(e); G[e].push_back(s); }
-void tarjan(int n){ /// Pre-Process
-  int pv = 0;
-  function<void(int,int)> dfs = [&pv,&dfs](int v, int b){
-    In[v] = Low[v] = ++pv; P[v] = b;
-    for(auto i : G[v]){
-      if(i == b) continue;
-      if(!In[i]) dfs(i, v), Low[v] = min(Low[v], Low[i]);
-      else Low[v] = min(Low[v], In[i]);
+// 무방향 그래프, 정점 1-based. 중복 간선 허용, self-loop 제외.
+// 정점 BCC: 단절점은 여러 성분에 속할 수 있음.
+// build: O(V+E). 간선 추가 후 재호출 가능.
+struct BCC {
+  int n, t = 0, cnt = 0;
+  vector<vector<int>> adj, bcc; // bcc[u]: u가 속한 성분 번호들
+  vector<int> in, low, par, st;
+  vector<char> cut; // cut[u]: 단절점 여부
+  vector<pair<int,int>> bridge;
+  BCC(int n) : n(n), adj(n+1), bcc(n+1), in(n+1),
+    low(n+1), par(n+1), cut(n+1) {}
+  void add(int u, int v) {
+    adj[u].push_back(v); adj[v].push_back(u);
+  }
+  void dfs(int u, int p) {
+    in[u] = low[u] = ++t; par[u] = p; st.push_back(u);
+    int ch = 0; bool skip = false;
+    for (int v : adj[u]) {
+      // 부모 간선은 하나만 제외. 나머지 중복 간선은 역방향 간선.
+      if (v == p && !skip) { skip = true; continue; }
+      if (!in[v]) {
+        ch++; dfs(v, u); low[u] = min(low[u], low[v]);
+        if (low[v] >= in[u]) {
+          if (p) cut[u] = 1;
+          while (1) {
+            int x = st.back(); st.pop_back();
+            bcc[x].push_back(cnt);
+            if (x == v) break;
+          }
+          bcc[u].push_back(cnt++);
+        }
+        if (low[v] > in[u])
+          bridge.emplace_back(min(u,v), max(u,v));
+      } else low[u] = min(low[u], in[v]);
     }
-  };
-  for(int i=1; i<=n; i++) if(!In[i]) dfs(i, -1);
-}
-vector<int> cutVertex(int n){
-  vector<int> res; array<char,MAX_V> isCut; isCut.fill(0);
-  function<void(int)> dfs = [&dfs,&isCut](int v){
-    int ch = 0;
-    for(auto i : G[v]){
-      if(P[i] != v) continue; dfs(i); ch++;
-      if(P[v] == -1 && ch > 1) isCut[v] = 1;
-      else if(P[v] != -1 && Low[i] >= In[v]) isCut[v]=1;
+    if (!p) cut[u] = ch > 1;
+  }
+  // 단절점·브리지·BCC 소속 계산. 다른 조회 전에 호출.
+  // 성분 번호 [0,cnt-1]. 고립 정점도 성분 하나로 처리.
+  void build() {
+    t = cnt = 0; st.clear(); bridge.clear();
+    fill(all(in), 0); fill(all(cut), 0);
+    for (auto& v : bcc) v.clear();
+    for (int u = 1; u <= n; u++) if (!in[u]) {
+      dfs(u, 0); st.pop_back();
+      if (adj[u].empty()) bcc[u].push_back(cnt++);
     }
-  };
-  for(int i=1; i<=n; i++) if(P[i] == -1) dfs(i);
-  for(int i=1; i<=n; i++) if(isCut[i]) res.push_back(i);
-  return move(res);
-}
-vector<PII> cutEdge(int n){
-  vector<PII> res;
-  function<void(int)> dfs = [&dfs,&res](int v){
-    for(int t=0; t<G[v].size(); t++){
-      int i = G[v][t]; if(t != 0 && G[v][t-1] == G[v][t]) continue;
-      if(P[i] != v) continue; dfs(i);
-      if((t+1 == G[v].size() || i != G[v][t+1]) && Low[i] > In[v]) res.emplace_back(min(v,i), max(v,i));
+  }
+  // 제거하면 연결 성분 수가 증가하는 정점들. O(V).
+  vector<int> cutVertex() const {
+    vector<int> res;
+    for (int u = 1; u <= n; u++) if (cut[u]) res.push_back(u);
+    return res;
+  }
+  // 제거하면 연결 성분 수가 증가하는 간선들. 순서는 미정렬.
+  vector<pair<int,int>> cutEdge() const { return bridge; }
+  // 정점 제거·단절점 경유 문제를 트리 경로 문제로 변환.
+  // 원래 정점 [1,n], 성분 c의 정점 번호 n+c+1.
+  // 비단절점도 유지하며, 원본이 비연결이면 forest.
+  vector<vector<int>> block_cut() const {
+    vector<vector<int>> g(n+cnt+1);
+    for (int u = 1; u <= n; u++) for (int c : bcc[u]) {
+      g[u].push_back(n+c+1); g[n+c+1].push_back(u);
     }
-  };
-  for(int i=1; i<=n; i++) sort(G[i].begin(), G[i].end()); // multi edge -> sort
-  for(int i=1; i<=n; i++) if(P[i] == -1) dfs(i);
-  return move(res); // sort(all(res));
-}
-vector<int> BCC[MAX_V]; // BCC[v] = components which contains v
-void vertexDisjointBCC(int n){ // allow multi edge, not allow self loop
-  int cnt = 0; array<char,MAX_V> vis; vis.fill(0);
-  function<void(int,int)> dfs = [&dfs,&vis,&cnt](int v, int c){
-    vis[v] = 1; if(c > 0) BCC[v].push_back(c);
-    for(auto i : G[v]){
-      if(vis[i]) continue;
-      if(In[v] <= Low[i]) BCC[v].push_back(++cnt), dfs(i, cnt);
-      else dfs(i, c);
-    }
-  };
-  for(int i=1; i<=n; i++) if(!vis[i]) dfs(i, 0);
-  for(int i=1; i<=n; i++) if(BCC[i].empty()) BCC[i].push_back(++cnt);
-}
+    return g;
+  }
+};

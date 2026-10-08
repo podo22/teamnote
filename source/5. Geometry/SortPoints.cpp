@@ -4,23 +4,23 @@
  * [Tested on]
  * 
  */
-// Sort by angle relative to the bottom-left point (CCW)
-void Sort(vector<P> &v) {
-  if (v.size() < 2) return;
-  swap(v[0], *min_element(all(v), [](const P& a, const P& b) {
+// cent 기준 [0,360) 각도순. 같은 방향은 가까운 점부터.
+// cent와 같은 점은 맨 앞.
+void Sort(vector<P>& v, P cent) {
+  auto half = [](P p) { return p.y < 0 || (p.y == 0 && p.x < 0); };
+  sort(all(v), [&](P a, P b) {
+    a = a-cent; b = b-cent;
+    if (half(a) != half(b)) return half(a) < half(b);
+    ll cp = a/b;
+    return cp ? cp > 0 : a.dist2() < b.dist2();
+  });
+}
+// 최하단·최좌측 점 기준 각도순.
+void Sort(vector<P>& v) {
+  if (v.empty()) return;
+  P cent = *min_element(all(v), [](P a, P b) {
     return a.y != b.y ? a.y < b.y : a.x < b.x;
-  }));
-  sort(v.begin() + 1, v.end(), [&](const P& a, const P& b) {
-    ll cp = (a-v[0]) / (b-v[0]); if (cp != 0) return cp > 0;
-    return (a - v[0]).dist2() < (b - v[0]).dist2();
   });
+  Sort(v, cent);
 }
-// Sort by angle around a given point in the range [0, 360)
-void Sort(vector<P> &v, P cent = { 0, 0 }) {
-  auto half = [](const P& p) { return p.y > 0 || (p.y == 0 && p.x > 0); };
-  sort(all(v), [&](const P& a, const P& b) {
-    P aa = a-cent, bb = b-cent;
-    if (half(aa) != half(bb)) return half(aa) > half(bb);
-    return (aa / bb) > 0; 
-  });
-}
+// Sort(v); / Sort(v, {0,0});

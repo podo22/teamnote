@@ -32,29 +32,28 @@
   \Algorithm{Main Template}{}{}{cpp}{source/0. Basic Implementation/main.cpp}{}
   %\Algorithm{Debug Snippet}{}{}{cpp}{source/0. Basic Implementation/Debug.cpp}{}
   \section{Math}
-  \Algorithm{Basic Arithmetic}{}{}{cpp}{source/1. Math/Basic arithmetic.cpp}{}
-  \Algorithm{Binomial Coefficient}{}{Init: $O(MAXN)$, Query: $O(1)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
+  \Algorithm{Arithmetic \& Number Theory}{Basic Arithmetic, Multiplicative Order, Power Tower, Floor Sum, Binomial Coefficient}{}{cpp}{source/1. Math/Arithmetic + Number Theory.cpp}{}
+  %\Algorithm{Binomial Coefficient}{}{Init: $O(MAXN)$, Query: $O(1)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
   %\Algorithm{Binomial Coefficient}{}{}{cpp}{source/1. Math/Binomial Coefficient(pe).cpp}{}
   \Algorithm{Chinese Remainder Theorem}{여러 나머지 조건을 동시에 만족하는 정수}{$O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
-  \Algorithm{FFT \& NTT}{$c_k=\sum_{i+j=k}a_i b_j$ 형태의 합을 한꺼번에 계산}{$O(N \log N)$}{cpp}{source/1. Math/FFT + NTT.cpp}{}
-  \Algorithm{Bostan-Mori}{유리 생성함수 $P/Q$의 먼 계수, 알려진 선형 점화식의 큰 인덱스 항}{$O(d \log d \log k)$}{cpp}{source/1. Math/bostan_mori.cpp}{}
+  \Algorithm{FPS + Bostan-Mori}{$c_k=\sum_{i+j=k}a_i b_j$ 형태의 합을 한꺼번에 계산}{$O(N \log N)$}{cpp}{source/1. Math/FPS + Bostan-Mori.cpp}{}
   \Algorithm{Linear Sieve}{}{$O(N)$}{cpp}{source/1. Math/Linear Sieve.cpp}{}
   \Algorithm{Miller-Rabin \& Pollard-Rho}{Primality test and integer factorization.}{$O(\log^3 N) / O(N^{1/4})$}{cpp}{source/1. Math/Miller rabin + Pollard rho.cpp}{}
   \Algorithm{XOR Basis}{부분집합 XOR의 생성 가능 여부·최댓값·k번째 값. 원소 하나와의 XOR는 XorTrie.}{}{cpp}{source/1. Math/XOR Basis.cpp}{}
-  \Algorithm{Floor Sum}{$\sum_{k=1}^{n} \lfloor n/k \rfloor$}{}{cpp}{source/1. Math/Floor Sum.cpp}{}
-  \Algorithm{Xuduh Sieve}{큰 $N$까지의 $\phi$, $\mu$ 누적합}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
+  %\Algorithm{Floor Sum}{$\sum_{k=1}^{n} \lfloor n/k \rfloor$}{}{cpp}{source/1. Math/Floor Sum.cpp}{}
+  \Algorithm{Xudyh Sieve}{큰 $N$까지의 $\phi$, $\mu$ 누적합}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
   \Algorithm{Discrete Root}{}{}{cpp}{source/1. Math/Discrete Sqrt.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Discrete Log.py}{}
-  \Algorithm{Multiplicative Order}{Find the minimum positive $k$ s.t. $a^k \equiv 1 \pmod mod$)}{}{cpp}{source/1. Math/Multiplicative Order.cpp}{}
+  %\Algorithm{Multiplicative Order}{Find the minimum positive $k$ s.t. $a^k \equiv 1 \pmod mod$)}{}{cpp}{source/1. Math/Multiplicative Order.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
-  \Algorithm{Power Tower}{}{}{cpp}{source/1. Math/Power Tower.cpp}{}
+  %\Algorithm{Power Tower}{}{}{cpp}{source/1. Math/Power Tower.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Power Tower.py}{}
   %\Algorithm{Simplex}{}{}{cpp}{source/1. Math/Simplex.cpp}{}
   \Algorithm{Gaussian Elimination}{}{}{cpp}{source/1. Math/Gaussian Elimination.cpp}{}
   
   \section{Data Structure}
   \Algorithm{Erasable Priority Queue}{}{}{cpp}{source/2. Data structure/Erasable PQ.cpp}{}
-  \Algorithm{Non-Recursive Segment Tree}{}{}{cpp}{source/2. Data structure/NonRec_SegTree.cpp}{}
+  \Algorithm{Segment Tree}{}{}{cpp}{source/2. Data structure/SegTree.cpp}{}
   %\Algorithm{Inversion counting}{}{}{cpp}{source/2. Data structure/Inversion counting.cpp}{}
   \Algorithm{1D \& 2D Fenwick Tree}{}{1D: $O(\log N)$, 2D: $O(\log N \log M)$}{cpp}{source/2. Data structure/Fenwick-tree.cpp}{}
   %\Algorithm{Merge Sort Tree}{Count/rank of elements in range $[L, R]$.}{$O(\log^2 N)$ per query}{cpp}{source/2. Data structure/MergeSortTree.cpp}{}
@@ -66,7 +65,7 @@
   \Algorithm{DSU (Weighted)}{}{}{cpp}{source/2. Data structure/DSU (Weighted).cpp}{}
   \Algorithm{Trie}{}{}{cpp}{source/2. Data structure/Trie.cpp}{}
   \Algorithm{Disjoint Sparse Table}{결합법칙만 필요하며 멱등성은 불필요}{}{cpp}{source/2. Data structure/Sparse Table.cpp}{}
-  \Algorithm{Mo's Algorithm}{양 끝 원소의 추가·삭제로 답을 갱신할 수 있는 오프라인 구간 쿼리}{}{cpp}{source/2. Data structure/Mos.cpp}{}
+  \Algorithm{Mo's Algorithm}{}{}{cpp}{source/2. Data structure/Mos.cpp}{}
 
   \section{Graph}
   \Algorithm{Bellman Ford}{}{$O(VE)$}{cpp}{source/3. Graph/Bellman.cpp}{}
@@ -83,13 +82,14 @@
   \Algorithm{SCC}{방향 그래프의 순환 의존성을 압축하여 DAG로 변환}{$O(V+E)$}{cpp}{source/3. Graph/SCC.cpp}{}
   \Algorithm{2-sat}{Solves 2-SAT in $O(V+E)$; $x_i$ is true if $SCC(x_i) < SCC(\neg x_i)$.}{$O(V+E)$}{cpp}{source/3. Graph/two-sat.cpp}{}
   \Algorithm{BCC}{정점·간선 제거에 따른 연결성. 단절점·브리지·block-cut tree.}{$O(V+E)$}{cpp}{source/3. Graph/BCC.cpp}{}
-  \Algorithm{Find 3 or 4 cycle}{}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
+  %\Algorithm{Find 3 or 4 cycle}{}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
   \Algorithm{Push Relabel}{}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
   \Algorithm{Gomory Hu Tree}{무방향 용량 그래프의 여러 정점 쌍 최소컷. 트리 경로의 최소 간선 가중치로 조회}{}{cpp}{source/3. Graph/Gomory Hu Tree.cpp}{}
   %\Algorithm{General Matching}{Maximum Unweighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
   %\Algorithm{Weighted General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
   
-  \section{DP Optimization}
+  \section{DP}
+  \Algorithm{LIS / 3D LIS}{}{}{cpp}{source/4. DP/LIS, 3D LIS.cpp}{}
   \Algorithm{Convex Hull Trick}{\texttt{dp[i] = min(dp[j] + b[j] * a[i]), b[j] >= b[j+1]}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
   \Algorithm{Linear CHT}{CHT when slopes(k)/queries(x) are monotonic.}{$O(N)$}{cpp}{source/4. DP/Linear CHT.cpp}{}
   \Algorithm{D\&C optimization}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j][i]), c is Monge}. 이전 행에서 전이하는 DP의 최적 후보 위치가 비감소. 구간 분할 DP 등에 적용.}{$O(KN \log N)$}{cpp}{source/4. DP/DNC opt.cpp}{}
@@ -104,8 +104,7 @@
   \Algorithm{Convex Hull}{Returns vertices in CCW order.}{$O(N \log N)$}{cpp}{source/5. Geometry/ConvexHull.cpp}{}
   \Algorithm{Convex Hull 3d}{}{$O(N^2)$}{cpp}{source/5. Geometry/ConvexHull 3D.cpp}{}
   \Algorithm{Rotating Calipers}{Calculates the diameter (farthest pair of points) of a convex hull(CCW order).}{$O(N)$}{cpp}{source/5. Geometry/Calipers.cpp}{}
-  \Algorithm{Point in Convex Polygon}{Checks if a point is inside or on the boundary of a convex polygon (CCW sorted).}{$O(\log N)$}{cpp}{source/5. Geometry/PointInConvexPolygon.cpp}{}
-  \Algorithm{Point in Polygon}{Ray casting algorithm for general polygons.}{$O(N)$}{cpp}{source/5. Geometry/PointInPolygon.cpp}{}
+  \Algorithm{Point in Polygon}{}{$O(\log N)$, $O(N)$}{cpp}{source/5. Geometry/PointInPolygon.cpp}{}
   \Algorithm{Angular sort}{Angular sort. 1. Relative to pivot (Convex Hull). 2. Relative to origin.}{}{cpp}{source/5. Geometry/SortPoints.cpp}{}
   \Algorithm{Linear Minkowski Sum}{Minkowski Sum of Two convex(must be CCW order).}{$O(N+M)$}{cpp}{source/5. Geometry/LinearMinkowski.cpp}{}
   \Algorithm{Smallest Enclosing Circle}{Welzl's algorithm to find the Minimum Enclosing Circle. Returns {center, radius}.}{Expected $O(N)$}{cpp}{source/5. Geometry/EnclosingCircle.cpp}{}
@@ -124,13 +123,12 @@
   \Algorithm{Eertree}{서로 다른 회문을 길이·등장 횟수별로 관리. 중심별 반지름만 필요하면 Manacher}{$O(N \log \Sigma)$}{cpp}{source/6. String/eertree.cpp}{}
   \Algorithm{Suffix Automaton}{서로 다른 부분문자열의 개수·등장 횟수·최장 공통 부분문자열. 사전순·LCP 중심이면 Suffix Array}{$O(N \cdot \Sigma)$}{cpp}{source/6. String/SuffixAutomaton.cpp}{}
   
-  \section{STL \& pbds}
-  \Algorithm{Hash map (pb\_ds)}{}{$O(1)$}{cpp}{source/7. STL + pbds/Hash map(pbds).cpp}{}
-  \Algorithm{Ordered Set (pb\_ds)}{}{$O(\log N)$}{cpp}{source/7. STL + pbds/Ordered Set(pbds).cpp}{}
-  \Algorithm{Permutation \& Combination}{}{}{cpp}{source/7. STL + pbds/Permutation + Combination.cpp}{}
-  \Algorithm{Priority Queue (pb\_ds)}{Meldable heap supporting modify/erase via point\_iterator.}{$O(\log N)$}{cpp}{source/7. STL + pbds/Priority queue(pbds).cpp}{}
-  \Algorithm{Rope}{}{$O(\log N)$}{cpp}{source/7. STL + pbds/Rope.cpp}{}
-  %\Algorithm{Trie (pb\_ds)}{Prefix tree implementation from pb\_ds.}{}{cpp}{source/7. STL + pbds/Trie(pbds).cpp}{}
+  \section{Policy-Based Data Structures(pbds)}
+  \Algorithm{Hash map (pb\_ds)}{}{$O(1)$}{cpp}{source/7. PBDS/Hash map(pbds).cpp}{}
+  \Algorithm{Ordered Set (pb\_ds)}{}{$O(\log N)$}{cpp}{source/7. PBDS/Ordered Set(pbds).cpp}{}
+  \Algorithm{Priority Queue (pb\_ds)}{Meldable heap supporting modify/erase via point\_iterator.}{$O(\log N)$}{cpp}{source/7. PBDS/Priority queue(pbds).cpp}{}
+  \Algorithm{Rope}{}{$O(\log N)$}{cpp}{source/7. PBDS/Rope.cpp}{}
+  %\Algorithm{Trie (pb\_ds)}{Prefix tree implementation from pb\_ds.}{}{cpp}{source/7. PBDS/Trie(pbds).cpp}{}
   
   \section{Misc}
   \Algorithm{Custom Hash}{Custom hash for pair, vector.}{}{cpp}{source/8. Misc/Custom hash.cpp}{}
@@ -161,7 +159,7 @@
     - n개의 노드로 이루어진 이진 트리 구조 개수\\
     - 1부터 n까지의 수를 스택에 넣고 빼서 만들 수 있는 순열의 개수\\
     - 원 위에 2n개의 점이 있고, 2개씩 짝지어 선분을 그었을때 어떤 선분도 교차하지 않는 방법의 수\\
-    - $(0,0)$에서 $(N,M)$까지 우상단으로 이동할 때, 직선 $y = x + k$($k>0$)에 닿지않는 경로의 수:
+    - $(0,0)$에서 $(N,M)$까지 우상단으로 이동할 때, 직선 $y = x + k$($k>0$)에 닿지않는 경로의 수(M ≥ N+k이면 0, 그 외의 경우):
       전체 경로 수 - 반사된 경로 수 = $\binom{N+M}{N} - \binom{N+M}{N+k}$ (직선 $y = x + k$에 처음 닿은 이후 경로를 $y = x + k$에 대해 대칭 이동 -> $(M-k, N+k)$로 매핑됨)
     \item Derangements\\
     N명의 사람이 모자를 벗어두었다가 무작위로 하나씩 집었을 때, 아무도 자기 모자를 쓰지 않을 경우의 수\\
@@ -172,7 +170,7 @@
     N개의 구별되지 않는 물건을 K개의 구별되는 상자에 나누어담는 경우의 수 (빈 상자 허용) - $\binom{N+K-1}{K-1}$\\
     - $x_1 + x_2 + \dots + x_K = N$ ($x_i \ge 0$)의 해의 개수를 구하는 것과 동일\\
     - 각 상자에 적어도 1개 이상 담아야 한다($x_i \ge 1$): 미리 1개씩 나눠줌. $N'=N-K$로 치환해 $\binom{N'+K-1}{K-1} = \binom{N-1}{K-1}$ 계산\\
-    - - 어떤 상자도 $C$개를 초과할 수 없다($0 \le x_i \le C$): 포함배제로 계산.
+    - 어떤 상자도 $C$개를 초과할 수 없다($0 \le x_i \le C$): 포함배제로 계산.
     \[
     \sum_{j=0}^{\min(K,\lfloor N/(C+1)\rfloor)}
     (-1)^j \binom{K}{j}
@@ -181,18 +179,18 @@
     (단, $N,C \ge 0$, $K \ge 1$)
     \item 제2종 스털링 수\\
     서로 다른 $N$개의 물건을 구별되지 않는 $K$개의 상자에 빈 상자 없이 나누어 담는 경우의 수 ($S(N, K)$ 혹은 $\left\{ \begin{matrix} N \\ K \end{matrix} \right\}$)\\
-    - 점화식: $S(N, K) = K \times S(N-1, K) + S(N-1, K-1)$ (단, $S(N, 1) = S(N, N) = 1$)\\
+    - 점화식: $S(N, K) = K \times S(N-1, K) + S(N-1, K-1)$ ($S(0,0)=1, S(N,0)=0$ ($N>0$))\\
     - 직접 계산: $S(N, K) = \frac{1}{K!} \sum_{i=0}^K (-1)^{K-i} \binom{K}{i} i^N$ (특정 $S(N,K)$ 하나 계산 시 $O(K \log N)$)\\
-    - Bell Number ($B_N = \sum_{k=1}^N S(N, k)$): 서로 다른 $N$개의 원소를 분할하는 모든 방법의 수.\\
+    - Bell Number ($B_N = \sum_{k=0}^N S(N, k)$): 서로 다른 $N$개의 원소를 분할하는 모든 방법의 수.\\
     - Bell Number 초항: 1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975
     \item 자연수의 분할\\
     서로 같은 $N$개의 물건을 구별되지 않는 $K$개의 상자에 빈 상자 없이 나누어 담는 경우의 수 ($P(N, K)$)\\
     - 자연수 $N$을 $K$개의 자연수의 합으로 나타내는 방법의 수와 동일.\\
     - 점화식: $P(N, K) = P(N-1, K-1) + P(N-K, K)$\\
-    - $P(N) = \sum_{k=1}^N P(N, k)$: 자연수 $N$의 총 분할 수. \\
+    - $P(0,0)=1, P(N)=\sum_{K=0}^N P(N,K)$: 자연수 $N$의 총 분할 수. \\
     - $P(N)$ 초항: 1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101, 135
     \item Cayley's Formula \& Prüfer Sequence\\
-    $N$개의 구별되는 정점으로 만들 수 있는 서로 다른 스패닝 트리의 개수 = $N^{N-2}$\\
+    - $N$개의 구별되는 정점으로 만들 수 있는 서로 다른 스패닝 트리의 개수 = $N^{N-2}$\\
     - 각 정점의 차수가 $d_1, d_2, \dots, d_N$으로 고정되었을 때 가능한 트리의 개수 = $\frac{(N-2)!}{(d_1-1)!(d_2-1)! \dots (d_N-1)!}$ (단, $\sum d_i = 2N-2$)
     \item Binomial Identities\\
     시그마가 포함된 조합론 수식을 $O(1)$로 단순화할 때 사용.\\
@@ -202,7 +200,7 @@
     \item Fibonacci Identities\\
     - Cassini's identity: $F_{n-1}F_{n+1} - F_n^2 = (-1)^n$\\
     - Addition formula: $F_{n+k} = F_k F_{n+1} + F_{k-1} F_n$\\
-    - Zeckendorf's theorem: 모든 양의 정수는 연속하지 않는 피보나치 수들의 합으로 유일하게 표현 가능하며, 이는 그리디하게 큰 피보나치 수부터 빼는 것으로 구할 수 있다.
+    - Zeckendorf's theorem: 모든 양의 정수는 연속하지 않는 피보나치 수들(1,2,3,5,...)의 합으로 유일하게 표현 가능하며, 이는 그리디하게 큰 피보나치 수부터 빼는 것으로 구할 수 있다.
     \item Möbius Inversion\\
     - $g(n) = \sum_{d|n} f(d) \iff f(n) = \sum_{d|n} \mu(d)g(n/d)$\\
     - $g(n) = \sum_{n|d} f(d) \iff f(n) = \sum_{n|d} \mu(d/n)g(d)$
@@ -215,12 +213,11 @@
     - Index-k Nim: 한 번에 최대 k개의 더미를 골라 각각의 더미에서 아무렇게나 돌을 제거할 수 있을 때, 각 binary digit에 대하여 합을 k + 1로 나눈 나머지를 계산한다. 만약 이 나머지가 모든 digit에 대하여 0이라면 두번째, 하나라도 0이 아니라면 첫번째 플레이어가 승리.
     - Misere Nim: 모든 돌 무더기가 1이면 N이 홀수일 때 후공 승, 그렇지 않은 경우 XOR 합 0이면 후공 승
     \item Pick’s Theorem\\
-    격자점으로 구성된 simple polygon이 주어짐. I 는 polygon 내부의 격자점 수, B 는 polygon 선분 위 격자점 수, A는 polygon의 넓이라고 할 때, 다음과 같은 식이 성립한다. $A=I+B/2-1$
+    격자점으로 구성된 simple polygon이 주어짐. I 는 polygon 내부의 격자점 수, B 는 polygon 선분 위 격자점 수, A는 polygon의 넓이라고 할 때, 다음과 같은 식이 성립한다. 경계 격자점 수 $B = \sum_{edges} gcd(|dx|,|dy|)$. 내부 격자점 수 $I = A-B/2+1$.
     \item 가장 가까운 두 점: 분할정복으로 가까운 6개의 점만 확인
     \item 홀의 결혼 정리: 이분그래프(L-R)에서, 모든 L을 매칭하는 필요충분 조건 = L에서 임의의 부분집합 S를 골랐을 때, 반드시 (S의 크기) $\le$ (S와 연결되어있는 모든 R의 크기)이다.
     \item 소수: 10 007 , 10 009 , 10 111 , 31 567 , 70 001 , 1 000 003 , 1 000 033 , 4 000 037 , 99 999 989 , 999 999 937 , 1 000 000 007 , 1 000 000 009 , 9 999 999 967 , 99 999 999 977
     \item 소수 개수 : (1e5 이하 : 9592), (1e7 이하 : 664 579) , (1e9 이하 : 50 847 534)
-    \item $10^{15}$ 이하의 정수 범위의 나눗셈 한번은 오차가 없다.
     \item N의 약수의 개수 = $O(N^{1/3})$, N의 약수의 합 = $O(N \log \log N)$
     \item \(\gcd(m,n)=1\)이면 \(\phi(mn)=\phi(m)\phi(n)\)\\
     소수 \(p\), 정수 \(r\ge1\)에 대해 \(\phi(p^r)=p^r-p^{r-1}\)\\
@@ -249,7 +246,7 @@
     \item 특수 조건, 여사건, 역순, 순서 강제, 답의 정규화로 문제를 단순화하기.
     \item DP 상태/전이, 그리디, 그래프/플로우, 자료구조로 모델링하고 시간복잡도 확인하기.
     \item 막히면 접근을 바꾸거나 헬프콜. 당연하게 둔 가정과 빠진 경우를 다시 확인하기.
-    \item 구간을 통째로 가져간다 : 플로우 + 적당한 자료구조 $(i,i+1,k,0)$, $(s,e,1,w)$, $(N,T,k,0)$.
+    \item 구간을 통째로 가져간다 : 플로우+@ $(i,i+1,k,0)$, $(s,e,1,w)$, $(N,T,k,0)$.
   \end{itemize}
   
   % source: https://github.com/overnap/cp-teamnote/blob/master/tn.tex
@@ -259,30 +256,30 @@
     \item l..r의 값들의 sum이나 min은 Monge
     \item 식 정리해서 일차(CHT) 혹은 비슷한(MQ) 함수를 발견, 구현 힘들면 Li-Chao
     \item $a \le b \le c \le d$에서 $A[a,c] + A[b,d] \le A[a,d] + A[b,c]$
-    \item Monge 성질을 보이기 어려우면 $N^2$ 나이브 짜서 opt의 단조성을 확인하고 찍맞
+    \item Monge 성질을 보이기 어려우면 $N^2$ 나이브 짜서 opt의 단조성을 확인
     \item 식이 간단하거나 변수가 독립적이면 DP 테이블을 세그 위에 올려서 해결
     \item 침착하게 점화식부터 세우고 Monge인지 판별
     \item Monge에 집착하지 말고 단조성이나 볼록성만 보여도 됨
   \end{itemize}
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/MinCut.tex
-  \Algorithm{Graph Matching(Graph with $\vert V \vert \leq 500$)}{}{}{}{}{}
-  \begin{itemize}
-    \item \textbf{Game on a Graph} : $s$에 토큰이 있음. 플레이어는 각자의 턴마다 토큰을 이미 방문하지 않은 인접한 정점으로 옮기고 못 옮기면 짐.\\
-    $s$를 포함하지 않는 최대 매칭이 존재함 $\leftrightarrow$ 후공이 이김
-    \item \textbf{Chinese Postman Problem} : 모든 간선을 방문하는 최소 가중치 Walk를 구하는 문제.\\
-    Floyd를 돌린 다음, 홀수 정점들을 모아서 최소 가중치 매칭 (홀수 정점은 짝수 개 존재)
-    \item \textbf{Unweighted Edge Cover} : 모든 정점을 덮는 가장 작은(minimum cardinality/weight) 간선 집합을 구하는 문제\\
-    $\vert V\vert - \vert M\vert$, 길이 3짜리 경로 없음, star graph 여러 개로 구성
-    \item \textbf{Weighted Edge Cover} : $sum_{v \in V}(w(v)) - sum_{(u,v) \in M}(w(u) + w(v) - d(u,v))$, $w(x)$는 $x$와 인접한 간선의 최소 가중치
-    \item \textbf{NEERC'18 B} : 각 기계마다 2명의 노동자가 다뤄야 하는 문제.\\
-    기계마다 두 개의 정점을 만들고 간선으로 연결하면 정답은 $\vert M\vert - \vert\text{기계}\vert$임. 정답에 1/2씩 기여한다는 점을 생각해보면 좋음.
-    \item \textbf{Min Disjoint Cycle Cover} : 정점이 중복되지 않으면서 모든 정점을 덮는 길이 3 이상의 사이클 집합을 찾는 문제.\\
-    모든 정점은 2개의 서로 다른 간선, 일부 간선은 양쪽 끝점과 매칭되어야 하므로 플로우를 생각할 수 있지만 용량 2짜리 간선에 유량을 1만큼 흘릴 수 있으므로 플로우는 불가능.\\
-    각 정점과 간선을 2개씩($(v, v')$, $(e_{i,u},e_{i,v})$)로 복사하자. 모든 간선 $e=(u,v)$에 대해 $e_u$와 $e_v$를 잇는 가중치 w짜리 간선을 만들고(like NEERC18), $(u,e_{i,u}), (u',e_{i,u}), (v,e_{i,v}), (v',e_{i,v})$를 연결하는 가중치 0짜리 간선을 만들자. Perfect 매칭이 존재함 $\Leftrightarrow$ Disjoint Cycle Cover 존재. 최대 가중치 매칭 찾은 뒤 모든 간선 가중치 합에서 매칭 빼면 됨.
-    \item \textbf{Two Matching} : 각 정점이 최대 2개의 간선과 인접할 수 있는 최대 가중치 매칭 문제.\\
-    각 컴포넌트는 정점 하나/경로/사이클이 되어야 함. 모든 서로 다른 정점 쌍에 대해 가중치 0짜리 간선 만들고, 가중치 0짜리 $(v,v')$ 간선 만들면 Disjoing Cycle Cover 문제가 됨. 정점 하나만 있는 컴포넌트는 self-loop, 경로 형태의 컴포넌트는 양쪽 끝점을 연결한다고 생각하면 편함.
-  \end{itemize}
+  % \Algorithm{Graph Matching(Graph with $\vert V \vert \leq 500$)}{}{}{}{}{}
+  % \begin{itemize}
+  %   \item \textbf{Game on a Graph} : $s$에 토큰이 있음. 플레이어는 각자의 턴마다 토큰을 이미 방문하지 않은 인접한 정점으로 옮기고 못 옮기면 짐.\\
+  %   $s$를 포함하지 않는 최대 매칭이 존재함 $\leftrightarrow$ 후공이 이김
+  %   \item \textbf{Chinese Postman Problem} : 모든 간선을 방문하는 최소 가중치 Walk를 구하는 문제.\\
+  %   Floyd를 돌린 다음, 홀수 정점들을 모아서 최소 가중치 매칭 (홀수 정점은 짝수 개 존재)
+  %   \item \textbf{Unweighted Edge Cover} : 모든 정점을 덮는 가장 작은(minimum cardinality/weight) 간선 집합을 구하는 문제\\
+  %   $\vert V\vert - \vert M\vert$, 길이 3짜리 경로 없음, star graph 여러 개로 구성
+  %   \item \textbf{Weighted Edge Cover} : $sum_{v \in V}(w(v)) - sum_{(u,v) \in M}(w(u) + w(v) - d(u,v))$, $w(x)$는 $x$와 인접한 간선의 최소 가중치
+  %   \item \textbf{NEERC'18 B} : 각 기계마다 2명의 노동자가 다뤄야 하는 문제.\\
+  %   기계마다 두 개의 정점을 만들고 간선으로 연결하면 정답은 $\vert M\vert - \vert\text{기계}\vert$임. 정답에 1/2씩 기여한다는 점을 생각해보면 좋음.
+  %   \item \textbf{Min Disjoint Cycle Cover} : 정점이 중복되지 않으면서 모든 정점을 덮는 길이 3 이상의 사이클 집합을 찾는 문제.\\
+  %   모든 정점은 2개의 서로 다른 간선, 일부 간선은 양쪽 끝점과 매칭되어야 하므로 플로우를 생각할 수 있지만 용량 2짜리 간선에 유량을 1만큼 흘릴 수 있으므로 플로우는 불가능.\\
+  %   각 정점과 간선을 2개씩($(v, v')$, $(e_{i,u},e_{i,v})$)로 복사하자. 모든 간선 $e=(u,v)$에 대해 $e_u$와 $e_v$를 잇는 가중치 w짜리 간선을 만들고(like NEERC18), $(u,e_{i,u}), (u',e_{i,u}), (v,e_{i,v}), (v',e_{i,v})$를 연결하는 가중치 0짜리 간선을 만들자. Perfect 매칭이 존재함 $\Leftrightarrow$ Disjoint Cycle Cover 존재. 최대 가중치 매칭 찾은 뒤 모든 간선 가중치 합에서 매칭 빼면 됨.
+  %   \item \textbf{Two Matching} : 각 정점이 최대 2개의 간선과 인접할 수 있는 최대 가중치 매칭 문제.\\
+  %   각 컴포넌트는 정점 하나/경로/사이클이 되어야 함. 모든 서로 다른 정점 쌍에 대해 가중치 0짜리 간선 만들고, 가중치 0짜리 $(v,v')$ 간선 만들면 Disjoing Cycle Cover 문제가 됨. 정점 하나만 있는 컴포넌트는 self-loop, 경로 형태의 컴포넌트는 양쪽 끝점을 연결한다고 생각하면 편함.
+  % \end{itemize}
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/MinCut.tex
   % edit by alreadysolved
@@ -302,43 +299,20 @@
       \item $\neg(v_i \land v_j)$ (둘 다 T 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v_i \implies v'_j$ ($i \to j$ 무한 간선)
       \item $v_i \lor v_j$ (둘 다 F 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v'_j \implies v_i$ ($j \to i$ 무한 간선)
     \end{enumerate}
+    \item 두 boolean 변수의 비용표 E00,E01,E10,E11: E00+E11 <= E01+E10이면 단항 비용과 비음수 간선으로 표현 가능.
     \item 모든 조건을 만족하는지 판단하면 2-SAT. 만족하는 절의 개수·가중치를 최대화하면 MAX-2SAT
     \item Maximum Density Subgraph (NEERC'06H, BOJ 3611 팀의 난이도)
-    \begin{enumerate}
-      \item density $\ge x$인 subgraph가 있는지 이분 탐색
-      \item 정점 $N$개, 간선 $M$개, 차수 $D_i$개
-      \item 그래프의 간선마다 용량 1인 양방향 간선 추가
-      \item 소스에서 정점으로 용량 $M$, 정점에서 싱크로 용량 $M-D_i+2x$
-      \item min cut에서 S와 붙어 있는 애들이 1개 이상이면 x 이상이고, 그게 subgraph의 정점들
-      \item while(r-l $\geq$ 1.0/(n*n)) 으로 해야 함. 너무 많이 돌리면 실수 오차
-    \end{enumerate}
+    \begin{itemize}
+      \item N=정점 수, M=간선 수. M/N을 최대화. 밀도 d를 이분탐색.\\
+      정점 N개에 S,T를 추가해 다음 용량으로 연결:\\
+      • S → v : M\\
+      • v → T : M-deg[v]+2d\\
+      • 원본 간선 u-v : u→v, v→u 각각 1\\
+      maxflow < M*N이면 밀도>d인 해가 존재 → d를 높임.\\
+      성공할 때마다 잔여 그래프에서 S가 도달하는 원본 정점들을 저장.\\
+      M=0이면 정점 하나가 답.
+    \end{itemize}
   \end{itemize}
-  
-  % \Algorithm{LP \& Flow Duality}{}{}{}{}{}
-  % \begin{itemize}
-  %   \item \textbf{Difference Constraints (차이 제약 $\to$ SPFA)}
-  %   \begin{itemize}
-  %     \item $x_v - x_u \le w \iff u \to v$ (가중치 $w$).\\ $x_i \le C \iff 0 \to i$ ($C$), $x_i \ge C \iff i \to 0$ ($-C$).\\ $x_i - x_j = C \iff$ 양방향 ($C, -C$).
-  %     \item 더미 노드 $0$을 시작점으로 SPFA 실행. 구한 최단 거리 dist[i] 값이 곧 제약을 만족하는 변수 $x_i$의 해(최댓값).
-  %     \item 더미 노드 $0 \to i$ ($w=0$) 간선 필수. dist[u] == INF일 땐 relaxation 금지. cnt[u] >= V 감지 시 음수 사이클 존재 = 해 없음(모순).
-  %   \end{itemize}
-
-  %   \item \textbf{Convex Potential $\to$ MCMF Dual (포텐셜 차이 + 볼록 비용)}
-  %   \begin{itemize}
-  %     \item 제약 조건 $x_v - x_u \le C \implies u \to v$ (용량 $\infty$, 비용 $C$).
-  %     \item 목표 차이 $T$ 및 오차 패널티 $|(x_v - x_u) - T|$ : 정점 $u, v$에 공급/수요 $+T$ 부여 후 $u \leftrightarrow v$ 양방향 (용량 $\infty$, 비용 $1$) 간선 생성.
-  %     \item 일반 볼록 비용 $f(x_v - x_u)$ : (구간 길이 $\to$ 용량), (기울기 $\to$ 비용) 변환하여 $u \to v$ 다중 간선 생성.
-  %     \item MCMF 실행 $\to$ 최종 Min Cost가 구하는 최적 비용. (포텐셜 복원 시 잔여 그래프 $h_u$ 활용)
-  %     \item 제약 간선 비용 $C < 0$이면 일반 Dijkstra MCMF 불가 $\to$ SPFA-Dijkstra MCMF 적용, 또는 Min-Cost Circulation 사용.
-  %   \end{itemize}
-
-  %   \item \textbf{Planar Min-Cut $\to$ Dual Dijkstra (평면 그래프 민컷)}
-  %   \begin{itemize}
-  %     \item 면을 정점으로 변환. 원본 간선의 좌/우 면을 잇는 Dual 간선 생성 (가중치 = 원본 용량).
-  %     \item $S_{face}$에서 $T_{face}$까지 다익스트라 실행. 최단 거리 $dist[T_face]$ = 원본 그래프의 최소컷 값.
-  %     \item 외곽 면을 $S_{face}, T_{face}$ 2개로 분리 정의. 용량 $\infty$ 원본 간선은 Dual 간선을 생성하지 않음.
-  %   \end{itemize}
-  % \end{itemize}
 \end{multicols*}
 
 \ifthenelse{\boolean{BangShowGrid}}{

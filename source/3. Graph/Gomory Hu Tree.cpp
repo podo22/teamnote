@@ -16,19 +16,15 @@ vector<Edge> gomory_hu(int n, const vector<Edge> &ev) {
   }
   return tree;
 }
-// ex. 인접정점간 최대유량 합이 최대인 순열
-vector<int> par(n+1); iota(all(par), 0);
-vector<vector<int>> p(n+1);
-for (int i = 1; i <= n; i++) p[i] = {i};
-function<int(int)> find = [&](int x) { return x == par[x] ? x : par[x] = find(par[x]); };
+// 인접 정점 간 최대 유량 합이 최대인 순열
 auto res = gomory_hu(n, edges);
-sort(all(res), [](Edge& a, Edge& b) { return a.w > b.w; });
+sort(all(res), [](const Edge& a, const Edge& b) { return a.w > b.w; });
+DSU uf(n); vector<vector<int>> p(n+1);
+for (int i = 1; i <= n; i++) p[i] = {i};
 ll ans = 0;
-for (auto &e : res) {
-  int u = find(e.u), v = find(e.v);
-  if (u == v) continue;
-  ans += e.w; par[u] = v;
-  p[v].insert(p[v].end(), all(p[u]));
-}
-// ans: 최대 유량의 합
-// p[find(1)]: 조건을 만족하는 정점들의 순열 (크기 n)
+for (auto& e : res) {
+  int u = uf.find(e.u), v = uf.find(e.v);
+  if (!uf.merge(u, v)) continue;
+  if (uf.find(u) == v) swap(u, v);
+  p[u].insert(p[u].end(), all(p[v])); ans += e.w;
+} // ans: 최대 합, p[uf.find(1)]: 해당 순열

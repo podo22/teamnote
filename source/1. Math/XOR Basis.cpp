@@ -1,9 +1,9 @@
 /**
-* [Metadata]
-* Author : alreadysolved
-* [Tested on]
-* 
-*/
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 /* using Mask = bitset<MAX_N>; */
 template <typename T = ll, int B = 62> struct Basis {
   T b[B]{}; int sz = 0;
@@ -23,18 +23,6 @@ template <typename T = ll, int B = 62> struct Basis {
     }
     return false;
   }
-  // 생성 가능 여부, O(B)
-  bool can(T x /*, Mask &res*/) const {
-    /* res.reset(); */
-    for (int i = B-1; i >= 0; i--) {
-      if (x >> i & 1) {
-        if (!b[i]) return false;
-        x ^= b[i];
-        /* res ^= mask[i]; */
-      }
-    }
-    return true;
-  }
   // 만들 수 있는 최댓값, O(B)
   T max_xor(T init = 0 /*, Mask &res*/) const {
     /* res.reset(); */
@@ -51,12 +39,20 @@ template <typename T = ll, int B = 62> struct Basis {
     for (int i = 0; i < B; i++) if (b[i]) return b[i];
     return 0;
   }
-  // x XOR 최솟값 (생성 가능 시 0), O(B)
-  T reduce(T x) const {
-    for (int i = B - 1; i >= 0; i--) {
-      if (x >> i & 1) x ^= b[i];
+  // 기저로 줄인 잔여값. res: 사용한 원소들의 마스크.
+  T reduce(T x /*, Mask* res = nullptr*/) const {
+    /* if (res) res->reset(); */
+    for (int i = B-1; i >= 0; i--) {
+      if (x >> i & 1) {
+        x ^= b[i];
+        /* if (res) *res ^= mask[i]; */
+      }
     }
     return x;
+  }
+  // 생성 가능 여부
+  bool can(T x /*, Mask* res = nullptr*/) const {
+    return reduce(x /*, res*/) == 0;
   }
   // 기약 사다리꼴(RREF) 기저 목록, O(B^2)
   vector<T> rref() const {
@@ -83,7 +79,6 @@ template <typename T = ll, int B = 62> struct Basis {
   }
   // x의 순위 (1-idx, 0 포함, 불가능 시 -1), O(B^2)
   ll rank(T x) const {
-    if (!can(x)) return -1;
     auto rb = rref();
     ll res = 0;
     for (int i = 0; i < sz; i++) {
@@ -92,7 +87,7 @@ template <typename T = ll, int B = 62> struct Basis {
         res |= (1LL << i);
       }
     }
-    return res + 1;
+    return x ? -1 : res + 1;
   }
   // 기저 병합, O(B^2)
   void merge(const Basis& o) {

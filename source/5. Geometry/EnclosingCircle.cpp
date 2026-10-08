@@ -39,7 +39,7 @@ pair<Pd,double> min_circle(vector<Pd> v) {
         c = getC(v[i], v[j], v[k]); r = dist(c, v[k]);
         /* // for 3D
         for (int l = 0; l < k; l++) if (chk(v[l])) {
-          c = getC(v[i], v[j], v[k], v[l]); r = dist(p, v[l]);
+          c = getC(v[i], v[j], v[k], v[l]); r = dist(c, v[l]);
         } */
       }
     }

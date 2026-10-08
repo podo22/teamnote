@@ -1,85 +1,61 @@
-// modpow, modinv
+// modinv
 struct Gauss {
+  using Mat = vector<vector<ll>>;
   const ll M = 1000000007;
-  // return: 소거 성공 여부(false면 역행렬/해 없음)
-  bool rref(vector<vector<ll>> &a, vector<vector<ll>> &b, int n) {
-    for (int c = 0; c < n; c++) {
-      int piv = c;
-      while (piv < n && a[piv][c] == 0) piv++;
-      if (piv == n) return false;
-      swap(a[c], a[piv]); swap(b[c], b[piv]);
-      ll d = modinv(a[c][c]);
-      for (int j = c; j < n; j++) a[c][j] = a[c][j] * d % M;
-      for (int j = 0; j < sz(b[c]); j++) b[c][j] = b[c][j] * d % M;
-      for (int i = 0; i < n; i++) if (i != c) {
+  // 앞 cols개 열을 소거. 반환: {rank, 정사각 계수행렬의 det}.
+  // full=true: RREF, false: 전진 소거. 계수는 [0,M).
+  pair<int,ll> elim(Mat& a, int cols, bool full = true) {
+    int n = sz(a), m = n ? sz(a[0]) : 0, r = 0;
+    ll det = 1;
+    for (int c = 0; c < cols && r < n; c++) {
+      int p = r;
+      while (p < n && a[p][c] == 0) p++;
+      if (p == n) continue;
+      if (p != r) { swap(a[p], a[r]); det = (M-det)%M; }
+      det = det*a[r][c]%M;
+      ll v = modinv(a[r][c], M);
+      for (int j = c; j < m; j++) a[r][j] = a[r][j]*v%M;
+      for (int i = full ? 0 : r+1; i < n; i++) {
+        if (i == r || a[i][c] == 0) continue;
         ll f = a[i][c];
-        if (f == 0) continue;
-        for (int j = c; j < n; j++)
-        a[i][j] = (a[i][j] - f * a[c][j] % M + M) % M;
-        for (int j = 0; j < sz(b[i]); j++)
-        b[i][j] = (b[i][j] - f * b[c][j] % M + M) % M;
-      }
-    }
-    return true;
-  }
-  // Ax=b 해 (없으면 {})
-  vector<ll> solve(vector<vector<ll>> a) {
-    int n = sz(a);
-    vector<vector<ll>> A(n, vector<ll>(n)), B(n, vector<ll>(1));
-    for (int i = 0; i < n; i++) {
-      for (int j = 0; j < n; j++) A[i][j] = a[i][j];
-      B[i][0] = a[i][n];
-    }
-    if (!rref(A, B, n)) return {};
-    vector<ll> x(n);
-    for (int i = 0; i < n; i++) x[i] = B[i][0];
-    return x;
-  }
-  // 역행렬 (없으면 {})
-  vector<vector<ll>> inverse(vector<vector<ll>> a) {
-    int n = sz(a);
-    vector<vector<ll>> b(n, vector<ll>(n));
-    for (int i = 0; i < n; i++) b[i][i] = 1;
-    if (!rref(a, b, n)) return {};
-    return b;
-  }
-  // 행렬식
-  ll det(vector<vector<ll>> a) {
-    int n = sz(a); ll res = 1;
-    for (int c = 0; c < n; c++) {
-      int piv = c;
-      while (piv < n && a[piv][c] == 0) piv++;
-      if (piv == n) return 0;
-      if (piv != c) { swap(a[c], a[piv]); res = (M - res) % M; }
-      res = res * a[c][c] % M;
-      ll d = modinv(a[c][c]);
-      for (int j = c; j < n; j++) a[c][j] = a[c][j] * d % M;
-      for (int i = c + 1; i < n; i++) {
-        ll f = a[i][c];
-        if (f == 0) continue;
-        for (int j = c; j < n; j++)
-        a[i][j] = (a[i][j] - f * a[c][j] % M + M) % M;
-      }
-    }
-    return res;
-  }
-  // rank
-  int rank(vector<vector<ll>> a) {
-    int n = sz(a), m = sz(a[0]), r = 0;
-    for (int c = 0; c < m; c++) {
-      int piv = r;
-      while (piv < n && a[piv][c] == 0) piv++;
-      if (piv == n) continue;
-      swap(a[r], a[piv]);
-      ll d = modinv(a[r][c]);
-      for (int j = c; j < m; j++) a[r][j] = a[r][j] * d % M;
-      for (int i = r + 1; i < n; i++) {
-        ll f = a[i][c];
-        if (f == 0) continue;
-        for (int j = c; j < m; j++) a[i][j] = (a[i][j] - f * a[r][j] % M + M) % M;
+        for (int j = c; j < m; j++)
+          a[i][j] = (a[i][j]-f*a[r][j]%M+M)%M;
       }
       r++;
     }
-    return r;
+    return {r, r == cols ? det : 0};
+  }
+  // a: n*n, b: 우변 행렬. false면 a가 특이행렬.
+  bool rref(Mat& a, Mat& b, int n) {
+    for (int i = 0; i < n; i++)
+      a[i].insert(a[i].end(), all(b[i]));
+    bool ok = elim(a, n).first == n;
+    for (int i = 0; i < n; i++) {
+      b[i].assign(a[i].begin()+n, a[i].end());
+      a[i].resize(n);
+    }
+    return ok;
+  }
+  // n*(n+1) 확대행렬. 유일해가 없으면 {}.
+  vector<ll> solve(Mat a) {
+    int n = sz(a);
+    if (elim(a, n).first != n) return {};
+    vector<ll> x(n);
+    for (int i = 0; i < n; i++) x[i] = a[i][n];
+    return x;
+  }
+  // 정사각행렬의 역행렬. 없으면 {}.
+  Mat inverse(Mat a) {
+    int n = sz(a);
+    for (int i = 0; i < n; i++) {
+      a[i].resize(2*n); a[i][n+i] = 1;
+    }
+    if (elim(a, n).first != n) return {};
+    for (auto& row : a) row.erase(row.begin(), row.begin()+n);
+    return a;
+  }
+  ll det(Mat a) { return elim(a, sz(a), false).second; }
+  int rank(Mat a) {
+    return elim(a, a.empty() ? 0 : sz(a[0]), false).first;
   }
 };

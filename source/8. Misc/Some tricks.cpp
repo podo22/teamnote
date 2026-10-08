@@ -5,6 +5,7 @@
  * [Tested on]
  * 
  */
+// ll에는 ~ll 사용, clz/ctz는 x=0에서 사용 불가.
 __builtin_popcount(x); // 켜진 비트(1)의 총 개수
 __builtin_clz(x); // 왼쪽(MSB)부터 연속된 0의 개수
 __builtin_ctz(x); // 오른쪽(LSB)부터 연속된 0의 개수
@@ -21,11 +22,6 @@ bool prev_comb(ll& bit) {
   ll y = ~bit & -~bit, x = bit & -y;
   bit = x - ((x & -x) / (y << 1));
   return x != 0;
-}
-// v(>0)보다 크고 popcount가 같은 가장 작은 정수
-ll next_perm(ll v) {
-  ll t = v | (v - 1);
-  return (t+1)|(((~t & -~t)-1)>>(__builtin_ctz(v)+1));
 }
 // mask의 모든 부분집합을 내림차순으로 순회 (0 제외), O(3^N)
 for (int sub = mask; sub > 0; sub = (sub-1)&mask);
@@ -57,63 +53,34 @@ int get_day_of_week(int y, int m, int d) {
   int w = ((c>>2)-(c<<1)+y+(y>>2)+(13*(m+1)/5)+d-1)%7;
   if (w < 0) w += 7; return w;
 }
-// LIS
-// a[i] < a[j] -> lower_bound
-// a[i] <= a[j] -> upper_bound
-vector<int> LIS(vector<int> v) {
-  int n = sz(v);
-  vector<int> lis, pos(n);
-  for (int i = 0; i < n; i++) {
-    auto it = lower_bound(all(lis), v[i]);
-    pos[i] = it - lis.begin();
-    if (it == lis.end()) lis.push_back(v[i]);
-    else *it = v[i];
-  }
-  vector<int> res;
-  for (int i = n-1, j = sz(lis)-1; i >= 0; i--) {
-    if (pos[i] == j) {
-      res.push_back(v[i]); j--;
-    }
-  }
-  reverse(all(res));
-  return res;
-}
-// 3D LIS
-struct Cand {
-  map<int,int> m; // y -> 그 y에서의 최소 z
-  bool chk(int y, int z) const {
-    auto it = m.lower_bound(y);
-    return it != m.begin() && prev(it)->second < z; // non-strict: <=
-  }
-  void add(int y, int z) {
-    auto it = m.lower_bound(y);
-    if (it != m.begin() && prev(it)->second <= z) return;
-    while (it != m.end() && it->second >= z) it = m.erase(it);
-    m.insert(it, {y, z});
-  }
-};
-int LIS3D(vector<array<int,3>> v) {
-  sort(all(v), [](auto &a, auto &b) {
-    if (a[0] != b[0]) return a[0] < b[0];
-    return a[1] > b[1]; // non-strict: <
-  });
-  vector<Cand> res;
-  for (auto [x, y, z] : v) {
-    int lo = 0, hi = sz(res);
-    while (lo < hi) {
-      int mid = (lo+hi) / 2;
-      if (res[mid].chk(y, z)) lo = mid + 1;
-      else hi = mid;
-    }
-    if (lo == sz(res)) res.emplace_back();
-    res[lo].add(y, z);
-  }
-  return sz(res);
-}
 // 도달 가능 여부 O(N^3 / 64)
 bitset<MAXN> reach[MAXN];
 for (int k = 0; k < n; k++) {
   for (int i = 0; i < n; i++) {
     if (reach[i][k]) reach[i] |= reach[k];
   }
+}
+sort(all(v)); // Permutation
+do {
+  // process v
+} while (next_permutation(all(v)));
+vector<int> mask(n, 0); // Combination(nCk)
+fill(mask.end()-r, mask.end(), 1); // pick r
+do {
+  for (int i = 0; i < n; i++) if (mask[i]) {
+    /* v[i] is selected */ }
+} while (next_permutation(all(mask)));
+sort(all(v)); // Partial Permutation (nPk)
+do {
+  for(int i = 0; i < k; i++) { /* use v[i] */ }
+  reverse(v.begin()+k, v.end());
+} while (next_permutation(all(v)));
+// 부호 있는 정수 나눗셈의 floor/ceil. b!=0, 몫은 ll 범위.
+ll floor_div(ll a, ll b) {
+  ll q = a/b, r = a%b;
+  return q - (r && (r<0) != (b<0));
+}
+ll ceil_div(ll a, ll b) {
+  ll q = a/b, r = a%b;
+  return q + (r && (r<0) == (b<0));
 }

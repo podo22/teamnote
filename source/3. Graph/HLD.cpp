@@ -10,72 +10,7 @@
 // setv(u,x)/addv(u,x) // 정점 단일 갱신
 // qsum/qmin/qmax(u,v, edge=0) // 경로 쿼리
 // * edge=true: 간선 가중치 문제에서 씀 (정점을 간선에 대응, LCA 빼고)
-template<typename T> struct SegTree {
-  struct Nd { T sum, mn, mx; };
-  struct Lz { T add, set; bool has; };
-  int n; vector<Nd> tr; vector<Lz> lz;
-  SegTree(int n) : n(n), tr(4*n+5), lz(4*n+5, { 0, 0, 0 }) {}
-  Nd id() { return { 0, numeric_limits<T>::max(), numeric_limits<T>::lowest() }; }
-  bool empty(Lz f) { return !f.has && f.add==0; }
-  Nd merge(Nd a, Nd b) { return { a.sum+b.sum, min(a.mn,b.mn), max(a.mx,b.mx) }; }
-  Lz comp(Lz f, Lz g) { // comp(f, g)(x) = f(g(x))
-    if (f.has) return f;
-    g.add += f.add;
-    return g;
-  }
-  void apply(int nd, int s, int e, Lz f) {
-    int len = e-s+1;
-    if (f.has) tr[nd] = { f.set * len, f.set, f.set };
-    tr[nd].sum += f.add * len;
-    tr[nd].mn += f.add; tr[nd].mx += f.add;
-    lz[nd] = comp(f, lz[nd]);
-  }
-  void push(int nd, int s, int e) {
-    if (empty(lz[nd])) return;
-    if (s != e) {
-      int m = (s + e) >> 1;
-      apply(nd<<1, s, m, lz[nd]);
-      apply(nd<<1|1, m+1, e, lz[nd]);
-    }
-    lz[nd] = { 0, 0, 0 };
-  }
-  void build(int nd, int s, int e, const vector<T>& a) {
-    if (s == e) {
-      T v = (s < sz(a) ? a[s] : 0);
-      return void(tr[nd] = { v, v, v });
-    }
-    int m = (s+e)>>1;
-    build(nd<<1, s, m, a);
-    build(nd<<1|1, m+1, e, a);
-    tr[nd] = merge(tr[nd<<1], tr[nd<<1|1]);
-  }
-  void upd(int nd, int s, int e, int l, int r, Lz f) {
-    if (l > r || r < s || e < l) return;
-    push(nd, s, e);
-    if (l <= s && e <= r) {
-      apply(nd, s, e, f);
-      return;
-    }
-    int m = (s+e)>>1;
-    upd(nd<<1, s, m, l, r, f);
-    upd(nd<<1|1, m+1, e, l, r, f);
-    tr[nd] = merge(tr[nd<<1], tr[nd<<1|1]);
-  }
-  Nd qry(int nd, int s, int e, int l, int r) {
-    push(nd, s, e);
-    if (l > r || r < s || e < l) return id();
-    if (l <= s && e <= r) return tr[nd];
-    int m = (s+e)>>1;
-    return merge(qry(nd<<1, s, m, l, r), qry(nd<<1|1, m+1, e, l, r));
-  }
-  void build(const vector<T>& a) { build(1, 0, n, a); }
-  void add(int l, int r, T x) { upd(1, 0, n, l, r, { x, 0, 0 }); }
-  void set(int l, int r, T x) { upd(1, 0, n, l, r, { 0, x, 1 }); }
-  Nd query(int l, int r) { return qry(1, 0, n, l, r); }
-  T qsum(int l, int r) { return qry(1, 0, n, l, r).sum; }
-  T qmin(int l, int r) { return qry(1, 0, n, l, r).mn; }
-  T qmax(int l, int r) { return qry(1, 0, n, l, r).mx; }
-};
+/* Data Structure/Segment Tree */
 template<typename T = ll> struct HLD {
   int n, pv;
   vector<vector<int>> adj;
