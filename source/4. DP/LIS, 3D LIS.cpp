@@ -25,33 +25,43 @@ vector<int> LIS(vector<int> v) {
 }
 // 3D LIS
 struct Cand {
-  map<int,int> m; // y -> 그 y에서의 최소 z
-  bool chk(int y, int z) const {
-    auto it = m.lower_bound(y);
-    return it != m.begin() && prev(it)->second < z; // non-strict: <=
+  map<int,pair<int,int>> m; // y -> {최소 z, 원본 인덱스}
+  int get(int y, int z) const {
+    auto it = m.lower_bound(y); // non-strict: upper_bound(y)
+    if (it == m.begin()) return -1;
+    auto [pz, id] = prev(it)->second;
+    return pz < z ? id : -1; // non-strict: pz <= z
   }
-  void add(int y, int z) {
+  void add(int y, int z, int id) {
     auto it = m.lower_bound(y);
-    if (it != m.begin() && prev(it)->second <= z) return;
-    while (it != m.end() && it->second >= z) it = m.erase(it);
-    m.insert(it, {y, z});
+    if (it != m.begin() && prev(it)->second.first <= z) return;
+    while (it != m.end() && it->second.first >= z) it = m.erase(it);
+    m.insert(it, { y, { z, id } });
   }
 };
-int LIS3D(vector<array<int,3>> v) {
-  sort(all(v), [](auto &a, auto &b) {
-    if (a[0] != b[0]) return a[0] < b[0];
-    return a[1] > b[1]; // non-strict: <
+// 세 좌표가 모두 엄격히 증가하는 최장 체인(인덱스 반환).
+vector<int> LIS3D(const vector<array<int,3>>& v) {
+  int n = sz(v), last = -1;
+  vector<int> ord(n), pre(n, -1); iota(all(ord), 0);
+  sort(all(ord), [&](int i, int j) {
+    // non-strict: return v[i] < v[j];
+    if (v[i][0] != v[j][0]) return v[i][0] < v[j][0];
+    return v[i][1] > v[j][1];
   });
   vector<Cand> res;
-  for (auto [x, y, z] : v) {
+  for (int i : ord) {
+    auto [x, y, z] = v[i];
     int lo = 0, hi = sz(res);
     while (lo < hi) {
-      int mid = (lo+hi) / 2;
-      if (res[mid].chk(y, z)) lo = mid + 1;
+      int mid = (lo+hi)/2;
+      if (res[mid].get(y, z) != -1) lo = mid+1;
       else hi = mid;
     }
-    if (lo == sz(res)) res.emplace_back();
-    res[lo].add(y, z);
+    if (lo) pre[i] = res[lo-1].get(y, z);
+    if (lo == sz(res)) res.emplace_back(), last = i;
+    res[lo].add(y, z, i);
   }
-  return sz(res);
+  vector<int> ans;
+  for (int i = last; i != -1; i = pre[i]) ans.push_back(i);
+  reverse(all(ans)); return ans;
 }
