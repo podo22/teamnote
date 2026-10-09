@@ -3,7 +3,7 @@
  * Author : alreadysolved
  * [Tested on]
  * 
-*/
+ */
 // add/set: 구간 덧셈/대입, query: {sum,mn,mx}.
 // find/find_kth는 실제 사용하는 인덱스 범위를 지정.
 template<typename T = ll> struct SegTree {

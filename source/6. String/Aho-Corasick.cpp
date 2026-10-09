@@ -1,11 +1,11 @@
 /**
-* [Metadata]
-* Original Author : JusticeHui
-* Reference : http://boj.kr/cc544ffb909442198b37ca6e3b9e8c9d
-* Modified by : alreadysolved
-* [Tested on]
-* https://www.acmicpc.net/problem/9250
-*/
+ * [Metadata]
+ * Original Author : JusticeHui
+ * Reference : http://boj.kr/cc544ffb909442198b37ca6e3b9e8c9d
+ * Modified by : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/9250
+ */
 // 소문자 패턴. insert 전부 -> build 한 번 -> find/count.
 // find: 서로 다른 패턴, id>=1. 반환 {패턴id, 끝idx}.
 // count: 겹치는 등장도 모두 셈. 같은 패턴의 중복 삽입도 횟수에 반영.

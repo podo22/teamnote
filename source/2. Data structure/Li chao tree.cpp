@@ -1,9 +1,9 @@
 /**
-* [Metadata]
-* Author : ychangseok(https://github.com/ychangseok/PS-template/blob/main/DataStructure/li_chao_tree.cpp)
-* [Tested on]
-* 
-*/
+ * [Metadata]
+ * Author : ychangseok(https://github.com/ychangseok/PS-template/blob/main/DataStructure/li_chao_tree.cpp)
+ * [Tested on]
+ * 
+ */
 struct LiChaoTree {
   // min LiChao, 정수, 사용하기 전에 init(min_x, max_x) 호출
   // update(0, {a, b}) : 직선 y=ax+b 추가

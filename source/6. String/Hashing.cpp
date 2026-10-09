@@ -3,7 +3,7 @@
  * Author : alreadysolved
  * [Tested on]
  * 
-*/
+ */
 template<ll P, ll M> struct Hash1 {
   vector<ll> h, p;
   void build(const string& s) {

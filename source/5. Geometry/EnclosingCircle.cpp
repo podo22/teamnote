@@ -25,7 +25,6 @@ Pd getC(Pd a, Pd b, Pd c, Pd d) {
   Pd top = (p/q) * r.dist2() + (q/r) * p.dist2() + (r/p) * q.dist2();
   return a + top / det;
 } */
-mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
 pair<Pd,double> min_circle(vector<Pd> v) {
   shuffle(all(v), rng);
   Pd c = { 0, 0 }; double r = 0;

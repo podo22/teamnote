@@ -1,6 +1,7 @@
 /**
  * [Metadata]
  * Author : ychangseok(https://github.com/ychangseok/PS-template/blob/main/Geometry/convex_hull_3d.cpp)
+ * Edited by : alreadysolved
  * [Tested on]
  * 
  */

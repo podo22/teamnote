@@ -14,8 +14,7 @@ struct BiMatch { // Hopcroft-Karp
   BiMatch(int n, int m) : ns(n), ms(m), graph(n+1), grev(m+1), mA(n+1), mB(m+1), dist(n+1), work(n+1) {}
   void add(int a, int b) { graph[a].push_back(b); grev[b].push_back(a); }
   void bfs() {
-    fill(all(dist), -1);
-    queue<int> q;
+    fill(all(dist), -1); queue<int> q;
     for (int i = 1; i <= ns; i++) if (!mA[i]) {
       dist[i] = 0; q.push(i);
     }
@@ -42,13 +41,11 @@ struct BiMatch { // Hopcroft-Karp
     int ans = 0;
     for (int i = 1; i <= ns; i++) for (int j : graph[i]) {
       if (!mB[j]) {
-        mA[i] = j; mB[j] = i;
-        ans++; break;
+        mA[i] = j; mB[j] = i; ans++; break;
       }
     }
     while (1) {
-      fill(all(work), 0); bfs();
-      int cnt = 0;
+      fill(all(work), 0); bfs(); int cnt = 0;
       for (int i = 1; i <= ns; i++) {
         if (!mA[i] && dfs(i)) cnt++;
       }
@@ -92,7 +89,7 @@ struct BiMatch { // Hopcroft-Karp
     for (int i = 1; i <= ms; i++) if (visB[i]) vb.push_back(i);
     return { va, vb };
   }
-  // 현재 미매칭인 왼쪽 정점 u에서 한 번 증강. 성공하면 크기 +1.
+  // 미매칭인 왼쪽 정점 u에서 한 번 증강. 성공하면 크기++
   // for (int u = 1; u <= bm.ns; u++) cnt += bm.augment(u);
   bool augment(int u) {
     if (mA[u]) return false;

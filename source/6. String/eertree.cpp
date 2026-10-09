@@ -1,9 +1,9 @@
 /**
-* [Metadata]
-* Author : alreadysolved
-* [Tested on]
-* https://www.acmicpc.net/problem/10066
-*/
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * https://www.acmicpc.net/problem/10066
+ */
 // Eertree(palindromic tree): "서로 다른 팰린드롬 부분 문자열"을 노드로 압축.
 // 각 노드 = 팰린드롬 하나. 간선 = 양끝에 같은 문자 붙여 만든 더 긴 팰린드롬.
 // "distinct 팰린드롬" 개수·등장 횟수

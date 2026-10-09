@@ -91,7 +91,7 @@
   %\Algorithm{Find 3 or 4 cycle}{}{$O(M\sqrt{M})$}{cpp}{source/3. Graph/Find34Cycle.cpp}{}
   \Algorithm{Push Relabel}{}{$O(V^3)$}{cpp}{source/3. Graph/PushRelabel.cpp}{}
   \Algorithm{Gomory Hu Tree}{무방향 용량 그래프의 여러 정점 쌍 최소컷. 트리 경로의 최소 간선 가중치로 조회}{}{cpp}{source/3. Graph/Gomory Hu Tree.cpp}{}
-  %\Algorithm{General Matching}{Maximum Unweighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
+  \Algorithm{General Matching}{}{$O(N^3)$}{cpp}{source/3. Graph/General_Matching.cpp}{}
   %\Algorithm{Weighted General Matching}{Maximum Weighted Matching.}{$O(N^3)$}{cpp}{source/3. Graph/Weighted_General_Matching.cpp}{}
   
   \section{DP}
@@ -152,7 +152,8 @@
   \linespread{1.5}
   % source: https://github.com/green5555/Teamnote-archive/blob/main/2020%20ICPC%20-%20Gr-Yee-n55/code/useful.txt
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
-  % edit by alreadysolved
+  %         https://github.com/hibye1217/ps-teamnote/blob/main/main.pdf
+  % edited by alreadysolved
   \Algorithm{Useful Stuff}{}{}{}{}{}
   \begin{itemize}
     \item Catalan Number\\
@@ -221,7 +222,6 @@
     - Misere Nim: 모든 돌 무더기가 1이면 N이 홀수일 때 후공 승, 그렇지 않은 경우 XOR 합 0이면 후공 승
     \item Pick’s Theorem\\
     격자점으로 구성된 simple polygon이 주어짐. I 는 polygon 내부의 격자점 수, B 는 polygon 선분 위 격자점 수, A는 polygon의 넓이라고 할 때, 다음과 같은 식이 성립한다. 경계 격자점 수 $B = \sum_{edges} gcd(|dx|,|dy|)$. 내부 격자점 수 $I = A-B/2+1$.
-    \item 가장 가까운 두 점: 분할정복으로 가까운 6개의 점만 확인
     \item 홀의 결혼 정리: 이분그래프(L-R)에서, 모든 L을 매칭하는 필요충분 조건 = L에서 임의의 부분집합 S를 골랐을 때, 반드시 (S의 크기) $\le$ (S와 연결되어있는 모든 R의 크기)이다.
     \item 소수: 10 007 , 10 009 , 10 111 , 31 567 , 70 001 , 1 000 003 , 1 000 033 , 4 000 037 , 99 999 989 , 999 999 937 , 1 000 000 007 , 1 000 000 009 , 9 999 999 967 , 99 999 999 977
     \item 소수 개수 : (1e5 이하 : 9592), (1e7 이하 : 664 579) , (1e9 이하 : 50 847 534)
@@ -242,11 +242,29 @@
     \item 순열 swap 관련\\
     - 버블소트 최소 swap = inversion 개수\\
     - 순열 정렬 최소 swap = $N - (\text{사이클 개수})$
+    \item 나머지 그래프\\
+    무제한 동전 조합에서 목표 금액 $M$이 너무 커 금액별 DP가 불가능할 때, 동전 $L$을 더해도 나머지가 같다는 점으로 상태를 $L$개로 압축.\\
+    정점 $r=\text{금액}\bmod L$, 동전 $a$ 추가는 $r\to(r+a)\bmod L$. 0에서 다익스트라.\\
+    - 표현 판정: $L$은 아무 동전(보통 최소), 비용 $a$. $dist[r]$는 최소 금액이므로 $dist[M\bmod L]\le M$이면 가능.\\
+    - 최소 개수: $L$은 최대 동전, 비용 $L-a$(최대 동전 대비 부족분). $M\ge(L-1)^2$이면 답은 $(M+dist[M\bmod L])/L$. 작은 $M$은 DP, 도달 불가면 불가능.
+    \item Bounded Scheduling\\
+    현재 자원 $x\ge B_i$이면 작업 $i$ 수행 가능, 수행 후 $x\leftarrow x+A_i$.
+    - $A_i\ge0$인 작업을 먼저 $B_i$ 오름차순으로 처리.\\
+    - $A_i<0$인 작업은 $A_i+B_i$ 내림차순으로 처리.\\
+    이 순서에서 수행 불가능한 작업이 나오면 다른 순서로도 불가능.
+    \item 이항계수 구간합\\
+    $F(n,l,r)=\sum_{k=l}^{r}\binom{n}{k}$. 여러 쿼리를 Mo처럼 처리할 때 $n,l,r$을 한 칸씩 이동하며 갱신:\\
+    - $F(n,l,r+1)=F(n,l,r)+\binom{n}{r+1}$.\\
+    - $F(n,l+1,r)=F(n,l,r)-\binom{n}{l}$.\\
+    - $F(n+1,l,r)=2F(n,l,r)+\binom{n}{l-1}-\binom{n}{r}$.\\
+    - $F(n-1,l,r)=\bigl(F(n,l,r)-\binom{n-1}{l-1}+\binom{n-1}{r}\bigr)/2$.\\
+    범위 밖의 이항계수는 0. 모듈러 계산의 $/2$는 2의 역원 사용.
   \end{itemize}
   
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/Checklist.tex
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
+  % edited by alreadysolved
   \Algorithm{자주 쓰이는 문제 접근법}{}{}{}{}{}
   \begin{itemize}
     \item 작은 예제와 brute force부터: 직접 푸는 과정을 수식화하고, 비슷한 문제를 떠올리기.
@@ -270,26 +288,28 @@
   \end{itemize}
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/MinCut.tex
-  % \Algorithm{Graph Matching(Graph with $\vert V \vert \leq 500$)}{}{}{}{}{}
-  % \begin{itemize}
-  %   \item \textbf{Game on a Graph} : $s$에 토큰이 있음. 플레이어는 각자의 턴마다 토큰을 이미 방문하지 않은 인접한 정점으로 옮기고 못 옮기면 짐.\\
-  %   $s$를 포함하지 않는 최대 매칭이 존재함 $\leftrightarrow$ 후공이 이김
+  % edited by alreadysolved
+  \Algorithm{Graph Matching(Graph with $\vert V \vert \leq 500$)}{}{}{}{}{}
+  \begin{itemize}
+    \item \textbf{Game on a Graph}: 정점 $s$에서 시작해, 번갈아 토큰을 방문하지 않은 인접 정점으로 이동. 이동하지 못하면 패배.\\
+    $s$를 제외해도 최대 매칭 크기가 같으면 후공 승, 아니면 선공 승. \texttt{match()} 이후 \texttt{chk(s)}로 판정.
+    \item \textbf{Minimum Edge Cover}: 모든 정점이 선택한 간선 하나 이상과 인접하도록 하는 최소 간선 집합.\\
+    최대 매칭 $M$을 구하면 답은 $|V|-|M|$. 복원: 매칭 간선을 선택하고, 매칭되지 않은 정점마다 인접 간선 하나 추가. 고립 정점이 있으면 불가능.
+    \item \textbf{기계당 노동자 2명 배정 (NEERC'18 B)}: 노동자마다 담당 가능한 기계가 주어지고, 각 노동자는 최대 한 기계에 배정. 노동자 2명을 배정한 기계 수 최대화.\\
+    노동자마다 정점 하나, 기계마다 정점 두 개를 만들고 기계 내부 두 정점을 연결. 각 노동자를 담당 가능한 기계의 두 정점 모두와 연결.\\
+    최대 매칭 $M$을 구하면 답은 $|M|-\text{기계 수}$.
   %   \item \textbf{Chinese Postman Problem} : 모든 간선을 방문하는 최소 가중치 Walk를 구하는 문제.\\
   %   Floyd를 돌린 다음, 홀수 정점들을 모아서 최소 가중치 매칭 (홀수 정점은 짝수 개 존재)
-  %   \item \textbf{Unweighted Edge Cover} : 모든 정점을 덮는 가장 작은(minimum cardinality/weight) 간선 집합을 구하는 문제\\
-  %   $\vert V\vert - \vert M\vert$, 길이 3짜리 경로 없음, star graph 여러 개로 구성
   %   \item \textbf{Weighted Edge Cover} : $sum_{v \in V}(w(v)) - sum_{(u,v) \in M}(w(u) + w(v) - d(u,v))$, $w(x)$는 $x$와 인접한 간선의 최소 가중치
-  %   \item \textbf{NEERC'18 B} : 각 기계마다 2명의 노동자가 다뤄야 하는 문제.\\
-  %   기계마다 두 개의 정점을 만들고 간선으로 연결하면 정답은 $\vert M\vert - \vert\text{기계}\vert$임. 정답에 1/2씩 기여한다는 점을 생각해보면 좋음.
   %   \item \textbf{Min Disjoint Cycle Cover} : 정점이 중복되지 않으면서 모든 정점을 덮는 길이 3 이상의 사이클 집합을 찾는 문제.\\
   %   모든 정점은 2개의 서로 다른 간선, 일부 간선은 양쪽 끝점과 매칭되어야 하므로 플로우를 생각할 수 있지만 용량 2짜리 간선에 유량을 1만큼 흘릴 수 있으므로 플로우는 불가능.\\
   %   각 정점과 간선을 2개씩($(v, v')$, $(e_{i,u},e_{i,v})$)로 복사하자. 모든 간선 $e=(u,v)$에 대해 $e_u$와 $e_v$를 잇는 가중치 w짜리 간선을 만들고(like NEERC18), $(u,e_{i,u}), (u',e_{i,u}), (v,e_{i,v}), (v',e_{i,v})$를 연결하는 가중치 0짜리 간선을 만들자. Perfect 매칭이 존재함 $\Leftrightarrow$ Disjoint Cycle Cover 존재. 최대 가중치 매칭 찾은 뒤 모든 간선 가중치 합에서 매칭 빼면 됨.
   %   \item \textbf{Two Matching} : 각 정점이 최대 2개의 간선과 인접할 수 있는 최대 가중치 매칭 문제.\\
   %   각 컴포넌트는 정점 하나/경로/사이클이 되어야 함. 모든 서로 다른 정점 쌍에 대해 가중치 0짜리 간선 만들고, 가중치 0짜리 $(v,v')$ 간선 만들면 Disjoing Cycle Cover 문제가 됨. 정점 하나만 있는 컴포넌트는 self-loop, 경로 형태의 컴포넌트는 양쪽 끝점을 연결한다고 생각하면 편함.
-  % \end{itemize}
+  \end{itemize}
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/MinCut.tex
-  % edit by alreadysolved
+  % edited by alreadysolved
   \Algorithm{Mincut 모델링}{}{}{}{}{}
   \begin{itemize}
     \item $N$개의 boolean 변수 $v_1, \cdots, v_n$을 정해서 비용을 최소화하는 문제=true인 점은 $T$, false인 점은 $F$와 연결되게 분할하는 민컷 문제
@@ -306,14 +326,18 @@
       \item $\neg(v_i \land v_j)$ (둘 다 T 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v_i \implies v'_j$ ($i \to j$ 무한 간선)
       \item $v_i \lor v_j$ (둘 다 F 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v'_j \implies v_i$ ($j \to i$ 무한 간선)
     \end{enumerate}
-    \item 두 boolean 변수의 비용표 E00,E01,E10,E11: E00+E11 <= E01+E10이면 단항 비용과 비음수 간선으로 표현 가능.
+    \item 두 변수 비용표: $E_{ab}$는 $i=a,j=b$일 때 비용. $T$쪽은 1, $F$쪽은 0.\\
+    $E_{00}+E_{11}\le E_{01}+E_{10}$이면 다음 간선 추가:\\
+    - $i\to j$: 용량 $E_{01}+E_{10}-E_{00}-E_{11}$.\\
+    - $i\to F$: $\max(0,E_{11}-E_{01})$, $T\to i$: $\max(0,E_{01}-E_{11})$.\\
+    - $j\to F$: $\max(0,E_{01}-E_{00})$, $T\to j$: $\max(0,E_{00}-E_{01})$.\\
+    원래 최소 비용 = 최소컷 $+E_{00}+\min(0,E_{11}-E_{01})+\min(0,E_{01}-E_{00})$.
     \item 모든 조건을 만족하는지 판단하면 2-SAT. 만족하는 절의 개수·가중치를 최대화하면 MAX-2SAT
     \item Maximum Density Subgraph (NEERC'06H, BOJ 3611 팀의 난이도)
     \begin{itemize}
       \item N=정점 수, M=간선 수. M/N을 최대화. 밀도 d를 이분탐색.\\
       정점 N개에 S,T를 추가해 다음 용량으로 연결:\\
-      • S → v : M\\
-      • v → T : M-deg[v]+2d\\
+      • S → v : M, v → T : M-deg[v]+2d\\
       • 원본 간선 u-v : u→v, v→u 각각 1\\
       maxflow < M*N이면 밀도>d인 해가 존재 → d를 높임.\\
       성공할 때마다 잔여 그래프에서 S가 도달하는 원본 정점들을 저장.\\

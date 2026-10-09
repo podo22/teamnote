@@ -1,9 +1,9 @@
 /**
-* [Metadata]
-* Author : alreadysolved
-* [Tested on]
-* 
-*/
+ * [Metadata]
+ * Author : alreadysolved
+ * [Tested on]
+ * 
+ */
 ll phi(ll n);
 ll exmul(ll a, ll b, ll m) {
   if (a == 0 || b == 0) return 0;
