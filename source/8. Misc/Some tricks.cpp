@@ -10,13 +10,11 @@ __builtin_popcount(x); // 켜진 비트(1)의 총 개수
 __builtin_clz(x); // 왼쪽(MSB)부터 연속된 0의 개수
 __builtin_ctz(x); // 오른쪽(LSB)부터 연속된 0의 개수
 // popcount를 유지하면서 다음으로 큰 수 / 작은 수
+// min: (1LL << k)-1, max: ((1LL << k)-1) << (n-k);
 bool next_comb(ll& bit, int N) {
   ll x = bit & -bit, y = bit + x;
-  bit = (((bit & ~y) / x) >> 1) | y; 
+  bit = (((bit & ~y) / x) >> 1) | y;
   return (bit < (1LL << N));
-}
-ll init_comb(int n, int k) { 
-  return ((1LL << k) - 1) << (n - k); 
 }
 bool prev_comb(ll& bit) {
   ll y = ~bit & -~bit, x = bit & -y;

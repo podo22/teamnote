@@ -58,6 +58,7 @@ struct FPS {
   void resize(int n) { coef.resize(n); }
   // 뒤의 0 제거. 계수 하나는 남김.
   void shrink() { while (size() > 1 && coef.back() == 0) coef.pop_back(); }
+  // 다항식 거듭제곱. 앞 N개만 필요하면 매 곱셈 후 resize(N)
   FPS power(ll k) {
     FPS res(1), f = *this;
     for (; k; k /= 2, f *= f) if (k % 2) res *= f;

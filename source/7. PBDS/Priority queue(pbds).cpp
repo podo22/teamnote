@@ -7,8 +7,8 @@
 // 큐 병합, 임의 값 수정 및 삭제 가능
 #include <ext/pb_ds/priority_queue.hpp>
 using namespace __gnu_pbds;
-template <typename T>
-using pbds_pq = __gnu_pbds::priority_queue<T, less<T>, pairing_heap_tag>;
+template <typename T, typename Comp = less<T>>
+using pbds_pq = __gnu_pbds::priority_queue<T, Comp, pairing_heap_tag>;
 // pbds_pq<int> mx; / pbds_pq<int, greater<int>> mn;
 pbds_pq<int> pq1, pq2;
 auto it = pq1.push(10); pq2.push(100);

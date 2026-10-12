@@ -13,7 +13,7 @@
 \usepackage{kotex}
 \setmonofont{Monoplex KR Regular}
 
-\teamnote{}{}{} % 학교명, 팀명, 팀원명
+\teamnote{Hanyang University}{HyeonWooJin}{Dohyeon Kim, Chanwoo Cho, Seokjin Lee} % 학교명, 팀명, 팀원명
 
 \ShowUsage
 \ShowComplexity
@@ -71,7 +71,7 @@
 
   \section{Graph}
   \Algorithm{Bellman Ford}{}{$O(VE)$}{cpp}{source/3. Graph/Bellman.cpp}{}
-  \Algorithm{Eulerian Path}{}{$O(VE)$}{cpp}{source/3. Graph/Eulerian Path.cpp}{}
+  \Algorithm{Eulerian Path}{}{$O(V+E)$}{cpp}{source/3. Graph/Eulerian Path.cpp}{}
   %\Algorithm{SPFA (SLF Optimized)}{SSSP with negative weights. Returns false if negative cycle detected.}{Avg $O(E)$, Worst $O(VE)$}{cpp}{source/3. Graph/SPFA.cpp}{}
   %\Algorithm{LCA}{Lowest Common Ancestor using binary lifting.}{$O(\log N)$}{cpp}{source/3. Graph/LCA.cpp}{}
   \Algorithm{Offline Dynamic Connectivity}{}{}{cpp}{source/3. Graph/Offline Dynamic Connectivity.cpp}{}
@@ -83,7 +83,7 @@
   \Algorithm{Bipartite Matching}{}{$O(E\sqrt{V})$}{cpp}{source/3. Graph/Bipartite_Matching.cpp}{}
   \Algorithm{Hungarian}{비용 행렬 기반 일대일 최소 비용 매칭. 용량·네트워크 제약이 추가되면 MCMF}{$O(N^3)$}{cpp}{source/3. Graph/Hungarian.cpp}{}
   \Algorithm{Dinic}{}{$O(V^2E)$}{cpp}{source/3. Graph/Dinic.cpp}{}
-  \Algorithm{MCMF}{}{$O(F \cdot E \log V)$}{cpp}{source/3. Graph/MCMF.cpp}{}
+  \Algorithm{MCMF}{}{SPFA 1회: 최악 $O(VE)$, 전체: $O(AVE)$ ($A$: SPFA 실행 횟수)}{cpp}{source/3. Graph/MCMF.cpp}{}
   \Algorithm{Circulation}{Flow with lower and upper bounds.}{}{cpp}{source/3. Graph/Circulation.cpp}{}
   \Algorithm{SCC}{방향 그래프의 순환 의존성을 압축하여 DAG로 변환}{$O(V+E)$}{cpp}{source/3. Graph/SCC.cpp}{}
   \Algorithm{2-sat}{Solves 2-SAT in $O(V+E)$; $x_i$ is true if $SCC(x_i) < SCC(\neg x_i)$.}{$O(V+E)$}{cpp}{source/3. Graph/two-sat.cpp}{}
@@ -96,7 +96,7 @@
   
   \section{DP}
   \Algorithm{LIS / 3D LIS}{}{}{cpp}{source/4. DP/LIS, 3D LIS.cpp}{}
-  \Algorithm{Convex Hull Trick}{\texttt{dp[i] = min(dp[j] + b[j] * a[i]), b[j] >= b[j+1]}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
+  \Algorithm{Convex Hull Trick}{\texttt{dp[i] = max(dp[j] + b[j] * a[i])}}{$O(N \log N)$}{cpp}{source/4. DP/Convex Hull Trick.cpp}{}
   \Algorithm{Linear CHT}{CHT when slopes(k)/queries(x) are monotonic.}{$O(N)$}{cpp}{source/4. DP/Linear CHT.cpp}{}
   \Algorithm{D\&C optimization}{\texttt{dp[t][i] = min(dp[t-1][j] + c[j][i]), c is Monge}. 이전 행에서 전이하는 DP의 최적 후보 위치가 비감소. 구간 분할 DP 등에 적용.}{$O(KN \log N)$}{cpp}{source/4. DP/DNC opt.cpp}{}
   \Algorithm{Knuth optimization}{}{$O(N^2)$}{cpp}{source/4. DP/Knuth optimization.cpp}{}
