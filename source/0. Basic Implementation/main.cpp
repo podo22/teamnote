@@ -1,4 +1,4 @@
-// alias gpp='g++ -std=c++20 -Wall -Wshadow -O2 -DLOCAL -Wno-unused-variable -fsanitize=address,undefined'
+// alias gpp='g++ -std=c++20 -O2 -g -Wall -Wshadow=local -Wno-unused-variable -DLOCAL -fsanitize=address,undefined'
 #include <bits/stdc++.h> // #include <bits/extc++.h> for pbds
 #pragma GCC optimize ("O3,unroll-loops")
 #pragma GCC target ("avx,avx2,fma")
