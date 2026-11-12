@@ -2,8 +2,8 @@
 struct Gauss {
   using Mat = vector<vector<ll>>;
   const ll M = 1000000007;
-  // 앞 cols개 열을 소거. 반환: {rank, 정사각 계수행렬의 det}.
-  // full=true: RREF, false: 전진 소거. 계수는 [0,M).
+  // a=[A|B]. 앞 cols열(A)에서 피벗을 찾아 B에도 행 연산. {rank(A), det(A): 정사각일 때}.
+  // full=true: 피벗 위아래 소거, false: 아래만 소거. 원소는 [0,M).
   pair<int,ll> elim(Mat& a, int cols, bool full = true) {
     int n = sz(a), m = n ? sz(a[0]) : 0, r = 0;
     ll det = 1;
@@ -25,7 +25,7 @@ struct Gauss {
     }
     return {r, r == cols ? det : 0};
   }
-  // a: n*n, b: 우변 행렬. false면 a가 특이행렬.
+  // AX=B. rank(A)<n이면 false, 성공하면 b=X.
   bool rref(Mat& a, Mat& b, int n) {
     for (int i = 0; i < n; i++)
       a[i].insert(a[i].end(), all(b[i]));
@@ -36,7 +36,7 @@ struct Gauss {
     }
     return ok;
   }
-  // n*(n+1) 확대행렬. 유일해가 없으면 {}.
+  // [A|b]는 n*(n+1). Ax=b의 유일해 x를 반환, rank(A)<n이면 {}.
   vector<ll> solve(Mat a) {
     int n = sz(a);
     if (elim(a, n).first != n) return {};
@@ -44,7 +44,7 @@ struct Gauss {
     for (int i = 0; i < n; i++) x[i] = a[i][n];
     return x;
   }
-  // 정사각행렬의 역행렬. 없으면 {}.
+  // n*n 행렬 A의 역행렬을 반환, rank(A)<n이면 {}.
   Mat inverse(Mat a) {
     int n = sz(a);
     for (int i = 0; i < n; i++) {

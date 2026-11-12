@@ -6,6 +6,8 @@
  * 
  */
 // modmul, xgcd
+// m[i] > 0, 0 <= a[i] < m[i]. 합동식 1개 이상, lcm은 ll 범위.
+// 해가 없으면 {-1,-1}, 있으면 {최소 비음수 해, lcm}.
 pair<ll,ll> CRT(ll a1, ll m1, ll a2, ll m2) {
   ll x, y, g = xgcd(m1, m2, x, y);
   if ((a2 - a1) % g) return { -1, -1 };

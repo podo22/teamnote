@@ -6,7 +6,7 @@
  * 
  */
 struct Sieve {
-  // sp: 최소 소인수, e: i의 최소 소인수 지수, phi: 오일러 피 함수(1~i 중 i와 서로소인 개수), mu: 뫼비우스 함수, tau: 약수 개수, sigma: 약수의 합
+  // sp[i]: 최소소인수, e[i]: sp[i]의 지수, tmp[i]: 1+sp[i]+...+sp[i]^e[i], phi: 서로소개수, mu: 뫼비우스, tau: 약수개수, sigma: 약수합. Sieve(n): 1..n
   vector<int> sp, e, phi, mu, tau, sigma, tmp, primes;
   Sieve(int n) : sp(n+1), e(n+1), phi(n+1), mu(n+1), tau(n+1), sigma(n+1), tmp(n+1) {
     phi[1] = mu[1] = tau[1] = sigma[1] = 1;
@@ -16,7 +16,7 @@ struct Sieve {
         e[i]=1; phi[i]=i-1; mu[i]=-1; tau[i]=2; sigma[i]=tmp[i]=i+1;
       }
       for (int p : primes) {
-        if (i*p > n || p > sp[i]) break;
+        if (1LL*i*p > n || p > sp[i]) break;
         int m = i*p; sp[m] = p;
         if (i%p == 0) {
           e[m] = e[i]+1; phi[m] = phi[i]*p; mu[m] = 0;

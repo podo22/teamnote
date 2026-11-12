@@ -7,7 +7,7 @@ template <int S = 26, char OS = 'a'> struct Trie {
   vector<Node> tree;
   Trie() { init(); }
   void init() { tree.clear(); tree.emplace_back(); }
-  // 원소 추가(1)/삭제(-1), O(|s|)
+  // c=1 추가, c=-1은 있는 원소만 삭제. 존재 확인은 erase
   void insert(const auto &s, int c = 1) {
     int u = 0; tree[u].pass += c;
     for (auto i : s) {
@@ -74,7 +74,7 @@ template <typename T = ll, int B = 62> struct XorTrie {
     }
     return tree[u].cnt;
   }
-  // x^y 기준 k번째 최솟값(1-idx), O(B)
+  // x^y 기준 k번째 최솟값(중복 포함, 1-idx), O(B)
   T kth_xor(T x, int k) const { 
     if (k <= 0 || k > tree[0].cnt) return -1;
     int u = 0; T res = 0;
@@ -93,17 +93,17 @@ template <typename T = ll, int B = 62> struct XorTrie {
   T max_xor(T x) const { return kth_xor(x, tree[0].cnt); }
   // (x^y) < k 만족하는 y 개수, O(B)
   int count_less(T x, T k) const {
+    if ((k >> (B-1)) > 1) return tree[0].cnt;
     int u = 0, res = 0;
     for (int i = B-1; i >= 0; i--) {
       if (u == -1) break;
-      int bx = (x >> i) & 1, bk = (k >> i) & 1;
+      int bx = (x>>i) & 1, bk = (k>>i) & 1;
       if (bk) {
         int same = tree[u].nxt[bx];
         if (same != -1) res += tree[same].cnt;
         u = tree[u].nxt[bx ^ 1];
-      } else {
-        u = tree[u].nxt[bx];
       }
+      else u = tree[u].nxt[bx];
     }
     return res;
   }

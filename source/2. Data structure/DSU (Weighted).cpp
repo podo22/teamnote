@@ -29,7 +29,8 @@ struct WeightedDSU {
     int r = find(p[x]); d[x] += d[p[x]];
     return p[x] = r;
   }
-  int diff(int a, int b) { find(a); find(b); return d[a]-d[b]; } // for parity: ret &1
+  int diff(int a, int b) { // for parity: ret d[a]-d[b]&1
+    find(a); find(b); return d[a]-d[b]; }
   bool merge(int a, int b, int w) { // a-b = w
     int pa = find(a), pb = find(b);
     if (pa == pb) return diff(a, b) == w;

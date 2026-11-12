@@ -13,34 +13,35 @@ struct BiMatch { // Hopcroft-Karp
   int ns, ms;
   BiMatch(int n, int m) : ns(n), ms(m), graph(n+1), grev(m+1), mA(n+1), mB(m+1), dist(n+1), work(n+1) {}
   void add(int a, int b) { graph[a].push_back(b); grev[b].push_back(a); }
-  void bfs() {
-    fill(all(dist), -1); queue<int> q;
+  int lim; void bfs() {
+    fill(all(dist), -1); queue<int> q; lim = ns+1;
     for (int i = 1; i <= ns; i++) if (!mA[i]) {
       dist[i] = 0; q.push(i);
     }
     while (!q.empty()) {
       int i = q.front(); q.pop();
+      if (dist[i] >= lim) continue;
       for (auto j : graph[i]) {
         int k = mB[j];
-        if (k && dist[k] == -1) {
-          dist[k] = dist[i] + 1; q.push(k);
-        }
+        if (!k) lim = dist[i]+1;
+        else if (dist[k] == -1) dist[k] = dist[i]+1, q.push(k);
       }
     }
   }
   bool dfs(int cur) {
     for (int& i = work[cur]; i < sz(graph[cur]); i++) {
       int nb = graph[cur][i], ori = mB[nb];
-      if (!ori || dist[ori] == dist[cur] + 1 && dfs(ori)) {
+      if ((!ori && dist[cur]+1 == lim) ||
+          (ori && dist[cur]+1 < lim && dist[ori] == dist[cur]+1 && dfs(ori))) {
         mA[cur] = nb; mB[nb] = cur; return true;
       }
-    }
-    return false;
+    } dist[cur] = -1; return false;
   }
   int match() {
     int ans = 0;
-    for (int i = 1; i <= ns; i++) for (int j : graph[i]) {
-      if (!mB[j]) {
+    for (int i = 1; i <= ns; i++) ans += (mA[i] != 0);
+    for (int i = 1; i <= ns; i++) if (!mA[i]) {
+      for (int j : graph[i]) if (!mB[j]) {
         mA[i] = j; mB[j] = i; ans++; break;
       }
     }

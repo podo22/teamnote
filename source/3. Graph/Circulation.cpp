@@ -13,8 +13,8 @@ struct Circulation {
   void add_demand(int u, ll d) { demand[u] += d; }
   int add(int u, int v, ll l, ll r) {
     demand[u] -= l; demand[v] += l;
+    edge.push_back({ u, sz(dn.graph[u]) });
     dn.add(u, v, r - l); low.push_back(l);
-    edge.push_back({ u, sz(dn.graph[u])-1 });
     return sz(edge)-1;
   }
   ll solve() {
@@ -35,7 +35,6 @@ struct Circulation {
     int v = dn.graph[u][idx].to, rev = dn.graph[u][idx].rev;
     return dn.graph[v][rev].cap + low[i];
   }
-  // min flow: int t = cc.add(T, S, 0, INF); cc.solve(); cc.cut(t); cc.dn.flow(N, 1);
   void cut(int i) {
     auto [u, idx] = edge[i];
     auto& fwd = dn.graph[u][idx];
@@ -43,3 +42,9 @@ struct Circulation {
     fwd.cap = bwd.cap = 0;
   }
 };
+/* min flow:
+int id = cc.add(t, s, 0, INF);
+if (cc.solve() != -1) {
+  ll f = cc.get_flow(id); cc.cut(id);
+  ll ans = f - cc.dn.flow(t, s, f);
+} // 0 이상인 최소 s->t 유량 */

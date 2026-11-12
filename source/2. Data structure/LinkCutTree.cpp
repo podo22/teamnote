@@ -4,7 +4,7 @@
  * [Tested on]
  * 
  */
-// MAXN은 (초기 크기 + insert 총 횟수) 이상
+// 순서열: init(v), MAXN >= 초기크기+삽입횟수+3. LCT: 정점마다 new_nd().
 const ll INF = 1e18, MAXN = 3e5+5;
 struct BBST {
   struct Node {
@@ -103,7 +103,10 @@ struct BBST {
     clear();
     rt = build(1, sz(v)+2, 0, v);
   }
-  void add_val(int l, int r, ll v) { apply(gather(l, r), v); }
+  void add_val(int l, int r, ll v) {
+    int x = gather(l, r);
+    apply(x, v); update(tr[x].p); update(rt);
+  }
   int get_idx(int id) { // ID 원소의 인덱스 반환 (1-idx)
     push_all(pos[id]); splay(pos[id]);
     return tr[tr[rt].l].cnt;
@@ -219,7 +222,7 @@ struct BBST {
     access(u); access(v); splay(u);
     return tr[u].p ? tr[u].p : u;
   }
-  // path_xxx: u, v가 연결되어 있을 때만 호출 가능
+  // path_xxx(u,v): 연결된 정점만. 호출 후 u가 루트.
   Node path_qry(int u, int v) {
     make_rt(u); access(v); splay(v);
     return tr[v];

@@ -14,7 +14,7 @@ template<typename T = ll> struct HLPP {
   int n, high = 0, gap = 0, cnt = 0;
   HLPP(int n) : n(n+1), adj(n+2), ex(n+2), pos(n+2), lvl(n+2), nxt(2*n+3), gprv(2*n+3), gnxt(2*n+3) {}
   void add(int u, int v, T cap) {
-    adj[u].push_back({ v, cap, sz(adj[v]) });
+    adj[u].push_back({ v, cap, sz(adj[v])+(u == v) });
     adj[v].push_back({ u, 0, sz(adj[u])-1 });
   }
   void push(int u, int h) {
@@ -79,7 +79,7 @@ template<typename T = ll> struct HLPP {
     }
   }
   T flow(int s, int t) {
-    relabel(t);
+    relabel(t); if (lvl[s] == n+1) return 0;
     addex(s, INF); ex[t] -= INF;
     while (~high) {
       int u = nxt[n+high];

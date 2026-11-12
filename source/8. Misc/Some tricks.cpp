@@ -45,7 +45,7 @@ ll count_digit_frq(ll n, int i) {
   }
   return ret;
 }
-// 특정 날짜(년, 월, 일)의 요일 / 0: Sat, 1: Sun, ...
+// 특정 날짜(년, 월, 일)의 요일 / 0: Sun, 1: Mon, ...
 int get_day_of_week(int y, int m, int d) {
   if (m <= 2) y--, m += 12; int c = y / 100; y %= 100;
   int w = ((c>>2)-(c<<1)+y+(y>>2)+(13*(m+1)/5)+d-1)%7;

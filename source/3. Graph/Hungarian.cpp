@@ -9,7 +9,7 @@ template<typename T = ll> struct Hungarian {
   int n, m; const T INF = 1e15;
   Hungarian(int n, int m) : n(n), m(m), u(n+1), v(m+1), p(m+1), way(m+1) {}
   T solve (const vector<vector<T>> &a) {
-    ans.clear();
+    ans.clear(); fill(all(u), 0); fill(all(v), 0); fill(all(p), 0);
     vector<T> mv(m+1); vector<bool> vis(m+1);
     for (int i = 1; i <= n; i++) {
       fill(all(mv), INF); fill(all(vis), false);

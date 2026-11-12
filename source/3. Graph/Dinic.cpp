@@ -12,7 +12,7 @@ struct Dinic {
   vector<int> level, work; int n;
   Dinic(int n) : n(n), graph(n+1), level(n+1), work(n+1) {}
   void add(int u, int v, ll cap) {
-    graph[u].push_back({ v, cap, sz(graph[v])});
+    graph[u].push_back({ v, cap, sz(graph[v])+(u == v)});
     graph[v].push_back({ u, 0, sz(graph[u])-1});
   }
   bool bfs(int s, int t) {
@@ -44,11 +44,15 @@ struct Dinic {
     }
     return 0;
   }
-  ll flow(int s, int t) {
+  ll flow(int s, int t, ll lim = LLONG_MAX) {
     ll ans = 0;
-    while (bfs(s, t)) {
+    while (ans < lim && bfs(s, t)) {
       fill(all(work), 0);
-      while (auto flow = dfs(s, t, INF)) ans += flow;
+      while (ans < lim) {
+        ll f = dfs(s, t, min(INF, lim-ans));
+        if (!f) break;
+        ans += f;
+      }
     }
     return ans;
   }

@@ -1,5 +1,4 @@
 \documentclass[landscape, 8pt, a4paper, oneside]{extarticle}
-\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{amssymb}
 \usepackage{amsmath}
@@ -35,16 +34,16 @@
   \Algorithm{Arithmetic \& Number Theory}{Basic Arithmetic, Multiplicative Order, Power Tower, Floor Sum, Binomial Coefficient}{}{cpp}{source/1. Math/Arithmetic + Number Theory.cpp}{}
   %\Algorithm{Binomial Coefficient}{}{Init: $O(MAXN)$, Query: $O(1)$}{cpp}{source/1. Math/Binomial Coefficient.cpp}{}
   %\Algorithm{Binomial Coefficient}{}{}{cpp}{source/1. Math/Binomial Coefficient(pe).cpp}{}
-  \Algorithm{Chinese Remainder Theorem}{여러 나머지 조건을 동시에 만족하는 정수}{$O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
-  \Algorithm{FPS + Bostan-Mori}{$c_k=\sum_{i+j=k}a_i b_j$ 형태의 합을 한꺼번에 계산}{$O(N \log N)$}{cpp}{source/1. Math/FPS + Bostan-Mori.cpp}{}
+  \Algorithm{Chinese Remainder Theorem}{$x\equiv a_i\pmod{m_i}$, $0\le a_i<m_i$. {최소 비음수 해, lcm}, 없으면 {-1,-1}.}{병합 1회 $O(\log N)$}{cpp}{source/1. Math/Chinese remainder theorem.cpp}{}
+  \Algorithm{FPS + Bostan-Mori}{다항식 곱·역수·log·exp, 유리 생성함수의 k번째 계수}{NTT 곱셈 $O(N \log N)$, 변환 길이 $N \le 2^{23}$}{cpp}{source/1. Math/FPS + Bostan-Mori.cpp}{}
   \Algorithm{Bitwise Convolution(FWHT)}{}{$O(N \log N)$}{cpp}{source/1. Math/Bitwise Convolution(FWHT).cpp}{}
   \Algorithm{Linear Sieve}{}{$O(N)$}{cpp}{source/1. Math/Linear Sieve.cpp}{}
   \Algorithm{Miller-Rabin \& Pollard-Rho}{Primality test and integer factorization.}{$O(\log^3 N) / O(N^{1/4})$}{cpp}{source/1. Math/Miller rabin + Pollard rho.cpp}{}
-  \Algorithm{XOR Basis}{부분집합 XOR의 생성 가능 여부·최댓값·k번째 값. 원소 하나와의 XOR는 XorTrie.}{}{cpp}{source/1. Math/XOR Basis.cpp}{}
+  \Algorithm{XOR Basis}{부분집합 XOR의 생성 가능 여부, 최댓값, 순위. 입력값 범위는 $[0,2^B)$. 원소 하나와의 XOR는 XorTrie.}{}{cpp}{source/1. Math/XOR Basis.cpp}{}
   %\Algorithm{Floor Sum}{$\sum_{k=1}^{n} \lfloor n/k \rfloor$}{}{cpp}{source/1. Math/Floor Sum.cpp}{}
-  \Algorithm{Xudyh Sieve}{큰 $N$까지의 $\phi$, $\mu$ 누적합}{$O(N^{3/4})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
+  \Algorithm{Xudyh Sieve}{큰 $N$까지의 $\phi$, $\mu$ 누적합}{$th \approx N^{2/3}$일 때 전처리 포함 $O(N^{2/3})$}{cpp}{source/1. Math/Xudyh Sieve.cpp}{}
   \Algorithm{Discrete Log}{}{$O(\sqrt{m} \log m)$}{cpp}{source/1. Math/Discrete Log.cpp}{}
-  \Algorithm{Discrete Root}{}{$O(\sqrt{p} \log p)$}{cpp}{source/1. Math/Discrete Sqrt.cpp}{}
+  \Algorithm{Discrete Root}{}{원시근 탐색 + BSGS $O(\sqrt d\log(d+1))$, $d=(p-1)/\gcd(k,p-1)$}{cpp}{source/1. Math/Discrete Sqrt.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Discrete Log.py}{}
   %\Algorithm{Multiplicative Order}{Find the minimum positive $k$ s.t. $a^k \equiv 1 \pmod mod$)}{}{cpp}{source/1. Math/Multiplicative Order.cpp}{}
   %\Algorithm{}{}{}{python}{source/1. Math/Multiplicative Order.py}{}
@@ -62,11 +61,11 @@
   \Algorithm{Persistent Segment Tree}{정적 배열의 구간 k번째 값·값 범위별 개수·이전/다음 값}{$O(\log N)$ per query}{cpp}{source/2. Data structure/PersistentSegmentTree.cpp}{}
   %\Algorithm{Sweepline Mo's}{Optimized Mo's for $O(1)$ update and $O(1)$ query via offline sweepline.}{$O(N\sqrt{Q})$}{cpp}{source/2. Data structure/Sweepline MOs.cpp}{}
   \Algorithm{Link-Cut Tree}{간선 연결·삭제가 있는 숲의 경로 쿼리·갱신. 고정 트리는 HLD}{Amortized $O(\log N)$}{cpp}{source/2. Data structure/LinkCutTree.cpp}{}
-  \Algorithm{Li Chao Tree}{순서 제약 없는 직선 추가·최솟값 쿼리}{}{cpp}{source/2. Data structure/Li chao tree.cpp}{}
+  \Algorithm{Li Chao Tree}{조회·직선 추가 $O(\log(X+1))$, 선분 추가 $O(\log^2(X+1))$, $X=R-L+1$.}{}{cpp}{source/2. Data structure/Li chao tree.cpp}{}
   %\Algorithm{Lazy Segment Tree}{}{}{cpp}{source/2. Data structure/Lazy segtree.cpp}{}
   \Algorithm{DSU (Weighted)}{}{}{cpp}{source/2. Data structure/DSU (Weighted).cpp}{}
   \Algorithm{Trie}{}{}{cpp}{source/2. Data structure/Trie.cpp}{}
-  \Algorithm{Disjoint Sparse Table}{결합법칙만 필요하며 멱등성은 불필요}{}{cpp}{source/2. Data structure/Sparse Table.cpp}{}
+  \Algorithm{Disjoint Sparse Table}{결합법칙만 필요하며 멱등성은 불필요}{전처리·공간 $O(N\log N)$, 구간 쿼리 $O(1)$}{cpp}{source/2. Data structure/Sparse Table.cpp}{}
   \Algorithm{Mo's Algorithm}{}{}{cpp}{source/2. Data structure/Mos.cpp}{}
 
   \section{Graph}
@@ -149,7 +148,7 @@
   % source: https://github.com/koosaga/DeobureoMinkyuParty/blob/master/teamnote.tex
   \Algorithm{Highly Composite Numbers, Large Prime}{}{}{}{}{}
   \input{source/8. Misc/Primes}
-  \linespread{1.5}
+  %\linespread{1.5}
   % source: https://github.com/green5555/Teamnote-archive/blob/main/2020%20ICPC%20-%20Gr-Yee-n55/code/useful.txt
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
   %         https://github.com/hibye1217/ps-teamnote/blob/main/main.pdf
@@ -167,8 +166,9 @@
     - n개의 노드로 이루어진 이진 트리 구조 개수\\
     - 1부터 n까지의 수를 스택에 넣고 빼서 만들 수 있는 순열의 개수\\
     - 원 위에 2n개의 점이 있고, 2개씩 짝지어 선분을 그었을때 어떤 선분도 교차하지 않는 방법의 수\\
-    - $(0,0)$에서 $(N,M)$까지 우상단으로 이동할 때, 직선 $y = x + k$($k>0$)에 닿지않는 경로의 수(M ≥ N+k이면 0, 그 외의 경우):
+    - $(0,0)$에서 $(N,M)$까지 우상단으로 이동할 때, 직선 $y = x + k$($k>0$)에 닿지않는 경로의 수($M \geq N+k$이면 0, 그 외의 경우):
       전체 경로 수 - 반사된 경로 수 = $\binom{N+M}{N} - \binom{N+M}{N+k}$ (직선 $y = x + k$에 처음 닿은 이후 경로를 $y = x + k$에 대해 대칭 이동 -> $(M-k, N+k)$로 매핑됨)
+    - $y=x$ 아래에서 $(a,b)$부터 $(c,d)$까지 가는 경로: 총 이동 횟수 $L=(c-a)+(d-b)$에 대해 $\binom{L}{d-b} - \binom{L}{d-a-1}$
     \item Derangements\\
     N명의 사람이 모자를 벗어두었다가 무작위로 하나씩 집었을 때, 아무도 자기 모자를 쓰지 않을 경우의 수\\
     - 포함배제 ($D_N = N! \sum_{i=0}^N \frac{(-1)^i}{i!}$) - 팩토리얼 역원 전처리로 O(N)\\

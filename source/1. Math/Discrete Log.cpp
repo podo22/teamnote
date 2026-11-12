@@ -4,8 +4,7 @@
  * [Tested on]
  * 
  */
-// a^x == b (mod m)의 최소 x>=0. 없으면 -1
-// m>=1, 합성수·gcd(a,m)>1 지원.
+// a^x == b (mod m)의 최소 x>=0(없으면 -1) m>=1, 합성수·gcd(a,m)>1 지원.
 ll discrete_log(ll a, ll b, int m) {
   a = (a%m+m)%m; b = (b%m+m)%m;
   ll k = 1; int cnt = 0;

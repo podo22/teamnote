@@ -16,8 +16,8 @@ tuple<int, T, T, T, T> segmentInter(P a, P b, P c, P d) {
   if (det == 0) {
     if (b < a) swap(a, b);
     if (d < c) swap(c, d);
-    if (b == c) return {1, b.x, 1, b.y, 1};
-    if (d == a) return {1, d.x, 1, d.y, 1};
+    P l = max(a, c), r = min(b, d);
+    if (l == r) return {1, l.x, 1, l.y, 1};
     return {-1, 0, 0, 0, 0};
   }
   T p = (c - a) / (d - c), q = det;
@@ -25,8 +25,8 @@ tuple<int, T, T, T, T> segmentInter(P a, P b, P c, P d) {
   T yp = a.y * q + (b.y - a.y) * p, yq = q;
   if (xq < 0) { xp = -xp; xq = -xq; }
   if (yq < 0) { yp = -yp; yq = -yq; }
-  T g_x = __gcd(xp, xq); xp /= g_x; xq /= g_x;
-  T g_y = __gcd(yp, yq); yp /= g_y; yq /= g_y;
+  T g_x = __gcd(xp < 0 ? -xp : xp, xq); xp /= g_x; xq /= g_x;
+  T g_y = __gcd(yp < 0 ? -yp : yp, yq); yp /= g_y; yq /= g_y;
   int f = 4;
   if ((xp == a.x * xq && yp == a.y * yq) || (xp == b.x * xq && yp == b.y * yq)) f = 1;
   if ((xp == c.x * xq && yp == c.y * yq) || (xp == d.x * xq && yp == d.y * yq)) f = 1;
@@ -57,38 +57,34 @@ double areaCirclePoly(P c, double r, const vector<P>& poly) {
     return r * r * atan2(p / u, p * u) + u / v + r * r * atan2(v / q, v * q);
   };
   double res = 0; int n = poly.size();
-  for(int i = 0; i < n; i++) 
-    res += tri((poly[i] - c).d(), (poly[(i+1) % n] - c).d());
-  return res * 0.5;
+  for(int i = 0; i < n; i++) res += tri((poly[i] - c).d(), (poly[(i+1) % n] - c).d());
+  return abs(res) * 0.5;
 }
 // [4] 볼록 다각형-직선 교차 (O(log N)) Param: 볼록 다각형 h (CCW), 직선 ab
 // Return: {i, j} -> 직선이 변(i, i+1)과 변(j, j+1)을 교차함. 안만나면 {-1, -1}
 int extrVertex(const vector<P>& h, P dir) {
-  int n = h.size();
-  auto cmp = [&](int i, int j) { return ccw({0,0}, dir, h[i%n] - h[j%n]); };
-  auto isExtr = [&](int i) { return cmp(i, i - 1 + n) >= 0 && cmp(i, i + 1) > 0; };
-  if (isExtr(0)) return 0;
+  int n = sz(h);
+  P base = h[1] - h[0], tar = dir * -1;
+  auto half = [&](P p) {
+    ll cp = base / p;
+    return cp < 0 || (cp == 0 && base * p < 0);
+  };
   int l = 0, r = n;
-  while (l + 1 < r) {
+  while (l < r) {
     int m = (l + r) / 2;
-    if (isExtr(m)) return m;
-    if (cmp(l + 1, l) > 0) {
-      if (cmp(m + 1, m) > 0 && cmp(l, m) > 0) r = m; else l = m;
-    } else {
-      if (cmp(m + 1, m) <= 0 && cmp(l, m) < 0) l = m; else r = m;
-    }
+    P e = h[(m+1)%n] - h[m];
+    if (half(e) < half(tar) || (half(e) == half(tar) && e / tar > 0)) l = m+1;
+    else r = m;
   }
-  return l;
+  return l % n;
 }
 array<int,2> hullLineInter(const vector<P>& h, P a, P b) {
-  P dir = b - a, per = {-dir.y, dir.x};
-  int n = h.size();
-  int i1 = extrVertex(h, per), i2 = extrVertex(h, per * -1);
+  P dir = b - a; int n = h.size();
+  int i1 = extrVertex(h, dir), i2 = extrVertex(h, dir * -1);
   if (ccw(a, b, h[i1]) * ccw(a, b, h[i2]) > 0) return {-1, -1};
   auto search = [&](int s, int e) {
     if (ccw(a, b, h[s]) == 0) return s;
-    int l = s, r = e;
-    if (r < l) r += n;
+    int l = s, r = e; if (r < l) r += n;
     while (l + 1 < r) {
       int m = (l + r) / 2;
       if (ccw(a, b, h[m % n]) == ccw(a, b, h[s])) l = m; else r = m;

@@ -4,8 +4,7 @@
  * [Tested on]
  * 
  */
-// add/set: 구간 덧셈/대입, query: {sum,mn,mx}.
-// find/find_kth는 실제 사용하는 인덱스 범위를 지정.
+// add/set: 구간 덧셈/대입, query: {sum,mn,mx}. SegTree(n)의 범위는 [0,n]
 template<typename T = ll> struct SegTree {
   struct Nd { T sum, mn, mx; };
   struct Lz { T add, set; bool has; };
@@ -53,8 +52,7 @@ template<typename T = ll> struct SegTree {
     if (l > r || r < s || e < l) return id();
     if (l <= s && e <= r) return tr[nd];
     push(nd, s, e); int m = (s+e)>>1;
-    return merge(qry(nd<<1, s, m, l, r),
-                 qry(nd<<1|1, m+1, e, l, r));
+    return merge(qry(nd<<1, s, m, l, r), qry(nd<<1|1, m+1, e, l, r));
   }
   int walk(int nd, int s, int e, int l, int r, Nd& pref, auto& chk) {
     if (l > r || r < s || e < l) return -1;

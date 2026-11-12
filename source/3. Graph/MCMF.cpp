@@ -12,7 +12,7 @@ struct MCMF {
   vector<int> ptr; vector<bool> vis; int n;
   MCMF(int n) : n(n), graph(n+1), dist(n+1), ptr(n+1), vis(n+1) {}
   void add(int u, int v, ll cap, T cost) {
-    graph[u].push_back({ v, sz(graph[v]), cap, cost });
+    graph[u].push_back({ v, sz(graph[v])+(u == v), cap, cost });
     graph[v].push_back({ u, sz(graph[u])-1, 0, -cost });
   }
   bool spfa(int s, int t) {

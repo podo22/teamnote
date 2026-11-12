@@ -1,5 +1,4 @@
 // C[k] = sum_{i op j = k} A[i]*B[j]. op: '&', '|', '^'.
-// 값·비트마스크의 결합 결과별 개수/가중치 합을 한꺼번에 계산.
 void fwht(vector<ll> &a, char op, bool inv = false) {
   const ll M = 998244353;
   int n = sz(a);
@@ -13,7 +12,7 @@ void fwht(vector<ll> &a, char op, bool inv = false) {
     ll r = modpow(n, M-2, M);
     for (auto& x : a) x = x*r%M;
   }
-}
+} // 계수 [0,998244353)
 vector<ll> bitconv(vector<ll> a, vector<ll> b, char op) {
   const ll M = 998244353;
   int n = 1;

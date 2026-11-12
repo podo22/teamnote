@@ -12,8 +12,7 @@
 // * edge=true: 간선 가중치 문제에서 씀 (정점을 간선에 대응, LCA 빼고)
 /* Data Structure/Segment Tree */
 template<typename T = ll> struct HLD {
-  int n, pv;
-  vector<vector<int>> adj;
+  int n, pv; vector<vector<int>> adj;
   vector<int> siz, dep, par, top, in;
   SegTree<T> seg;
   HLD(int n) : n(n), adj(n+1), siz(n+1), dep(n+1), par(n+1), top(n+1), in(n+1), seg(n) {}
@@ -35,15 +34,12 @@ template<typename T = ll> struct HLD {
     }
   }
   void build(const vector<T>& a = {}) { // a[u]: vertex value, 1-indexed
-    pv = 0;
+    pv = 0; fill(all(siz), 0);
     for (int i = 1; i <= n; i++) {
       if (!siz[i]) {
-        top[i] = i;
-        dfs1(i, 0);
-        dfs2(i, 0);
+        top[i] = i; dfs1(i, 0); dfs2(i, 0);
       }
-    }
-    vector<T> base(n);
+    } vector<T> base(n);
     if (sz(a)) for (int i = 1; i <= n; i++) base[in[i]] = a[i];
     seg.build(base);
   }

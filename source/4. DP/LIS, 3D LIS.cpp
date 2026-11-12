@@ -25,43 +25,41 @@ vector<int> LIS(vector<int> v) {
 }
 // 3D LIS
 struct Cand {
-  map<int,pair<int,int>> m; // y -> {최소 z, 원본 인덱스}
-  int get(int y, int z) const {
-    auto it = m.lower_bound(y); // non-strict: upper_bound(y)
-    if (it == m.begin()) return -1;
-    auto [pz, id] = prev(it)->second;
-    return pz < z ? id : -1; // non-strict: pz <= z
+  map<int,pair<ll,int>> m; // z -> {최대 누적 가치, 원본 인덱스}
+  pair<ll,int> get(int z, bool strict) const {
+    auto it = strict ? m.lower_bound(z) : m.upper_bound(z);
+    if (it == m.begin()) return {0, -1};
+    return prev(it)->second;
   }
-  void add(int y, int z, int id) {
-    auto it = m.lower_bound(y);
-    if (it != m.begin() && prev(it)->second.first <= z) return;
-    while (it != m.end() && it->second.first >= z) it = m.erase(it);
-    m.insert(it, { y, { z, id } });
+  void add(int z, ll val, int id) {
+    if (get(z, false).first >= val) return;
+    auto it = m.lower_bound(z);
+    while (it != m.end() && it->second.first <= val) it = m.erase(it);
+    m.insert(it, { z, {val, id} });
   }
 };
-// 세 좌표가 모두 엄격히 증가하는 최장 체인(인덱스 반환).
-vector<int> LIS3D(const vector<array<int,3>>& v) {
-  int n = sz(v), last = -1;
-  vector<int> ord(n), pre(n, -1); iota(all(ord), 0);
+pair<ll,vector<int>> LIS3D(const vector<array<int,3>> &v, const vector<ll> &w, bool strict = true) {
+  int n = sz(v), last = -1; ll best = 0;
+  vector<int> ord(n), pre(n, -1), ys;
+  iota(all(ord), 0);
+  for (auto [x, y, z] : v) ys.push_back(y);
+  compress(ys);
   sort(all(ord), [&](int i, int j) {
-    // non-strict: return v[i] < v[j];
+    if (!strict) return v[i] < v[j];
     if (v[i][0] != v[j][0]) return v[i][0] < v[j][0];
     return v[i][1] > v[j][1];
   });
-  vector<Cand> res;
+  vector<Cand> bit(sz(ys)+1);
   for (int i : ord) {
     auto [x, y, z] = v[i];
-    int lo = 0, hi = sz(res);
-    while (lo < hi) {
-      int mid = (lo+hi)/2;
-      if (res[mid].get(y, z) != -1) lo = mid+1;
-      else hi = mid;
-    }
-    if (lo) pre[i] = res[lo-1].get(y, z);
-    if (lo == sz(res)) res.emplace_back(), last = i;
-    res[lo].add(y, z, i);
+    int p = lower_bound(all(ys), y) - ys.begin() + 1;
+    pair<ll,int> prv = { 0, -1 };
+    for (int j = p-strict; j > 0; j -= j&-j) prv = max(prv, bit[j].get(z, strict));
+    ll cur = prv.first + w[i]; pre[i] = prv.second;
+    if (last == -1 || best < cur) best = cur, last = i;
+    for (int j = p; j < sz(bit); j += j&-j) bit[j].add(z, cur, i);
   }
   vector<int> ans;
   for (int i = last; i != -1; i = pre[i]) ans.push_back(i);
-  reverse(all(ans)); return ans;
+  reverse(all(ans)); return { best, ans };
 }

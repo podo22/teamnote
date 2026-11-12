@@ -31,12 +31,12 @@ struct Mint {
   friend istream& operator>>(istream& is, Mint& x) { ll v; is >> v; x = v; return is; }
 };
 using Poly = vector<Mint>;
-// coef[i]: x^i 계수. resize(N): 앞 N개 계수 유지(부족하면 0).
+// coef[i]: x^i 계수. resize(N): 앞 N항(부족하면 0).
 // inv/log/exp는 현재 size()=N을 기준으로 mod x^N 계산.
 struct FPS {
   Poly coef;
   FPS(Poly a) : coef(move(a)) {}
-  FPS(int n = 0) : coef{n} {}
+  FPS(int c = 0) : coef{c} {} // 상수 다항식 c
   int size() { return coef.size(); }
   int deg() { return size()-1; }
   Mint& operator[](int index) { assert(index < coef.size()); return coef[index]; }
@@ -50,19 +50,21 @@ struct FPS {
     for (int i = 0; i < f.size(); i++) res[i] -= f[i];
     return res;
   }
-  // 다항식 곱셈(컨볼루션). 결과 길이 = size()+f.size()-1.
+  // 곱의 길이 N+M-1. 한쪽이 비면 결과도 빈 배열.
   FPS operator*(auto f) { return FPS(polymul(coef, f.coef)); }
   FPS &operator+=(auto f) { return *this = *this + f; }
   FPS &operator-=(auto f) { return *this = *this - f; }
   FPS &operator*=(auto f) { return *this = *this * f; }
   void resize(int n) { coef.resize(n); }
-  // 뒤의 0 제거. 계수 하나는 남김.
+  // 뒤의 0 제거. 빈 배열은 그대로, 전부 0이면 한 항만 남김.
   void shrink() { while (size() > 1 && coef.back() == 0) coef.pop_back(); }
-  // 다항식 거듭제곱. 앞 N개만 필요하면 매 곱셈 후 resize(N)
+  // f^k, k>=0. 앞 N항만 필요하면 res와 f를 곱한 직후 각각 resize(N)
   FPS power(ll k) {
     FPS res(1), f = *this;
-    for (; k; k /= 2, f *= f) if (k % 2) res *= f;
-    return res;
+    for (; k; k /= 2) {
+      if (k % 2) res *= f;
+      if (k > 1) f *= f;
+    } return res;
   }
   // 1/f mod x^N. 조건: f[0] != 0.
   FPS inv() { assert(coef[0] != 0);
@@ -80,7 +82,7 @@ struct FPS {
   }
   // 미분. 결과 길이 N-1.
   FPS differenciate() {
-    FPS res; res.resize(size() - 1);
+    FPS res; res.resize(max(0, size()-1));
     for (int i = 1; i < size(); i++) res.coef[i - 1] = coef[i] * i;
     return res;
   }
@@ -139,12 +141,12 @@ struct FPS {
     ntt(a, true, g.inv()); a.resize(n); return a;
   }
 };
-// Bostan-Mori: 유리 생성함수 P/Q의 x^k 계수. Q[0]!=0, k>=0.
-// d=max(deg P, deg Q), O(d log d log(k+1)). 현재 연산은 mod 998244353.
+// Bostan-Mori: 유리 생성함수 P/Q의 x^k 계수. [x^k] P/Q, k >= 0, Q[0] != 0.
+// D=max(P.size(),Q.size()). k>0에서 O(D log(D+1) log(k+1))
 // 용도: 차수는 작고 인덱스 k는 큰 선형 점화식의 항 계산.
-// a[n]=c[1]a[n-1]+...+c[d]a[n-d]일 때:
-// A={a[0],...,a[d-1]}, Q={1,-c[1],...,-c[d]}.
-// P=FPS(A)*Q; P.resize(d); Bostan_Mori(P,Q,k) = a[k].
+// a[n] = c[1]a[n-1]+...+c[d]a[n-d]일 때:
+// A = {a[0],...,a[d-1]}, Q = {1,-c[1],...,-c[d]}.
+// P = FPS(A)*Q; P.resize(d); Bostan_Mori(P,Q,k) = a[k]
 Mint Bostan_Mori(FPS P, FPS Q, ll k) {
   while (k) { FPS R = Q;
     for (int i = 1; i < R.size(); i+=2) R[i] = -R[i];

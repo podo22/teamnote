@@ -10,7 +10,8 @@ struct GeneralMatch {
   vector<int> vis, par, ori, mat, aux;
   queue<int> q; int n, t = 0;
   GeneralMatch(int n) : n(n), adj(n+1), vis(n+1), par(n+1), ori(n+1), mat(n+1), aux(n+1) {}
-  void add(int a, int b) { adj[a].push_back(b); adj[b].push_back(a); }
+  void add(int a, int b) { if (a == b) return;
+    adj[a].push_back(b); adj[b].push_back(a); }
   void augment(int v) {
     while (v) {
       int pv = par[v], nv = mat[pv];
@@ -54,7 +55,9 @@ struct GeneralMatch {
     return false;
   }
   int match() {
-    int ans = 0; vector<int> v(n); iota(all(v), 1);
+    int ans = 0;
+    for (int i = 1; i <= n; i++) ans += (mat[i] != 0);
+    ans /= 2; vector<int> v(n); iota(all(v), 1);
     shuffle(all(v), rng);
     for (auto x : v) if (!mat[x]) {
       for (auto y : adj[x]) if (!mat[y]) {

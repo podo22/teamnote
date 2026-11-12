@@ -4,8 +4,7 @@
  * [Tested on]
  * 
  */
-template <typename T, typename Op>
-struct SparseTable {
+template <typename T, typename Op> struct SparseTable {
   int n, lg; Op f;
   vector<vector<T>> st;
   SparseTable(const vector<T>& v, Op op) : n(sz(v)), f(op) {

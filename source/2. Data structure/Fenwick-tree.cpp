@@ -31,11 +31,11 @@ for (int i = 0; i < sz(a); i++) {
 template<class T> struct Fenwick_2d {
   vector<vector<T>> x;
   Fenwick_2d(int n, int m) : x(n, vector<T>(m)) { }
-  void add(int k1, int k2, int a) { // x[k] += a
+  void add(int k1, int k2, T a) { // (k1,k2)에 a를 더함
     for (; k1 < sz(x); k1 |= k1+1)
       for (int k = k2; k < sz(x[k1]); k |= k+1) x[k1][k] += a;
   }
-  T sum(int k1, int k2) { // return x[0]+...+x[k]
+  T sum(int k1, int k2) { // [0,k1] × [0,k2]의 합
     T s = 0;
     for (; k1 >= 0; k1 = (k1 & (k1 + 1)) - 1)
       for (int k = k2; k >= 0; k = (k&(k+1))-1) s += x[k1][k];

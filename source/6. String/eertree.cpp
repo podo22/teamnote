@@ -21,10 +21,9 @@ struct EERTREE {
     }
   };
   vector<Node> tree; string s; int last;
-  void reset() { s = "#"; last = 1; }
-  EERTREE() { reset();
-    tree.push_back({ -1, 0 }); tree.push_back({ 0, 0 });
-  }
+  void reset() { s = "#"; last = 1; tree.clear();
+    tree.push_back({ -1, 0 }); tree.push_back({ 0, 0 }); }
+  EERTREE() { reset(); }
   int find(int x) {
     int p = sz(s)-1;
     while (s[p - tree[x].l - 1] != s[p]) x = tree[x].f;
