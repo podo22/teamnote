@@ -152,68 +152,72 @@
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
   %         https://github.com/hibye1217/ps-teamnote/blob/main/main.pdf
   % edited by alreadysolved
+  \setlist[itemize]{
+    itemsep=0pt, topsep=1pt, parsep=1pt, partopsep=0pt,
+    leftmargin=1.2em, labelsep=0.3em,
+    before={\addtolength{\baselineskip}{0.5pt}}
+  }
   \Algorithm{Useful Stuff}{}{}{}{}{}
   \begin{itemize}
-    \addtolength{\baselineskip}{1pt} % 간격
     \item Catalan Number\\
     1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900\\
-    $C_n = \binom{2n}{n} / (n + 1);$\\
-    $C_n = \sum_{i=0}^{n-1} C_i \times C_{n-1-i};$\\
+    $C_0=1$, $C_n=\binom{2n}{n}/(n+1)=\sum_{i=0}^{n-1}C_iC_{n-1-i}$ ($n\ge1$)\\
     - 길이가 2n인 올바른 괄호 수식의 수\\
     - n + 1개의 리프를 가진 풀 바이너리 트리의 수\\
     - n + 2각형을 n개의 삼각형으로 나누는 방법의 수\\
-    - n*n 격자에서 0,0부터 n,n까지 이동할 때, y=x(대각선)를 넘지않고 우상단으로만 이동하는 경로의 수\\
+    - $(0,0)\to(n,n)$ 우상단 이동, $y=x$를 넘지 않는 경로 수\\
     - n개의 노드로 이루어진 이진 트리 구조 개수\\
-    - 1부터 n까지의 수를 스택에 넣고 빼서 만들 수 있는 순열의 개수\\
-    - 원 위에 2n개의 점이 있고, 2개씩 짝지어 선분을 그었을때 어떤 선분도 교차하지 않는 방법의 수\\
-    - $(0,0)$에서 $(N,M)$까지 우상단으로 이동할 때, 직선 $y = x + k$($k>0$)에 닿지않는 경로의 수($M \geq N+k$이면 0, 그 외의 경우):
-      전체 경로 수 - 반사된 경로 수 = $\binom{N+M}{N} - \binom{N+M}{N+k}$ (직선 $y = x + k$에 처음 닿은 이후 경로를 $y = x + k$에 대해 대칭 이동 -> $(M-k, N+k)$로 매핑됨)
+    - $1,\ldots,n$을 순서대로 스택에 넣고 빼서 만드는 순열 수\\
+    - 원 위의 $2n$개 점을 교차 없이 선분으로 둘씩 짝짓는 방법 수\\
+    - $(0,0)\to(N,M)$ 우상단 이동, $y=x+k$($k>0$)에 닿지 않는 경로: $M\ge N+k$이면 0, 아니면 $\binom{N+M}{N}-\binom{N+M}{N+k}$\\
     - $y=x$ 아래에서 $(a,b)$부터 $(c,d)$까지 가는 경로: 총 이동 횟수 $L=(c-a)+(d-b)$에 대해 $\binom{L}{d-b} - \binom{L}{d-a-1}$
-    \item Derangements\\
-    N명의 사람이 모자를 벗어두었다가 무작위로 하나씩 집었을 때, 아무도 자기 모자를 쓰지 않을 경우의 수\\
-    - 포함배제 ($D_N = N! \sum_{i=0}^N \frac{(-1)^i}{i!}$) - 팩토리얼 역원 전처리로 O(N)\\
-    - DP ($D_N = (N-1) \times (D_{N-1} + D_{N-2})$ (단, $D_0=1, D_1=0$)) - O(N) dp 테이블을 만들어두면 쿼리 당 O(1)\\
-    - 부분 교란 순열: $N$명 중 정확히 $K$명만 자기 모자를 쓰고, 나머지 $N-K$명은 아무도 자기 모자를 쓰지 않을 경우의 수 - $\binom{N}{K} \times D_{N-K}$
+    \item Derangements: $N$명이 모자를 하나씩 가져갈 때 아무도 자기 모자를 가져가지 않는 경우의 수\\
+    - 포함배제: $D_N=N!\sum_{i=0}^N(-1)^i/i!$\\
+    - DP: $D_N=(N-1)(D_{N-1}+D_{N-2})$, $D_0=1,\ D_1=0$. 전처리 $O(N)$, 쿼리 $O(1)$\\
+    - 정확히 $K$명만 자기 모자를 가져가는 경우: $\binom{N}{K}D_{N-K}$
     \item Stars and Bars\\
-    N개의 구별되지 않는 물건을 K개의 구별되는 상자에 나누어담는 경우의 수 (빈 상자 허용) - $\binom{N+K-1}{K-1}$\\
-    - $x_1 + x_2 + \dots + x_K = N$ ($x_i \ge 0$)의 해의 개수를 구하는 것과 동일\\
-    - 각 상자에 적어도 1개 이상 담아야 한다($x_i \ge 1$): 미리 1개씩 나눠줌. $N'=N-K$로 치환해 $\binom{N'+K-1}{K-1} = \binom{N-1}{K-1}$ 계산\\
-    - 어떤 상자도 $C$개를 초과할 수 없다($0 \le x_i \le C$): 포함배제로 계산.
+    같은 물건 $N$개를 구별되는 상자 $K$개에 분배 ($K\ge1$)\\
+    - 빈 상자 허용 ($x_i\ge0$): $\binom{N+K-1}{K-1}$\\
+    - 각 상자에 1개 이상 ($x_i\ge1$): $\binom{N-1}{K-1}$\\
+    - 상자당 최대 $C$개 ($N,C \ge 0$, $K \ge 1$): 포함배제.
+    \begingroup
+    \setlength{\abovedisplayskip}{2pt}
+    \setlength{\belowdisplayskip}{2pt}
+    \setlength{\abovedisplayshortskip}{2pt}
+    \setlength{\belowdisplayshortskip}{2pt}
     \[
     \sum_{j=0}^{\min(K,\lfloor N/(C+1)\rfloor)}
     (-1)^j \binom{K}{j}
     \binom{N-j(C+1)+K-1}{K-1}
     \]
-    (단, $N,C \ge 0$, $K \ge 1$)
+    \endgroup
     \item 제2종 스털링 수\\
-    서로 다른 $N$개의 물건을 구별되지 않는 $K$개의 상자에 빈 상자 없이 나누어 담는 경우의 수 ($S(N, K)$ 혹은 $\left\{ \begin{matrix} N \\ K \end{matrix} \right\}$)\\
+    $S(N,K)$: 서로 다른 물건 $N$개를 구별되지 않는 상자 $K$개에 빈 상자 없이 분배하는 경우의 수\\
     - 점화식: $S(N, K) = K \times S(N-1, K) + S(N-1, K-1)$ ($S(0,0)=1, S(N,0)=0$ ($N>0$))\\
-    - 직접 계산: $S(N, K) = \frac{1}{K!} \sum_{i=0}^K (-1)^{K-i} \binom{K}{i} i^N$ (특정 $S(N,K)$ 하나 계산 시 $O(K \log N)$)\\
+    - 하나 계산: $S(N,K)=\frac{1}{K!}\sum_{i=0}^K(-1)^{K-i}\binom{K}{i}i^N$, $O(K\log N)$\\
     - Bell Number ($B_N = \sum_{k=0}^N S(N, k)$): 서로 다른 $N$개의 원소를 분할하는 모든 방법의 수.\\
     - Bell Number 초항: 1, 1, 2, 5, 15, 52, 203, 877, 4140, 21147, 115975
     \item 자연수의 분할\\
-    서로 같은 $N$개의 물건을 구별되지 않는 $K$개의 상자에 빈 상자 없이 나누어 담는 경우의 수 ($P(N, K)$)\\
-    - 자연수 $N$을 $K$개의 자연수의 합으로 나타내는 방법의 수와 동일.\\
+    $P(N,K)$: 자연수 $N$을 양의 정수 $K$개의 합으로 나타내는 경우의 수 (순서 무시)\\
     - 점화식: $P(N, K) = P(N-1, K-1) + P(N-K, K)$\\
     - $P(0,0)=1, P(N)=\sum_{K=0}^N P(N,K)$: 자연수 $N$의 총 분할 수. \\
     - $P(N)$ 초항: 1, 1, 2, 3, 5, 7, 11, 15, 22, 30, 42, 56, 77, 101, 135
     \item Cayley's Formula \& Prüfer Sequence\\
-    - $N$개의 구별되는 정점으로 만들 수 있는 서로 다른 스패닝 트리의 개수 = $N^{N-2}$\\
-    - 각 정점의 차수가 $d_1, d_2, \dots, d_N$으로 고정되었을 때 가능한 트리의 개수 = $\frac{(N-2)!}{(d_1-1)!(d_2-1)! \dots (d_N-1)!}$ (단, $\sum d_i = 2N-2$)
+    - 구별되는 정점 $N$개의 트리 수: $N^{N-2}$\\
+    - 차수 $d_1,\ldots,d_N$ 고정: $\frac{(N-2)!}{(d_1-1)!\cdots(d_N-1)!}$ (각 $d_i\ge1$, $\sum d_i=2N-2$, $N\ge2$)
     \item Binomial Identities\\
-    시그마가 포함된 조합론 수식을 $O(1)$로 단순화할 때 사용.\\
-    - Hockey-stick Identity (파스칼의 삼각형 대각선 합): $\sum_{i=K}^N \binom{i}{K} = \binom{N+1}{K+1}$\\
-    - Vandermonde's Identity (두 집합에서 뽑기): $\sum_{i=0}^K \binom{N}{i}\binom{M}{K-i} = \binom{N+M}{K}$\\
+    - Hockey-stick (대각선 합): $\sum_{i=K}^N\binom{i}{K}=\binom{N+1}{K+1}$\\
+    - Vandermonde (두 집합에서 뽑기): $\sum_{i=0}^K\binom{N}{i}\binom{M}{K-i}=\binom{N+M}{K}$\\
     - 제곱의 합: $\sum_{i=0}^N \binom{N}{i}^2 = \binom{2N}{N}$
     \item Fibonacci Identities\\
     - Cassini's identity: $F_{n-1}F_{n+1} - F_n^2 = (-1)^n$\\
     - Addition formula: $F_{n+k} = F_k F_{n+1} + F_{k-1} F_n$\\
-    - Zeckendorf's theorem: 모든 양의 정수는 연속하지 않는 피보나치 수들(1,2,3,5,...)의 합으로 유일하게 표현 가능하며, 이는 그리디하게 큰 피보나치 수부터 빼는 것으로 구할 수 있다.
+    - Zeckendorf: 모든 양의 정수는 연속하지 않는 피보나치 수들(1,2,3,5,...)의 합으로 유일하게 표현. 큰 수부터 빼는 그리디로 구성.
     \item Möbius Inversion\\
     - $g(n) = \sum_{d|n} f(d) \iff f(n) = \sum_{d|n} \mu(d)g(n/d)$\\
     - $g(n) = \sum_{n|d} f(d) \iff f(n) = \sum_{n|d} \mu(d/n)g(d)$
     \item Burnside’s Lemma\\
-    경우의 수를 세는데, 특정 transform operation(회전, 반사, ..) 해서 같은 경우들은 하나로 친다. 전체 경우의 수는? 각 operation마다 이 operation을 했을 때 변하지 않는 경우의 수를 센다 (단, “아무것도 하지 않는다” 라는 operation도 있어야 함!) 전체 경우의 수를 더한 후, operation의 수로 나눈다. (답이 맞다면 항상 나누어 떨어져야 한다)
+    회전·반사 등으로 같아지는 경우를 하나로 셀 때 사용. 항등변환을 포함한 변환군 $G$에 대해, 각 변환으로 변하지 않는 경우의 수를 합해 $|G|$로 나눔.
     \item 알고리즘 게임\\
     - Nim: 한 번에 더미 하나에서 원하는 양의 돌 제거. 움직이지 못하면 패배. 더미 크기의 XOR가 0이면 패배.\\
     - Grundy Number: 두 사람의 행동 규칙이 같고, 반드시 종료되며, 움직이지 못하면 패배하는 게임. $g(s)=\operatorname{mex}\{g(t)\mid s\to t\}$. mex는 집합에 없는 최소 비음수 정수, 종료 상태는 0. 독립 게임 중 하나씩 골라 진행하면 각 $g$값을 XOR하여 0이면 패배. 한 행동으로 독립된 여러 게임으로 분리되는 경우, 각 부분의 $g$값을 XOR한 후 mex.\\
@@ -224,17 +228,15 @@
     - Wythoff Game: 두 더미 중 하나에서 원하는 양을 제거하거나, 양쪽에서 같은 양 제거. 움직이지 못하면 패배. $a\le b$일 때 $a=\lfloor(b-a)(1+\sqrt5)/2\rfloor$이면 패배. Grundy는 한쪽만 줄인 상태들과 양쪽을 같은 양 줄인 상태들의 $g$값을 모아 mex. 여러 판은 각 $g$값을 XOR. 큰 정수의 황금비 계산 오차 주의.\\
     - 트리 간선 자르기: 간선 하나를 자르고 루트와 끊긴 부분을 제거. 움직이지 못하면 패배. $g(v)=\bigoplus_{u:\,v\text{의 자식}}(g(u)+1)$, 리프는 0. 루트의 $g$값이 0이면 패배.
     \item Pick’s Theorem\\
-    격자점으로 구성된 simple polygon이 주어짐. I 는 polygon 내부의 격자점 수, B 는 polygon 선분 위 격자점 수, A는 polygon의 넓이라고 할 때, 다음과 같은 식이 성립한다. 경계 격자점 수 $B = \sum_{edges} gcd(|dx|,|dy|)$. 내부 격자점 수 $I = A-B/2+1$.
-    \item 홀의 결혼 정리: 이분그래프(L-R)에서, 모든 L을 매칭하는 필요충분 조건 = L에서 임의의 부분집합 S를 골랐을 때, 반드시 (S의 크기) $\le$ (S와 연결되어있는 모든 R의 크기)이다.
-    \item 소수: 10 007 , 10 009 , 10 111 , 31 567 , 70 001 , 1 000 003 , 1 000 033 , 4 000 037 , 99 999 989 , 999 999 937 , 1 000 000 007 , 1 000 000 009 , 9 999 999 967 , 99 999 999 977
-    \item 소수 개수 : (1e5 이하 : 9592), (1e7 이하 : 664 579) , (1e9 이하 : 50 847 534)
+    격자점을 꼭짓점으로 하는 단순 다각형. 넓이 $A$, 내부 격자점 수 $I$, 경계 격자점 수 $B$에 대해 $B=\sum_{edges}\gcd(|dx|,|dy|)$, $I=A-B/2+1$.
+    \item 홀의 결혼 정리: 이분그래프에서 $L$의 모든 정점을 매칭할 필요충분조건: 모든 $S\subseteq L$에 대해 $|S|\le|N(S)|$. $N(S)$는 $S$의 정점들과 인접한 $R$의 정점 집합.
     \item N의 약수의 개수 = $O(N^{1/3})$, N의 약수의 합 = $O(N \log \log N)$
     \item \(\gcd(m,n)=1\)이면 \(\phi(mn)=\phi(m)\phi(n)\)\\
     소수 \(p\), 정수 \(r\ge1\)에 대해 \(\phi(p^r)=p^r-p^{r-1}\)\\
     \(\gcd(a,n)=1\)이면 \(a^{\phi(n)}\equiv1\pmod n\)
     \item Euler's phi $\phi (n)=n\prod _{p\mid n}\left(1-{\frac {1}{p}}\right)$
     \item Euler characteristic : v - e + f (면, 외부 포함) = 1 + c (컴포넌트)
-    \item Lucas' Theorem $\binom{m}{n}=\prod\binom{m_i}{n_i} \pmod p$ $m_i$, $n_i$는 $p^i$의 계수
+    \item Lucas' Theorem: 소수 $p$에 대해 $\binom{m}{n}\equiv\prod_i\binom{m_i}{n_i}\pmod p$. $m_i,n_i$는 $p$진법 각 자리.
     \item 스케줄링에서 데드라인이 빠른 걸 쓰는게 이득. 늦은 스케줄이 안들어갈 때 가장 시간 소모가 큰 스케줄 1개를 제거하면 이득.
     \item 2차원 누적합 / imos ($i$ = 행, $j$ = 열, 1-based)\\
     누적합 생성: $S[i][j] = S[i-1][j] + S[i][j-1] - S[i-1][j-1] + A[i][j]$\\
@@ -246,8 +248,7 @@
     - 버블소트 최소 swap = inversion 개수\\
     - 순열 정렬 최소 swap = $N - (\text{사이클 개수})$
     \item 나머지 그래프\\
-    무제한 동전 조합에서 목표 금액 $M$이 너무 커 금액별 DP가 불가능할 때, 동전 $L$을 더해도 나머지가 같다는 점으로 상태를 $L$개로 압축.\\
-    정점 $r=\text{금액}\bmod L$, 동전 $a$ 추가는 $r\to(r+a)\bmod L$. 0에서 다익스트라.\\
+    무제한 동전 문제에서 목표 금액이 크면 금액 대신 나머지를 상태로 사용. 정점 $r=\text{금액}\bmod L$, 동전 $a$ 추가는 $r\to(r+a)\bmod L$. 0에서 다익스트라.\\
     - 표현 판정: $L$은 아무 동전(보통 최소), 비용 $a$. $dist[r]$는 최소 금액이므로 $dist[M\bmod L]\le M$이면 가능.\\
     - 최소 개수: $L$은 최대 동전, 비용 $L-a$(최대 동전 대비 부족분). $M\ge(L-1)^2$이면 답은 $(M+dist[M\bmod L])/L$. 작은 $M$은 DP, 도달 불가면 불가능.
     \item Bounded Scheduling\\
@@ -262,6 +263,10 @@
     - $F(n+1,l,r)=2F(n,l,r)+\binom{n}{l-1}-\binom{n}{r}$.\\
     - $F(n-1,l,r)=\bigl(F(n,l,r)-\binom{n-1}{l-1}+\binom{n-1}{r}\bigr)/2$.\\
     범위 밖의 이항계수는 0. 모듈러 계산의 $/2$는 2의 역원 사용.
+    \item 절댓값 / 거리 변환\\
+    $|a|+|b|=\max(|a+b|,|a-b|)$, $\max(|a|,|b|)=\frac{|a+b|+|a-b|}{2}$\\
+    - $(x,y)\to(x+y,x-y)$: 맨해튼 -> 체비셰프, 체비셰프*2 -> 맨해튼\\
+    - $R(f)=\max_i f(x_i,y_i)-\min_i f(x_i,y_i)$라 두면, 맨해튼 최대거리: $\max(R(x+y),R(x-y))$, 체비셰프 최대거리: $\max(R(x),R(y))$. 모두 $O(N)$.
   \end{itemize}
   
   
@@ -280,14 +285,12 @@
   % source: https://github.com/overnap/cp-teamnote/blob/master/tn.tex
   \Algorithm{DP 최적화 접근}{}{}{}{}{}
   \begin{itemize}
-    \item C[i, j] = A[i] * B[j]이고 A, B가 단조증가, 단조감소이면 Monge
+    \item $C[i,j]=A[i]B[j]$이고 $A,B$의 단조 방향이 반대이면 Monge
     \item l..r의 값들의 sum이나 min은 Monge
-    \item 식 정리해서 일차(CHT) 혹은 비슷한(MQ) 함수를 발견, 구현 힘들면 Li-Chao
+    \item 식정리해서 일차(CHT) 혹은 비슷한(MQ) 함수발견, 구현 힘들면 리차오
     \item $a \le b \le c \le d$에서 $A[a,c] + A[b,d] \le A[a,d] + A[b,c]$
     \item Monge 성질을 보이기 어려우면 $N^2$ 나이브 짜서 opt의 단조성을 확인
     \item 식이 간단하거나 변수가 독립적이면 DP 테이블을 세그 위에 올려서 해결
-    \item 침착하게 점화식부터 세우고 Monge인지 판별
-    \item Monge에 집착하지 말고 단조성이나 볼록성만 보여도 됨
   \end{itemize}
   
   % source: https://github.com/justiceHui/icpc-teamnote/blob/master/code/Notes/MinCut.tex
@@ -298,9 +301,8 @@
     $s$를 제외해도 최대 매칭 크기가 같으면 후공 승, 아니면 선공 승. \texttt{match()} 이후 \texttt{chk(s)}로 판정.
     \item \textbf{Minimum Edge Cover}: 모든 정점이 선택한 간선 하나 이상과 인접하도록 하는 최소 간선 집합.\\
     최대 매칭 $M$을 구하면 답은 $|V|-|M|$. 복원: 매칭 간선을 선택하고, 매칭되지 않은 정점마다 인접 간선 하나 추가. 고립 정점이 있으면 불가능.
-    \item \textbf{기계당 노동자 2명 배정 (NEERC'18 B)}: 노동자마다 담당 가능한 기계가 주어지고, 각 노동자는 최대 한 기계에 배정. 노동자 2명을 배정한 기계 수 최대화.\\
-    노동자마다 정점 하나, 기계마다 정점 두 개를 만들고 기계 내부 두 정점을 연결. 각 노동자를 담당 가능한 기계의 두 정점 모두와 연결.\\
-    최대 매칭 $M$을 구하면 답은 $|M|-\text{기계 수}$.
+    \item \textbf{기계당 노동자 2명 배정 (NEERC'18 B)}: 노동자는 최대 한 기계에 배정, 2명이 배정된 기계 수 최대화.\\
+    노동자마다 정점 하나, 기계마다 서로 연결된 정점 두 개 생성. 노동자를 담당 가능한 기계의 두 정점 모두와 연결. 최대 매칭 $M$에 대해 답은 $|M|-\text{기계 수}$.
   %   \item \textbf{Chinese Postman Problem} : 모든 간선을 방문하는 최소 가중치 Walk를 구하는 문제.\\
   %   Floyd를 돌린 다음, 홀수 정점들을 모아서 최소 가중치 매칭 (홀수 정점은 짝수 개 존재)
   %   \item \textbf{Weighted Edge Cover} : $sum_{v \in V}(w(v)) - sum_{(u,v) \in M}(w(u) + w(v) - d(u,v))$, $w(x)$는 $x$와 인접한 간선의 최소 가중치
@@ -315,16 +317,15 @@
   % edited by alreadysolved
   \Algorithm{Mincut 모델링}{}{}{}{}{}
   \begin{itemize}
-    \item $N$개의 boolean 변수 $v_1, \cdots, v_n$을 정해서 비용을 최소화하는 문제=true인 점은 $T$, false인 점은 $F$와 연결되게 분할하는 민컷 문제
+    \item boolean 변수의 비용 최소화: $T$쪽=true, $F$쪽=false로 분할. 비용 조건은 해당 비용을 용량으로 하는 간선 추가.
     \begin{enumerate}
-      \item $v_i$가 T일 때 비용 발생: $i$에서 F로 가는 비용 간선
-      \item $v_i$가 F일 때 비용 발생: T에서 $i$로 가는 비용 간선
-      \item $v_i$가 T이고 $v_j$가 F일 때 비용 발생: $i$에서 $j$로 가는 비용 간선
-      \item $v_i \ne v_j$일 때 비용 발생: $i$에서 $j$로, $j$에서 $i$로 가는 비용 간선
-      \item $v_i$가 T면 $v_j$도 T여야 함($v_i \implies v_j$): $i$에서 $j$로 가는 무한 간선
-      \item $v_i$가 F면 $v_j$도 F여야 함($v_j \implies v_i$): $j$에서 $i$로 가는 무한 간선
-      \item $v_i$가 무조건 T/F: T에서 $i$ / $i$에서 F로 가는 무한 간선
-      \item $v_i = v_j$여야 함: $i \to j$, $j \to i$ 양방향 무한 간선
+      \item $v_i$가 T/F일 때 비용 발생: $i\to F$ / $T\to i$
+      \item $v_i=T,\ v_j=F$일 때 비용 발생: $i\to j$
+      \item $v_i \ne v_j$일 때 비용 발생: $i\leftrightarrow j$
+      \item $v_i$가 T면 $v_j$도 T여야 함($v_i \implies v_j$): $i\to j$ 무한 간선
+      \item $v_i$가 F면 $v_j$도 F여야 함($v_j \implies v_i$): $j\to i$ 무한 간선
+      \item $v_i$가 무조건 T/F: $T\to i$ / $i\to F$ 무한 간선
+      \item $v_i = v_j$여야 함: $i\leftrightarrow j$ 무한 간선
       \item $v_i \ne v_j$여야 함: 이분 그래프만 가능. $v'_j = \neg v_j$, $v_i = v'_j$로 치환 ($i \leftrightarrow j$ 무한 간선)
       \item $\neg(v_i \land v_j)$ (둘 다 T 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v_i \implies v'_j$ ($i \to j$ 무한 간선)
       \item $v_i \lor v_j$ (둘 다 F 금지): 이분 그래프만 가능. $v'_j = \neg v_j$, $v'_j \implies v_i$ ($j \to i$ 무한 간선)
