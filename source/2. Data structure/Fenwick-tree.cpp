@@ -6,10 +6,8 @@
  * 
  */
 struct Fenwick {
-  const ll MAXN = 100000;
   vector<ll> tree; int SZ;
   Fenwick(ll n) : tree(n), SZ(n) {}
-  Fenwick() : Fenwick(MAXN) {}
   ll query(ll p) { // sum from index 0 to p, inclusive
     ll ret = 0;
     for (; p >= 0; p = (p & (p+1)) - 1) ret += tree[p];

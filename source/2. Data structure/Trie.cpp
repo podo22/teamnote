@@ -44,8 +44,7 @@ template <int S = 26, char OS = 'a'> struct Trie {
 template <typename T = ll, int B = 62> struct XorTrie {
   struct Node {
     int nxt[2]{ -1, -1 }, cnt = 0; // 서브트리 원소개수
-  };
-  vector<Node> tree;
+  }; vector<Node> tree;
   XorTrie() { init(); }
   void init() { tree.clear(); tree.emplace_back(); }
   // 원소 추가(1)/삭제(-1), O(B)

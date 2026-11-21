@@ -148,13 +148,13 @@
   % source: https://github.com/koosaga/DeobureoMinkyuParty/blob/master/teamnote.tex
   \Algorithm{Highly Composite Numbers, Large Prime}{}{}{}{}{}
   \input{source/8. Misc/Primes}
-  %\linespread{1.5}
   % source: https://github.com/green5555/Teamnote-archive/blob/main/2020%20ICPC%20-%20Gr-Yee-n55/code/useful.txt
   %         https://github.com/overnap/cp-teamnote/blob/master/tn.tex
   %         https://github.com/hibye1217/ps-teamnote/blob/main/main.pdf
   % edited by alreadysolved
   \Algorithm{Useful Stuff}{}{}{}{}{}
   \begin{itemize}
+    \addtolength{\baselineskip}{1pt} % 간격
     \item Catalan Number\\
     1, 1, 2, 5, 14, 42, 132, 429, 1430, 4862, 16796, 58786, 208012, 742900\\
     $C_n = \binom{2n}{n} / (n + 1);$\\
@@ -215,11 +215,14 @@
     \item Burnside’s Lemma\\
     경우의 수를 세는데, 특정 transform operation(회전, 반사, ..) 해서 같은 경우들은 하나로 친다. 전체 경우의 수는? 각 operation마다 이 operation을 했을 때 변하지 않는 경우의 수를 센다 (단, “아무것도 하지 않는다” 라는 operation도 있어야 함!) 전체 경우의 수를 더한 후, operation의 수로 나눈다. (답이 맞다면 항상 나누어 떨어져야 한다)
     \item 알고리즘 게임\\
-    - Nim Game의 해법: 각 더미의 돌의 개수를 모두 XOR했을 때 0이 아니면 첫번째, 0이면 두번째 플레이어가 승리.\\
-    - Grundy Number: 어떤 상황의 Grundy Number는, 가능한 다음 상황들의 Grundy Number를 모두 모은 다음, 그 집합에 포함 되지 않는 가장 작은 수가 현재 state의 Grundy Number가 된다. 만약 다음 state가 독립된 여러개의 state들로 나뉠 경우, 각각의 state의 Grundy Number의 XOR 합을 생각한다.\\
-    - Subtraction Game: 한 번에 k 개까지의 돌만 가져갈 수 있는 경우, 각 더미의 돌의 개수를 k + 1로 나눈 나머지를 XOR 합하여 판단한다.\\
-    - Index-k Nim: 한 번에 최대 k개의 더미를 골라 각각의 더미에서 아무렇게나 돌을 제거할 수 있을 때, 각 binary digit에 대하여 합을 k + 1로 나눈 나머지를 계산한다. 만약 이 나머지가 모든 digit에 대하여 0이라면 두번째, 하나라도 0이 아니라면 첫번째 플레이어가 승리.
-    - Misere Nim: 모든 돌 무더기가 1이면 N이 홀수일 때 후공 승, 그렇지 않은 경우 XOR 합 0이면 후공 승
+    - Nim: 한 번에 더미 하나에서 원하는 양의 돌 제거. 움직이지 못하면 패배. 더미 크기의 XOR가 0이면 패배.\\
+    - Grundy Number: 두 사람의 행동 규칙이 같고, 반드시 종료되며, 움직이지 못하면 패배하는 게임. $g(s)=\operatorname{mex}\{g(t)\mid s\to t\}$. mex는 집합에 없는 최소 비음수 정수, 종료 상태는 0. 독립 게임 중 하나씩 골라 진행하면 각 $g$값을 XOR하여 0이면 패배. 한 행동으로 독립된 여러 게임으로 분리되는 경우, 각 부분의 $g$값을 XOR한 후 mex.\\
+    - Subtraction Game: 한 번에 더미 하나에서 $1\sim k$개 제거하면 $g(n)=n\bmod(k+1)$. 제거량 집합이 $S$이면 $g(n)=\operatorname{mex}\{g(n-s)\mid s\in S,\ s\le n\}$. 움직이지 못하면 패배하며, 여러 더미는 $g$값을 XOR.\\
+    - Misère Nim: 일반 Nim에서 마지막 돌을 가져가면 패배. 빈 더미를 제외하고 모두 1이면 더미 수가 홀수일 때 패배. 크기 2 이상인 더미가 있으면 전체 XOR가 0일 때 패배.\\
+    - Index-$k$ Nim: 한 번에 1개 이상 $k$개 이하의 더미에서 각각 원하는 양 제거. 움직이지 못하면 패배. 각 비트 위치마다, 해당 비트가 1인 더미 수가 모두 $k+1$의 배수이면 패배. Grundy는 1개 이상 $k$개 이하의 더미를 골라 각각 줄여서 도달 가능한 상태들의 $g$값을 모아 mex. 여러 판은 비트별 나머지 대신 각 판의 $g$값을 XOR.\\
+    - Staircase Nim: $i$번 계단의 돌을 원하는 만큼 바로 아래 $i-1$번으로 이동. 0번은 바닥이며 이동 불가. 움직이지 못하면 패배. 홀수 번호 계단의 돌 개수를 XOR하여 0이면 패배.\\
+    - Wythoff Game: 두 더미 중 하나에서 원하는 양을 제거하거나, 양쪽에서 같은 양 제거. 움직이지 못하면 패배. $a\le b$일 때 $a=\lfloor(b-a)(1+\sqrt5)/2\rfloor$이면 패배. Grundy는 한쪽만 줄인 상태들과 양쪽을 같은 양 줄인 상태들의 $g$값을 모아 mex. 여러 판은 각 $g$값을 XOR. 큰 정수의 황금비 계산 오차 주의.\\
+    - 트리 간선 자르기: 간선 하나를 자르고 루트와 끊긴 부분을 제거. 움직이지 못하면 패배. $g(v)=\bigoplus_{u:\,v\text{의 자식}}(g(u)+1)$, 리프는 0. 루트의 $g$값이 0이면 패배.
     \item Pick’s Theorem\\
     격자점으로 구성된 simple polygon이 주어짐. I 는 polygon 내부의 격자점 수, B 는 polygon 선분 위 격자점 수, A는 polygon의 넓이라고 할 때, 다음과 같은 식이 성립한다. 경계 격자점 수 $B = \sum_{edges} gcd(|dx|,|dy|)$. 내부 격자점 수 $I = A-B/2+1$.
     \item 홀의 결혼 정리: 이분그래프(L-R)에서, 모든 L을 매칭하는 필요충분 조건 = L에서 임의의 부분집합 S를 골랐을 때, 반드시 (S의 크기) $\le$ (S와 연결되어있는 모든 R의 크기)이다.

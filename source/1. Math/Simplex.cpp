@@ -5,7 +5,7 @@ template<typename T> struct Simplex {
   vector<vector<T>> D;
   const T EPS = 1e-9, INF = 1e18;
   Simplex(int m, int n) : m(m), n(n), B(m), N(n+1), D(m+2, vector<T>(n+2)) {
-    iota(all(N), 0); iota(all(B), n);
+    iota(all(N), 0); iota(all(B), n); N[n] = -1;
   }
   void pivot(int r, int s) {
     T inv = 1.0 / D[r][s];
